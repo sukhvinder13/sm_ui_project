@@ -1,0 +1,292 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Media Uploads
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN PORTLET-->
+                        <div class="portlet light">
+                            <div class="portlet-title tabbable-line">
+                                <div class="caption caption-md">
+                                    <i class="icon-globe theme-font hide"></i>
+                                    <span class="caption-subject theme-font bold uppercase">GALLERY</span>
+                                </div>
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="javascript:void(0);" id="imagetab" data-target="#images" data-toggle="tab"
+                                            aria-expanded="true">
+                                            Images
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" id="videotab" data-target="#videos" data-toggle="tab"
+                                            aria-expanded="true">
+                                            Videos
+                                        </a>
+                                    </li>
+                                    <li ng-show="MediaUploadCtrl.roleEdit">
+                                        <a href="javascript:void(0);" id="logotab" data-target="#logo" data-toggle="tab"
+                                            aria-expanded="true">
+                                            Logo
+                                        </a>
+                                    </li>
+                                    <li ng-show="MediaUploadCtrl.roleEdit">
+                                        <a href="javascript:void(0);" id="markstab" data-target="#markstemp"
+                                            data-toggle="tab" aria-expanded="true">
+                                            Marks Template
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="portlet-body form">
+                                <div class="panel panel-info">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="images">
+                                            <ng-image-gallery images="images" conf="conf"></ng-image-gallery>
+                                        </div>
+
+                                        <div class="tab-pane" id="videos">
+                                            <div id="mediaupload3">
+                                                <div id="divVideo" class="videoDiv">
+                                                    <iframe ng-src="{{trustSrc(iframe.src)}}" frameborder="0" id="mediaupload4"
+                                                        allowfullscreen style="    width: 100%;height: 383px;margin-left: -25px;margin-top: -9px;margin-bottom: -3px;"></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="logo">
+                                            <div id="mediaupload5">
+                                                <div id="divLogo" class="logoDiv">
+                                                    <img ng-src="{{MediaUploadCtrl.logoList}}" alt="School Logo" style="width:90%" />
+                                                    <!--{{MediaUploadCtrl.logoList}}-->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="markstemp">
+                                            <div id="mediaupload6">
+                                                <div id="divtemp" class="tempDiv">
+                                                    <!--<img ng-src="{{MediaUploadCtrl.logoList}}" alt="School Logo" />-->
+                                                    <!--{{MediaUploadCtrl.logoList}}-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END PORTLET-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="MediaUploadCtrl.roleEdit">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title tabbable-line" ng-show="MediaUploadCtrl.roleEdit">
+                                <div class="caption caption-md">
+                                    <i class="icon-globe theme-font hide"></i>
+                                    <span class="caption-subject theme-font bold uppercase">Media Uploads</span>
+                                </div>
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="javascript:void(0);" id="imagetab" data-target="#uimages" data-toggle="tab"
+                                            aria-expanded="true">
+                                            Upload Images
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" id="videotab" data-target="#uvideos" data-toggle="tab"
+                                            aria-expanded="true">
+                                            Upload Videos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" id="logotab" data-target="#ulogo" data-toggle="tab"
+                                            aria-expanded="true">
+                                            Upload Logo
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" id="markstab" data-target="#temp1" data-toggle="tab"
+                                            aria-expanded="true">
+                                            Upload Marks Template
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="portlet-body form" ng-show="MediaUploadCtrl.roleEdit">
+                                <div class="panel panel-info">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="uimages">
+                                            <form class="form-bordered form-horizontal" name="imageform" data-ng-submit="MediaUploadCtrl.imageAction(imageform.$invalid)"
+                                                novalidate>
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        Images 
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                            <div class="input-group input-large">
+                                                                <div class="form-control uneditable-input input-fixed input-medium"
+                                                                    data-trigger="fileinput">
+                                                                    <i class="fa fa-picture-o fileinput-exists"></i>&nbsp;
+                                                                    <span class="fileinput-filename"></span>
+                                                                </div>
+                                                                <span class="input-group-addon btn default btn-file">
+                                                                    <span class="fileinput-new"> Select file </span>
+                                                                    <span class="fileinput-exists"> Change </span>
+                                                                    <input type="hidden" value="" name="...">
+                                                                    <input type="file" name="images" data-ng-model="MediaUploadCtrl.formFields.images"
+                                                                        id="Images" required />
+                                                                </span>
+                                                                <a href="javascript:;" class="input-group-addon btn red fileinput-exists"
+                                                                    data-dismiss="fileinput"> Remove </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="btn-group">
+                                                            <button class="btn green" type="submit" data-ng-click="MediaUploadCtrl.uploadImage($index)">
+                                                                Submit
+                                                                <i class="fa fa-upload"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="tab-pane" id="uvideos">
+                                            <form class="form-bordered form-horizontal" name="videoform" data-ng-submit="MediaUploadCtrl.videoAction(videoform.$invalid)"
+                                                novalidate>
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        Video
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <input type="text" class="form-control" name="video"
+                                                            placeholder="Upload Video" data-ng-model="MediaUploadCtrl.formFields.video"
+                                                            required />
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="btn-group">
+                                                            <button class="btn green" type="submit" data-ng-disabled="videoform.$invalid">
+                                                                Submit
+                                                                <i class="fa fa-upload"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="tab-pane" id="ulogo">
+                                            <form class="form-bordered form-horizontal">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        LOGO
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                            <div class="input-group input-large">
+                                                                <div class="form-control uneditable-input input-fixed input-medium"
+                                                                    data-trigger="fileinput">
+                                                                    <i class="fa fa-picture-o fileinput-exists"></i>&nbsp;
+                                                                    <span class="fileinput-filename"></span>
+                                                                </div>
+                                                                <span class="input-group-addon btn default btn-file">
+                                                                    <span class="fileinput-new"> Select file </span>
+                                                                    <span class="fileinput-exists"> Change </span>
+                                                                    <input type="hidden" value="" name="...">
+                                                                    <input type="file" name="file" data-ng-model="MediaUploadCtrl.formFields.myUpload"
+                                                                        id="logoFile" required />
+                                                                </span>
+                                                                <a href="javascript:;" class="input-group-addon btn red fileinput-exists"
+                                                                    data-dismiss="fileinput"> Remove </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="btn-group">
+                                                            <button class="btn green" type="submit" data-ng-click="MediaUploadCtrl.logoAction()">
+                                                                Submit
+                                                                <i class="fa fa-upload"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="tab-pane" id="temp1">
+                                            <form class="form-bordered form-horizontal">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        Marks template
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                            <div class="input-group input-large">
+                                                                <div class="form-control uneditable-input input-fixed input-medium"
+                                                                    data-trigger="fileinput">
+                                                                    <i class="fa fa-picture-o fileinput-exists"></i>&nbsp;
+                                                                    <span class="fileinput-filename"></span>
+                                                                </div>
+                                                                <span class="input-group-addon btn default btn-file">
+                                                                    <span class="fileinput-new"> Select file </span>
+                                                                    <span class="fileinput-exists"> Change </span>
+                                                                    <input type="hidden" value="" name="...">
+                                                                    <input type="file" name="tempfile" data-ng-model="MediaUploadCtrl.formFields.myUploadTemp"
+                                                                        id="tempFile" required />
+                                                                </span>
+                                                                <a href="javascript:;" class="input-group-addon btn red fileinput-exists"
+                                                                    data-dismiss="fileinput"> Remove </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="btn-group">
+                                                            <button class="btn green" type="submit" data-ng-click="MediaUploadCtrl.markTempAction()">
+                                                                Submit
+                                                                <i class="fa fa-upload"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- END EXAMPLE TABLE PORTLET-->
+                        </div>
+                    </div>
+                </div>
+                <!-- END PAGE CONTENT INNER -->
+            </div>
+        </div>
+        <!-- END PAGE CONTENT -->
+    </div>
+    <!-- END PAGE CONTAINER -->
+    <script>
+    var uploadField = document.getElementById("Images");
+
+uploadField.onchange = function() {
+    if(this.files[0].size < 307200){
+       alert("File should be greater than 300kB!");
+       this.value = "";
+    };
+};</script>

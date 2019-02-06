@@ -1,0 +1,212 @@
+<div ng-show="LoginCtrl.other === 'true'">
+    <h3>Loading Please wait ............</h3>
+</div>
+<div ng-hide="LoginCtrl.other === 'true'">
+    <div class="page-header" style="height:34px; background-color:#f8f8f8">
+        <div class="page-header-top">
+            <div class="container">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                    <a ui-sref="home.console"><img src="../images/company.png" height="75" style="margin-top:0;" alt="logo" class="logo-default"></a>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN TOP NAVIGATION MENU -->
+                <ul class="nav navbar-nav navbar-right" style="margin-top:15px">
+                    <li class="active"><a class="page-scroll" page-scroll="" href="#login">Login</a></li>
+                    <li><a class="page-scroll" page-scroll="" href="#aboutus">About Us</a></li>
+                </ul>
+                <!-- END TOP NAVIGATION MENU -->
+            </div>
+        </div>
+    </div>
+    <!--/.nav-collapse -->
+    <!-- </div> -->
+    <hr>
+    <section id="login">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="portlet light ">
+                        <div class="portlet-title">
+                            <div class="caption-md caption">
+                                WHAT WE DO
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row" style="margin-top:-2px;">
+                                <!-- Carousel -->
+                                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval=1000>
+                                    <!-- Indicators -->
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                                        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                                        <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+                                    </ol>
+                                    <!-- Wrapper for slides -->
+                                    <div class="carousel-inner">
+                                        <div class="item active">
+                                            <img class="img-responsive" src="images/slide1.png" alt="First slide">
+                                        </div>
+                                        <div class="item">
+                                            <img class="img-responsive" src="images/slide2.png" alt="Second slide">
+                                        </div>
+                                        <div class="item">
+                                            <img class="img-responsive" src="images/slide3.png" alt="Third slide">
+                                        </div>
+                                        <div class="item">
+                                            <img class="img-responsive" src="images/slide4.png" alt="Fourth slide">
+                                        </div>
+                                        <div class="item">
+                                            <img class="img-responsive" src="images/slide5.png" alt="Fifth slide">
+                                        </div>
+                                    </div>
+                                    <!-- Controls -->
+                                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                    <span class="fa fa-left"></span>
+                                </a>
+                                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                    <span class="fa fa-right"></span>
+                                </a>
+                                </div>
+                                <!-- /carousel -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-danger" data-ng-show="LoginCtrl.showError" style="margin-left: 676px;
+            width: 390px;text-align: center;">
+                    <button class="close" data-close="alert"></button>
+                    <span>
+              {{LoginCtrl.errorMessage}}
+                 </span>
+                </div>
+                <div class="col-md-3">
+                    <div class="content" style="margin-top:-5px; margin-left:76px;">
+                        <!-- BEGIN LOGIN FORM -->
+                        <form class="login-form" name="loginForm" ng-submit="LoginCtrl.authenticateUser(loginForm.$invalid)" novalidate ng-show="!LoginCtrl.showforgot">
+                            <h3 class="form-title">Sign In</h3>
+                            <hr>
+
+                            <!--<div class="alert alert-danger" data-ng-show="LoginCtrl.showError">
+                            <button class="close" data-close="alert"></button>
+                            <span>
+                    {{LoginCtrl.errorMessage}}
+                </span>
+                        </div>-->
+
+                            <div class="form-group">
+                                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                                <label class="control-label visible-ie8 visible-ie9">Username</label>
+                                <input class="form-control form-control-solid placeholder-no-fix" type="email" autocomplete="off" data-ng-model="LoginCtrl.loginfields.username"
+                                    placeholder="Email Address" name="username" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label visible-ie8 visible-ie9">Password</label>
+                                <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" data-ng-model="LoginCtrl.loginfields.password"
+                                    placeholder="Password" name="password" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label visible-ie8 visible-ie9">Role</label>
+                                <select class="form-control form-control-solid placeholder-no-fix" data-ng-model="LoginCtrl.loginfields.role" required>
+                    <option value="">Select</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Staff">Staff</option>
+                    <option value="Student">Student</option>
+                    <option value="Parent">Parent</option>
+                    <option value="Accountant">Accountant</option>
+                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success uppercase" data-ng-disabled="loginForm.$invalid">Login</button>
+                                <label class="rememberme check">
+                    <input type="checkbox" name="remember" value="checked" id="remember_me" data-ng-click = "LoginCtrl.Remember()"/>Remember
+                </label>
+                                <a id="forget-password" class="forget-password" href="javascript:;" ng-click="LoginCtrl.showforgot=true">Forgot Password?</a>
+                            </div>
+                        </form>
+                        <!-- END LOGIN FORM -->
+                        <!-- BEGIN FORGOT PASSWORD FORM -->
+                        <form class="login-form" name="forgotForm" ng-submit="LoginCtrl.forgotPassword(forgotForm.$invalid)" novalidate ng-show="LoginCtrl.showforgot">
+                            <h3>Forget Password ?</h3>
+                            <p>
+                                Enter your e-mail address below to reset your password.
+                            </p>
+                            <div class="form-group">
+                                <input class="form-control form-control-solid placeholder-no-fix" type="email" autocomplete="off" data-ng-model="LoginCtrl.forgotfields.email"
+                                    placeholder="Email Address" name="username" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label visible-ie8 visible-ie9">Role</label>
+                                <select class="form-control form-control-solid placeholder-no-fix" data-ng-model="LoginCtrl.forgotfields.role" required>
+                                <option value="">Select</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Student">Student</option>
+                                <option value="Parent">Parent</option>
+                            </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="back-btn" class="btn btn-default" ng-click="LoginCtrl.showforgot=false">Back</button>
+                                <button type="submit" class="btn btn-success uppercase pull-right" data-ng-disabled="forgotForm.$invalid">Submit</button>
+                            </div>
+                        </form>
+                        <!-- END FORGOT PASSWORD FORM -->
+                    </div>
+                    <!-- END LOGIN -->
+                    <!-- COPY RIGHT -->
+                    <div class="copyright">
+                        2016 © StudyMonitor.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+        </div>
+    </section>
+    <section id="aboutus">
+
+    </section>
+    <div class="page-footer" style="margin-top:110px;">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <p><strong>Study Monitor</strong> &copy; 2016. All Rights Reserved.<br> Powered By:
+                        <a href="http://studymonitor.net" title="Study Monitor" target="_blank"><strong>Study Monitor</strong></a>
+                    </p>
+                    <!--2016 &copy;<a href="http://studymonitor.net" target="_blank">Study Monitor!</a>-->
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12 footer-block">
+                    <h2 style="font-size:17px;">Follow Us On</h2>
+                    <ul class="social-icons">
+                        <li>
+                            <a href="https://www.facebook.com/studymonitor" target="_blank" data-original-title="facebook" class="facebook"></a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/" target="_blank" data-original-title="youtube" class="youtube"></a>
+                        </li>
+                        <li>
+                            <a href="https://www.twitter.com/" target="_blank" data-original-title="twitter" class="twitter"></a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/" target="_blank" data-original-title="linkedin" class="linkedin"></a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-original-title="googleplus" class="googleplus"></a>
+                        </li>
+                    </ul>
+                </div>
+                <!--<div class="col-md-4">
+                <a target="blank_" href="https://msg91.com/startups/?utm_source=startup-banner">
+                    <img src="https://msg91.com/images/startups/msg91Badge.png" style="width:100px; height:70px; margin-top:-13px;"  title="MSG91 - SMS for Startups" alt="Bulk SMS - MSG91"></a>
+            </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<SCRIPT type="text/javascript">
+    window.history.forward();
+    function noBack() { window.history.forward(); }
+</SCRIPT>

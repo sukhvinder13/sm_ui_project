@@ -1,0 +1,215 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+      <!-- BEGIN PAGE CONTENT -->
+      <div class="page-content">
+            <div class="container" id="printSectionId">
+                  <!-- BEGIN PAGE BREADCRUMB -->
+                  <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                              <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Enquiry
+                        </li>
+                  </ul>
+                  <!-- END PAGE BREADCRUMB -->
+                  <!-- BEGIN PAGE CONTENT INNER -->
+                  <div class="page-content-inner">
+                        <div class="row">
+                              <div class="col-md-12">
+                                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                                    <div class="portlet light portlet-fit ">
+                                          <div class="portlet-title">
+                                                <div class="caption">
+                                                      <i class="fa fa-pencil font-green"></i>
+                                                      <span class="caption-subject font-green bold uppercase">Enquiry Form</span>
+                                                </div>
+                                          </div>
+                                          <div class="portlet-body">
+                                                <div class="table-toolbar">
+                                                      <div class="row">
+                                                            <div class="col-md-6">
+                                                                  <div class="btn-group">
+                                                                        <button data-toggle="modal" data-target="#edit-enquiry" class="btn green">
+                                                    Add New Enquiry
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                  <div class="btn-group pull-right">
+                                                                        <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                                        <ul class="dropdown-menu pull-right">
+                                                                              <li>
+                                                                                    <!--<a href="javascript:void(0)" data-ng-click="EnquiryCtrl.printToCart('#expenseId');"> Print </a>-->
+                                                                                    <a href="javascript:void(0)" data-ng-click="EnquiryCtrl.printData()">Print</a>
+                                                                              </li>
+                                                                              <li>
+                                                                                    <a href="javascript:;"> Save as PDF </a>
+                                                                              </li>
+                                                                              <li>
+                                                                                    <a href="javascript:void(0)" data-ng-click="EnquiryCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                                              </li>
+                                                                        </ul>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div id="expenseId">
+                                                      <table class="table table-striped table-hover table-bordered sm_expense_editable_grid" border="1px solid black" datatable="ng"
+                                                            id="printTable">
+                                                            <thead>
+                                                                  <tr>
+                                                                        <th>
+                                                                              Name
+                                                                        </th>
+                                                                        <th>
+                                                                              Class
+                                                                        </th>
+                                                                        <th>
+                                                                              Father Name
+                                                                        </th>
+                                                                        <th>
+                                                                              Contact Number
+                                                                        </th>
+                                                                        <th>
+                                                                              Pervious School
+                                                                        </th>
+                                                                        <!--<th>
+                                                                              More Details
+                                                                        </th>
+                                                                         <th>
+                                                                             Edit
+                                                                        </th>
+                                                                         <th>
+                                                                              Delete
+                                                                        </th>-->
+
+                                                                  </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                  <tr data-ng-repeat="enq in EnquiryCtrl.enquiryList">
+                                                                        <td>{{enq.name}}</td>
+                                                                        <td>{{enq.classId}}</td>
+                                                                        <td>{{enq.fathername}}</td>
+                                                                        <td>+91 {{enq.cnumber}}</td>
+                                                                        <td>{{enq.prevschool}}</td>
+                                                                        <!--<td class="text-center">
+                                                                              <a href="javascript:void(0)" data-ng-click="EnquiryCtrl.moreDetails($index);">
+                                                                                    <i class="fa fa-file-text-o"></i>
+                                                                              </a>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                              <a href="javascript:void(0);" data-ng-click="EnquiryCtrl.editExpense($index)">
+                                                                                    <i class="fa fa-edit"></i>
+                                                                              </a>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                              <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="EnquiryCtrl.confirmCallbackMethod($index)"
+                                                                                    ng-bootbox-confirm-action-cancel="EnquiryCtrl.confirmCallbackCancel($index)">
+                                                                                    <i class="fa fa-remove"></i>
+                                                                                    </a>
+                                                                        </td>-->
+                                                                  </tr>
+                                                            </tbody>
+                                                      </table>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <!-- END EXAMPLE TABLE PORTLET-->
+                              </div>
+                        </div>
+                  </div>
+                  <!-- END PAGE CONTENT INNER -->
+            </div>
+      </div>
+      <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-enquiry" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                  <div class="modal-header">
+                        <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click=" EnquiryCtrl.closeModal()"><span class="icon-close"></span></a>
+                        <h4 class="modal-title font-green">ENQUIRY</h4>
+                  </div>
+                  <div class="modal-body form">
+                        <div class="form-container" data-ng-if="!EnquiryCtrl.detailsMode">
+                              <form name="enquiryform" novalidate role="form" data-ng-submit=" EnquiryCtrl.enquiryAction(enquiryform.$invalid)">
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                          <input type="text" class="form-control input-sm" name="name" data-ng-model="EnquiryCtrl.formFields.name" maxlength="50" required
+                                          />
+                                          <label for="form_control_1">Name</label>
+                                    </div>
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                          <input type="text" class="form-control input-sm calendarctrl" name="date" data-ng-model="EnquiryCtrl.formFields.classId"
+                                                maxlength="50" required />
+                                          <label for="form_control_1">Class</label>
+                                    </div>
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                          <input type="text" class="form-control input-sm" name="description" data-ng-model="EnquiryCtrl.formFields.fathername" maxlength="50"
+                                                required />
+                                          <label for="form_control_1">Father Name</label>
+                                    </div>
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                          <input type="text" class="form-control input-sm" name="amount" data-ng-model="EnquiryCtrl.formFields.cnumber" maxlength="50"
+                                                required />
+                                          <label for="form_control_1">Contact Number</label>
+                                    </div>
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                          <input type="text" class="form-control input-sm" name="amount" data-ng-model="EnquiryCtrl.formFields.prevschool" maxlength="50"
+                                                required />
+                                          <label for="form_control_1">Pervious School</label>
+                                    </div>
+                                    <div class="modal-footer">
+                                          <button type="reset" class="btn default">Reset</button>
+                                          <button type="submit" class="btn green" data-ng-disabled="enquiryform.$invalid"><i class="fa fa-check"></i> Submit</button>
+                                    </div>
+                              </form>
+                        </div>
+                        <div class="form-container" data-ng-if="EnquiryCtrl.detailsMode">
+                              <div class="row static-info">
+                                    <div class="col-md-5 name">
+                                          Expense Date:
+                                    </div>
+                                    <div class="col-md-7 value">
+                                          {{EnquiryCtrl.viewValue.date | date:'dd-MM-yyyy'}}
+                                    </div>
+                              </div>
+                              <div class="row static-info">
+                                    <div class="col-md-5 name">
+                                          Expense Type:
+                                    </div>
+                                    <div class="col-md-7 value">
+                                          {{EnquiryCtrl.viewValue.expenseType}}
+                                    </div>
+                              </div>
+                              <div class="row static-info">
+                                    <div class="col-md-5 name">
+                                          Description:
+                                    </div>
+                                    <div class="col-md-7 value">
+                                          {{EnquiryCtrl.viewValue.description}}
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>
+<!-- EDIT MODAL END-->
+<script>
+      (function () {
+            setTimeout(function () {
+                  $('#date').datetimepicker({
+                        format: 'DD-MM-YYYY',
+                        minDate: new Date()
+                  });
+            }, 500);
+      })();
+
+</script>

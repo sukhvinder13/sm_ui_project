@@ -1,0 +1,147 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Fee Category
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-book font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase" ng-show="userRole !== 'Student'">Fee Category</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="btn-group" ng-show="userRole =='Admin' || userRole=='Accountant'">
+                                                <button class="btn green" data-toggle="modal" data-target="#edit-feecategory" data-ng-click="FeesCtrl.editmode1 = false;">
+                                                    Add Fee Category
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="FeesCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="FeesCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                   
+                                    <div class="col-md-12 col-sm-12">
+                                        <div id="tableToExport">
+                                            <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                           Fee Category Name
+                                                        </th>
+                                                        <th class="text-center" ng-show="userRole == 'Admin'">
+                                                            Edit
+                                                        </th>
+                                                        <th class="text-center" ng-show="userRole == 'Admin'">
+                                                            Delete
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr data-ng-repeat="category in FeesCtrl.categoryList">
+                                                        <td>{{category.categoryName}}</td>
+                                                        <td class="text-center" ng-show="userRole == 'Admin'">
+                                                            <a class="" href="javascript:void(0);" data-ng-click="FeesCtrl.updateCategory($index)">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center" ng-show="userRole == 'Admin'">
+                                                            <a class="" href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="FeesCtrl.confirmCallbackMethod1($index)"
+                                                                ng-bootbox-confirm-action-cancel="FeesCtrl.confirmCallbackCancel1($index)">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-feecategory" class="modal right fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="FeesCtrl.closeModal1()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">FEE CATEGORY</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container">
+                    <form name="categoryform" novalidate role="form" data-ng-submit="FeesCtrl.addFeeCategory(categoryform.$invalid)">
+                        <div class="form-group form-md-floating-label has-info" data-ng-class="{'form-md-line-input': !FeesCtrl.editmode1}">
+                            <input type="text" class="form-control input-sm" name="categoryName" data-ng-model="FeesCtrl.formFields.categoryName"
+                                required />
+                        </div>
+
+
+                        <div class="form-group form-md-line-input form-md-floating-label has-info ">
+                            <div class="form-group">
+                                <button type="reset" class="btn default" ng-hide="FeesCtrl.editmode1">Reset</button>
+                                <button type="submit" class="btn green" data-ng-disabled="categoryform.$invalid"><i class="fa fa-check"></i> Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EDIT MODAL END-->
+<!-- DETAILS MODAL -->
+
+<style>
+    .form-group {
+        clear: both;
+    }
+</style>

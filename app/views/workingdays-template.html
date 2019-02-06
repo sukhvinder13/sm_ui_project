@@ -1,0 +1,89 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Working Days
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <!--<i class="fa fa-inbox font-green"></i>-->
+                                    <span class="caption-subject font-green bold uppercase">WORKING DAYS</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <!--<div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="btn-group">
+                                                <button data-toggle="modal" data-target="#edit-class" data-ng-click="ClassCtrl.editmode = false;ClassCtrl.setFloatLabel()" class="btn green">
+                                                    Add New
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:;"> Print </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                <!--<div class="table-responsive">
+                                    <table class="table">
+                                        <ul data-ng-repeat="day in WorkingDaysCtrl.workingdaysList"><input type="checkbox" data-ng-model="WorkingDaysCtrl.day.working" ng-click="saveDay(day)">{{day.day}}</ul>
+                                    </table>
+                                </div>-->
+                                <div class="">
+                                    <div class="" data-ng-repeat="day in WorkingDaysCtrl.workingdaysList">
+                                        <input type="checkbox" name="workingDays" class="md-check" value="{{day.day}}" data-ng-model="day.working" data-ng-click="WorkingDaysCtrl.saveDay(day)"
+                                        /> {{day.day}}
+                                        <!--<label for="radiobed"><span class="inc"></span><span class="check"></span><span class="box"></span> {{day.day}} </label>-->
+                                    </div>
+                                </div>
+                                <!--<div class="form-group">
+                                    <button type="reset" class="btn default">Reset</button>
+                                    <button type="submit" class="btn green"><i class="fa fa-check"></i> Submit</button>
+
+                                </div>-->
+                            </div>
+                            <!-- TABULAR CONTENT GOES HERE-->
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT INNER -->
+    </div>
+</div>
+<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->

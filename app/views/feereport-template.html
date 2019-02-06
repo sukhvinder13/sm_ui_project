@@ -1,0 +1,87 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+  <!-- BEGIN PAGE CONTENT -->
+  <div class="page-content">
+    <div class="container">
+      <!-- BEGIN PAGE BREADCRUMB -->
+      <ul class="page-breadcrumb breadcrumb">
+        <li>
+          <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          Fee Reports
+        </li>
+      </ul>
+      <!-- END PAGE BREADCRUMB -->
+      <!-- BEGIN PAGE CONTENT INNER -->
+      <div class="page-content-inner">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit ">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="fa fa-file-text font-green"></i>
+                  <span class="caption-subject font-green bold uppercase">Fee Reports</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="table-toolbar">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <select data-ng-model="FeesCtrl.feeReports.classId" name="classId" class="form-control input-sm" ng-change="FeesCtrl.getFeeStructure()">
+                          <option value="">Class Name</option>
+                          <option ng-repeat="class in FeesCtrl.classList" value="{{class.id}}">{{class.className}}
+                            {{class.sectionName}}
+                          </option>
+                        </select>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div id="tableToExport">
+                  <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                    <thead>
+                      <tr>
+                        <th>
+                          Registration Number
+                        </th>
+                        <th>
+                          Student Name
+                        </th>
+                        <th>
+                          Roll No
+                        </th>
+                        <th>
+                          Father Name
+                        </th>
+                        <th>
+                          Class
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr data-ng-repeat="student in FeesCtrl.studentList | filter: FeesCtrl.feeReports.classId ">
+                        <td>{{student.regId}}</td>
+                        <td data-ng-click="FeesCtrl.editDetails(student.id)">{{student.firstName}} {{student.lastName}}</td>
+                        <td>{{student.rollNo}}</td>
+                        <td>{{student.fatherName}}</td>
+                        <td>{{student.class.className}}-{{student.class.sectionName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+          </div>
+        </div>
+      </div>
+      <!-- END PAGE CONTENT INNER -->
+    </div>
+  </div>
+  <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->

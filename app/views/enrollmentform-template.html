@@ -1,0 +1,62 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Fo Subjects
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-book font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase" ng-show="userRole !== 'Student'">Enrollment Form</span>
+                                    
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row ">
+
+                                        <div class="col-md-2" btn-group pull-left>
+                                            <select class="selectui-Routing" data-ng-model="myvar" name="classId"
+                                                class="form-control input-sm" ng-change="AddStaffCtrl.ChangeView(myvar)" style="height:34px;">
+
+                                                <option value="">Select User Type</option>
+                                                <option value="enrollstudent">Enroll Student</option>
+                                                <option value="enrollmultiplestudent">Enroll Multiple Student</option>
+                                                <option value="enrollstaff">Enroll Staff</option>
+                                                <option value="enrollmultiplestaff">Enroll Multiple Staff</option>
+                                                <option value="enrollaccountant" ng-show="userRole !==  'Accountant'">Enroll Accountant</option>
+                                              
+                                            </select>
+                                        </div>
+                                </div>
+    <div>
+      
+
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+<!-- END PAGE CONTAINER -->
+<!-- print data -->
+
+<!-- ends here -->
+

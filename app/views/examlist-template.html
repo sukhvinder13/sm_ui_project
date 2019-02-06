@@ -1,0 +1,289 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Exams <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Exams List
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-lightbulb-o font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">EXAMS</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="btn-group" ng-show="ExamlistCtrl.roleEdit">
+                                                <button data-toggle="modal" data-target="#edit-examlist" data-ng-click="ExamlistCtrl.editmode = false;ExamlistCtrl.setFloatLabel();ExamlistCtrl.detailsMode = false;"
+                                                    class="btn green">
+                                                    Add New Exam
+                                                    <i class="fa fa-plus"></i>
+                                                    </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="ExamlistCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="ExamlistCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label has-info" ng-hide="userRole!=='Admin'">
+                                            <select data-ng-model="ExamlistCtrl.classId" data-ng-change="ExamlistCtrl.chooseClass(ExamlistCtrl.classId)" name="classId"
+                                                class="form-control input-sm">
+                                                <option value="">CLASS</option>
+                                                <option ng-repeat="class in ExamlistCtrl.classList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+
+                                                </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-12">
+                                        <div id="tableToExport">
+                                            <table class="table table-striped table-hover table-bordered sm_editable_grid table-scrollable" border="1px solid black"
+                                                id="printTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Exam Name
+                                                        </th>
+                                                        <th>
+                                                            Class
+                                                        </th>
+                                                        <th>
+                                                            <table width=100%>
+                                                                <tr>
+                                                                    <th style="width:158px;">
+                                                                        SubjectName
+                                                                    </th>
+                                                                    <th style="    width: 193px;">
+                                                                        ExamDate
+                                                                    </th>
+                                                                    <th style="width: 40px;">
+                                                                        MaxMarks
+                                                                    </th>
+                                                                    <tr>
+                                                            </table>
+                                                        </th>
+                                                        <!--<th class="text-center">
+                                                    More Details
+                                                </th>-->
+                                                        <th class="text-center" ng-show="ExamlistCtrl.roleEdit">
+                                                            Edit
+                                                        </th>
+                                                        <th class="text-center" ng-show="ExamlistCtrl.roledelete">
+                                                            Delete
+                                                        </th>
+                                                        </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-ng-repeat="exam in ExamlistCtrl.examList">
+                                                        <td>{{exam.examName}}</td>
+                                                        <td>{{exam.class.className}} - {{exam.class.sectionName}}</td>
+                                                        <td>
+                                                            <!--{{exam.subjectList}}-->
+                                                            <table style="width:100%" class="table-striped">
+                                                                <tbody>
+                                                                    <tr data-ng-repeat="subjectdetails in exam.subjectList">
+                                                                        <td style="width:135px;">
+                                                                            {{subjectdetails.subjectName}}
+                                                                        </td>
+                                                                        <td style="    width: 193px;">
+                                                                            {{subjectdetails.examDate| date:'MM/dd/yyyy'}}
+                                                                        </td>
+                                                                        <td style="width: 40px;">
+                                                                            {{subjectdetails.maximumMark}}
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td class="text-center" ng-show="ExamlistCtrl.roleEdit">
+                                                            <a class="" href="javascript:void(0);" data-ng-click="ExamlistCtrl.editExamlist($index)">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center" ng-show="ExamlistCtrl.roledelete">
+                                                            <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="ExamlistCtrl.confirmCallbackMethod($index)"
+                                                                ng-bootbox-confirm-action-cancel="ExamlistCtrl.confirmCallbackCancel($index)">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-examlist" class="modal right fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-left:-135px;">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click=" ExamlistCtrl.closeModal()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">EXAMS</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container" data-ng-if="!ExamlistCtrl.detailsMode">
+                    <form name="examform" novalidate role="form" data-ng-submit=" ExamlistCtrl.examAction(examform.$invalid)">
+
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="examName" data-ng-model=" ExamlistCtrl.formFields.examName" maxlength="50"
+                                required />
+                            <label for="form_control_1">Exam Name</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <select ng-change="ExamlistCtrl.classChange(ExamlistCtrl.formFields.classId)" data-ng-model="ExamlistCtrl.formFields.classId"
+                                name="classname" class="form-control input-sm" required>
+                                <option value="">Class Name</option>
+                                <option ng-repeat="class in ExamlistCtrl.classList" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option>
+                                </select>
+                        </div>
+                        <table>
+                            <tr class="exm_heading">
+                                <th>Subject & Assessments</th>
+                                <th>Max Marks</th>
+                                <th>Exam Date</th>
+                            </tr>
+                            <tr class="exm_subject" ng-repeat-start="subjects in ExamlistCtrl.subjectdata track by $index">
+                                <td>{{subjects.subjectName}}</td>
+                                <td>
+                                    <input type="text" data-ng-model="subjects.maximumMark">
+                                </td>
+                                <td>
+                                    <input type="date" class="form-control input-sm calendarctrl" id="Exam_date1" name="fromDate" data-ng-model="subjects.examDate"
+                                        maxlength="50">
+                                </td>
+                            </tr>
+                            <tr ng-repeat-end ng-repeat="assesment in subjects.assesments track by $index">
+                                <td>{{assesment.assesments}}</td>
+                                <td><input type="text" ng-model="assesment.maxMarks"></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        <!--data-ng-disabled="examform.$invalid"-->
+                        <div class="form-group">
+                            <button type="reset" class="btn default">Reset</button>
+                            <button type="submit" class="btn green"><i class="fa fa-check"></i> Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-container" data-ng-if="ExamlistCtrl.detailsMode">
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            From Date:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExamlistCtrl.viewValue.fromDate | date:'dd-MM-yyyy'}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            To DATE:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExamlistCtrl.viewValue.toDate | date:'dd-MM-yyyy'}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Exam Name:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExamlistCtrl.viewValue.examName}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Class Name:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExamlistCtrl.viewValue.class.className}}-{{ExamlistCtrl.viewValue.class.sectionName}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Maximum Marks:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExamlistCtrl.viewValue.maximumMark}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EDIT MODAL END-->
+<script>
+    (function () {
+        setTimeout(function () {
+            $('#Exam_date1').datetimepicker({
+                format: 'DD-MM-YYYY',
+                minDate: new Date()
+            });
+            $('#Exam_date2').datetimepicker({
+                format: 'DD-MM-YYYY',
+                minDate: new Date()
+            });
+        }, 500);
+    })();
+
+</script>
+
+<!-- Temp - Must be moved to an appropriate location -->
+<style>
+    .exm_subject {
+        background: #91C9E8;
+    }
+
+    .exm_heading {
+        background: #51C9E8;
+    }
+</style>

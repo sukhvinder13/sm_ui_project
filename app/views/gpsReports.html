@@ -1,0 +1,106 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    gpsReports
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-file-text font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">Bus Trips Reports</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <select ng-model="selectedVehicleNo" class="form-control input-sm" ng-options="item.vehicleNo as item.vehicleNo for item in busList ">
+                                                    <option value="" disabled selected>Select Vehicle</option>
+                                                </select>
+                                            </div>
+                                            <input type="date" style="width: 170px;margin-top: -30px;padding-top: 2px;padding-bottom: 0px;" class="selcls" data-ng-model="selectedDate"
+                                                maxlength="200" />
+                                            <button ng-click="getReports(selectedVehicleNo,selectedDate)"> Get</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tableToExport">
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Trip Number
+                                                </th>
+                                                <th>
+                                                    Start Time
+                                                </th>
+                                                <th>
+                                                    End Time
+                                                </th>
+                                                <th>
+                                                    Avg Speed
+                                                </th>
+                                                <th>
+                                                    Distance
+                                                </th>
+                                                <th>
+                                                    Idle Time
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="report in reportResults">
+                                                <td>
+                                                    {{$index+1}}
+                                                </td>
+                                                <td>
+                                                    {{report.startTime| date : 'HH:mm:ss Z'}}
+                                                </td>
+                                                <td>
+                                                    {{report.endTime| date : 'HH:mm:ss Z'}}
+                                                </td>
+                                                <td>
+                                                    {{report.avgSpeed}} kmph
+                                                </td>
+                                                <td>
+                                                    {{report.distance}} KM
+                                                </td>
+                                                <td>
+                                                    {{report.idleTime}} Min
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div ng-if="reportResults">
+                                        Total Distance Traveled TIll Now :<b>{{calculateToatalDisTance(reportResults)}} KM</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->

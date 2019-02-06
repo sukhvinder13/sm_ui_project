@@ -1,0 +1,111 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Messages
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-comments font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">SENT MESSAGES</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <!-- TABULAR CONTENT GOES HERE-->
+                                <div class="page-content-inner">
+                                    <div class="inbox">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="inbox-sidebar">
+                                                    <!--<a data-title="Compose" class="btn red compose-btn btn-block" data-ng-click="MessagesCtrl.showcompose=true">-->
+                                                    <a data-title="Compose" class="btn red compose-btn btn-block" ui-sref="home.sendmessages">
+                                                        <i class="fa fa-edit"></i> Compose </a>
+                                                    <ul class="inbox-nav">
+                                                        <li class="active">
+                                                            <a href="javascript:;" data-type="inbox" data-title="Inbox" data-ng-click="MessagesCtrl.showcompose=false"> Inbox
+                                                                    <span class="badge badge-success">3</span>
+                                                                </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0)" data-type="important" data-title="Inbox"> Important </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0) " data-type="sent" ui-sref="home.sentMessages" data-title="Sent"> Sent </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:;" data-type="draft" data-title="Draft"> Draft
+                                                                    <span class="badge badge-danger">8</span>
+                                                                </a>
+                                                        </li>
+                                                        <li class="divider"></li>
+                                                        <li>
+                                                            <a href="javascript:;" class="sbold uppercase" data-title="Trash"> Trash
+                                                                    <span class="badge badge-info">23</span>
+                                                                </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="inbox-body">
+                                                    <div class="inbox-header">
+                                                        <h1 class="pull-left">Sent Items</h1>
+                                                    </div>
+                                                    <div class="inbox-content">
+                                                        <div class="portlet-body">
+
+                                                        </div>
+                                                        <div class="portlet-body">
+                                                            <table class="table table-hover table-striped table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>
+                                                                            SUBJECT
+                                                                        </th>
+                                                                        <th>
+                                                                            Sent To
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr data-ng-repeat="message in MessagesCtrl.messageList">
+                                                                        <td><a ui-sref="home.showMessage">{{message.messagesubject}}</a></td>
+                                                                        <td>{{message.m}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT INNER -->
+    </div>
+</div>
+<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->

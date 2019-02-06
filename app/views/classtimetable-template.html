@@ -1,0 +1,243 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+  <!-- BEGIN PAGE CONTENT -->
+  <div class="page-content">
+    <div class="container">
+      <!-- BEGIN PAGE BREADCRUMB -->
+      <ul class="page-breadcrumb breadcrumb">
+        <li>
+          <a ui-sref="home.console">Home</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          Class Time Table
+        </li>
+      </ul>
+      <!-- END PAGE BREADCRUMB -->
+      <!-- BEGIN PAGE CONTENT INNER -->
+      <div class="page-content-inner">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit ">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="fa fa-calendar font-green"></i>
+                  <span class="caption-subject font-green bold uppercase" ng-show="userRole !== 'Student'">TIMETABLE</span>
+                  <span class="caption-subject font-green bold uppercase" ng-show="userRole == 'Student'">MY TIMETABLE</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="table-toolbar">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <div class="btn-group">
+                        <!-- <button data-toggle="modal" data-target="#edit-timetable" data-ng-click="ClasstimetableCtrl.editmode = false;ClasstimetableCtrl.setFloatLabel()"
+                          class="btn green">
+                          Generate Timetable
+                          <i class="fa fa-plus"></i>
+                        </button> -->
+                        <select class="form-control" name="scheduleclassid" data-ng-change="ClasstimetableCtrl.showSchedules(scheduleform.$invalid)" data-ng-model="ClasstimetableCtrl.formFields.showClassId" required style="border:none;border-bottom: 1px solid #cab0b0;">
+                            <option value="">Select Class</option>
+                            <option ng-repeat="class in ClasstimetableCtrl.classList | orderBy:'class.sequenceNumber'" value="{{class.class.id}}">{{class.class.className}} {{class.class.sectionName}}</option>
+                          </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4" ng-show="ClasstimetableCtrl.roleEdit">
+                      <div class="btn-group">
+                        <button type="submit" class="btn green" ng-disabled="scheduleform.$invalid" data-ng-click="ClasstimetableCtrl.mouseEvent();" id="editId">
+                                Edit</button>
+                      </div><div class="btn-group" style="margin: 2px;">
+                        <button type="submit"  class="btn green" ng-hide='' ng-disabled="scheduleform.$invalid" data-ng-click="ClasstimetableCtrl.disablemouseEvent();ClasstimetableCtrl.saveSchedule()" id="saveId" style="display:none;">
+                                Save</button>
+                      </div>
+                    </div>
+                    <div class="col-md-6" ng-show="ClasstimetableCtrl.roleEdit">
+                      <div class="btn-group pull-right">
+                        <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                          Tools
+                          <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                          <li>
+                            <a href="javascript:void(0)" id="p1" data-ng-click="ClasstimetableCtrl.printData();">Print</a>
+                          </li>
+                          <li>
+                            <a href="javascript:;" data-ng-click="ClasstimetableCtrl.pdf()"> Save as PDF </a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" data-ng-click="ClasstimetableCtrl.exportToExcel('#printTable1')"> Export to Excel </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <form name="scheduleform" novalidate>
+                        <div class="pull-right">
+                          <!-- <button type="submit" class="btn green" ng-disabled="scheduleform.$invalid" data-ng-click="ClasstimetableCtrl.showSchedules(scheduleform.$invalid)">
+                        Show</button> -->
+                          <!-- <button type="submit" class="btn blue" ng-show="userRole == 'Admin'||userRole=='Accountant'" ng-bootbox-confirm="Are you sure you want to delete Time Table For This Class ?"
+                          ng-bootbox-confirm-action="ClasstimetableCtrl.confirmCallbackMethod($index)" ng-bootbox-confirm-action-cancel="ClasstimetableCtrl.confirmCallbackCancel($index)" style="margin-right: 5px;">
+                        Delete</button> -->
+                          <!--<button style="margin-right: 7px;" class="btn btn-info" ng-click="ClasstimetableCtrl.reset()">
+                          Reset
+                        </button>-->
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TABULAR CONTENT GOES HERE-->
+                <div class="row" id="printTable" style="margin-left: -240px;">
+                  <div class="col-md-2 col-sm-12">
+
+                    <!-- <div class="form-group">
+                        <select class="form-control" name="scheduleclassid" data-ng-model="ClasstimetableCtrl.formFields.showClassId" required>
+                          <option value="">Select</option>
+                          <option ng-repeat="class in ClasstimetableCtrl.classList" value="{{class.class.id}}">{{class.class.className}} {{class.class.sectionName}}</option>
+                        </select>
+                      </div> -->
+                    <!-- <div class="form-group">
+                        <button type="submit" class="btn green" ng-disabled="scheduleform.$invalid" data-ng-click="ClasstimetableCtrl.showSchedules(scheduleform.$invalid)">
+                        Show</button>
+                        <button type="submit" class="btn blue" ng-show="userRole == 'Admin'||userRole=='Accountant'" ng-bootbox-confirm="Are you sure you want to delete Time Table For This Class ?"
+                          ng-bootbox-confirm-action="ClasstimetableCtrl.confirmCallbackMethod($index)" ng-bootbox-confirm-action-cancel="ClasstimetableCtrl.confirmCallbackCancel($index)">
+                        Delete</button>
+                      </div> -->
+                    </form>
+                  </div>
+                  <div class="col-md-10 col-sm-12" style="pointer-events:none;" id="mouseEvent">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black">
+                      <thead flip-content>
+                        <tr>
+                          <td id="classtimetable1">Periods</td>
+                          <td>Monday</td>
+                          <td>Tuesday</td>
+                          <td>Wednesday</td>
+                          <td>Thursday</td>
+                          <td>Friday</td>
+                          <td>Saturday</td>
+                        </tr>
+                      </thead>
+                      <!--For Admin-->
+
+                      <tr ng-repeat="x in ClasstimetableCtrl.timetables">
+                        <td>
+                          {{ x.startTime | date :'hh:mm a'}}-{{ x.endTime | date :'hh:mm a'}}
+                          <td colspan="6" class="text-center" ng-show="x.attendance == null">{{x.title}}</td>
+                          <td ng-show="x.attendance == true" ng-repeat="y in x.schedules" ng-if="y.workingDay.working">
+                            <select ng-model="y.subjectId" class="form-control"  ng-disabled="userRole == 'Staff' || userRole =='Student'"
+                              required>
+                              <option value="">Subject</option>
+                              <option ng-repeat="z in y.class.subjects" value="{{z.id}}">{{z.subjectName}}</option>
+                            </select>
+                          </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+            <!-- Print table hidden div starts -->
+            <div id="printTable1" ng-hide="true">
+              <div class="col-md-10 col-sm-12">
+                <table class="table table-striped table-hover table-bordered sm_editable_grid" id="label" border="1px solid black">
+                  <thead flip-content>
+                    <tr>
+                      <td id="classtimetable2">Periods</td>
+                      <td></td>
+                      <td>Monday</td>
+                      <td>Tuesday</td>
+                      <td>Wednesday</td>
+                      <td>Thursday</td>
+                      <td>Friday</td>
+                      <td>Saturday</td>
+                    </tr>
+                  </thead>
+                  <!--For Admin-->
+
+                  <tr ng-repeat="x in ClasstimetableCtrl.timetables">
+                    <td>
+                      {{ x.startTime | date :'hh:mm a'}}-{{ x.endTime | date :'hh:mm a'}}
+                      <td class="text-center" ng-show="x.attendance == null">{{x.title}}</td>
+                      <td ng-show="x.attendance == true" ng-repeat="y in x.schedules" ng-if="y.workingDay.working">
+                        <select ng-model="y.subjectId" class="form-control" ng-change="ClasstimetableCtrl.saveSchedule(y)" ng-disabled="userRole == 'Staff' || userRole =='Student'"
+                          required>
+                                  <option value="">Subject</option>
+                                  <option ng-repeat="z in y.class.subjects" value="{{z.id}}">{{z.subjectName}}</option>
+                                </select>
+                      </td>
+                  </tr>
+                </table>
+                <style>
+                  #label tbody tr td select {
+                    background-color: transparent;
+  border: none;
+  -webkit-appearance: none;
+                  }
+                  .mouseEvent table tbody tr td select {
+                    background-color: transparent;
+  border: none;
+  -webkit-appearance: none;
+                  }
+                  </style>
+              </div>
+            </div>
+            <!-- Ends here -->
+          </div>
+        </div>
+      </div>
+      <!-- END PAGE CONTENT INNER -->
+    </div>
+  </div>
+  <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-timetable" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="ClasstimetableCtrl.closeModal()">
+          <span class="icon-close"></span>
+        </a>
+        <h4 class="modal-title font-green">Class TimeTable</h4>
+      </div>
+      <div class="modal-body form">
+        <div class="form-container">
+          <form name="timetableform" novalidate role="form" data-ng-submit="ClasstimetableCtrl.timetableAction(timetableform.$invalid)">
+            <div class="form-group form-md-line-input form-md-floating-label has-info">
+              <select data-ng-model="ClasstimetableCtrl.formFields.classId" name="classId" class="form-control input-sm" required>
+                <option value="">Class</option>
+                <option ng-repeat="class in ClasstimetableCtrl.classList | orderBy:'class.sequenceNumber'" value="{{class.class.id}}">{{class.class.className}} {{class.class.sectionName}}</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="reset" class="btn default">Reset</button>
+              <button type="submit" class="btn green" data-ng-disabled="timetableform.$invalid">
+                <i class="fa fa-check"></i> Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><div id="img-out"></div>
+<!-- EDIT MODAL END-->
+<!-- <script type="text/javascript">
+  $(function() { 
+    $("#p1").click(function() { 
+        html2canvas($("#mouseEvent"), {
+            onrendered: function(canvas) {
+                theCanvas = canvas;
+                document.body.appendChild(canvas);
+
+                // Convert and download as image 
+                Canvas2Image.saveAsPNG(canvas); 
+                $("#img-out").append(canvas);
+                // Clean up 
+                //document.body.removeChild(canvas);
+            }
+        });
+    });
+}); 
+
+</script> -->

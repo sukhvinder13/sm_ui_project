@@ -1,0 +1,60 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container" ng-cloak="">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    SETTINGS
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-file-text font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">SETTINGS</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <form id="BTForm" role="form" data-ng-submit="btCtrl.saveBTperms(BTForm.$invalid)">
+                                        <div class="row">
+
+                                            <div class="col-md-4">
+                                              <label for="account_number">Bank Account Number</label>
+                                                 <input type="number"  data-ng-model="btCtrl.form.bankAccountNumber"  class="form-control input-sm" id="accountnumber" name="account_number" />
+
+                                            </div>
+
+                                        </div>
+                                        <br/>
+                                          <div class="row">
+                                            <div class="col-md-4">
+                                                <button type="submit" class="btn green" ng-disabled="btCtrl.isDisabled"><i class="fa fa-check"></i> Submit</button>
+                                            </div>
+                                          </div>
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>

@@ -1,0 +1,228 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    School Timetable
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <!--<i class="fa fa-book font-green"></i>-->
+                                    <span class="caption-subject font-green bold uppercase">SCHOOL TIMETABLE</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body schooltimetable">
+                                <div class="table-toolbar" style="position: absolute;">
+                                    <div class="row">
+                                        <div class="col-md-6" style="position: absolute;margin-left:175px;z-index: 999;margin-top: -11px;">
+                                            <div class="btn-group">
+                                                <button data-toggle="modal" data-target="#edit-Schooltimetable" data-ng-click="SchooltimetableCtrl.editmode = false;SchooltimetableCtrl.setFloatLabel();SchooltimetableCtrl.detailsMode = false;"
+                                                    class="btn green">
+                                                    Add New Period
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="position: absolute;margin-left: 852px;margin-top: -11px;z-index: 999;">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                      <a href="javascript:void(0)" data-ng-click="SchooltimetableCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="SchooltimetableCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:-24px">
+                                    <div class="col-md-12 col-sm-12">
+                                        <!-- New Generated UI -->
+                                        <table class="table table-striped table-hover table-bordered sm_editable_grid"  border="1px solid black" datatable="ng" id="printTable">
+                                            <thead>
+                                                <tr>
+												<th ng-hide='true'>SrNo</th>
+                                                    <th>
+                                                        Title
+                                                    </th>
+                                                    <th>
+                                                        Start Time
+                                                    </th>
+                                                    <th>
+                                                        End Time
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Duration (in Minutes)
+                                                    </th>
+                                                    <th>
+                                                        Attendance
+                                                    </th>
+                                                    <th class="text-center" ng-show="SchooltimetableCtrl.roleEdit">
+                                                        Edit
+                                                    </th>
+                                                    <th class="text-center" ng-show="SchooltimetableCtrl.roledelete">
+                                                        Delete
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-ng-repeat="tt in SchooltimetableCtrl.timetableList|orderBy:'-startTime':true">
+                                                    <td ng-hide='true'>{{$index+1}}</td>
+													<td>
+                                                        {{tt.title}}
+                                                    </td>
+                                                    <td>
+                                                        {{tt.startTime | date:'hh:mm a'}}
+                                                    </td>
+                                                    <td>
+                                                        {{tt.endTime | date:'hh:mm a'}}
+                                                    </td>
+                                                    <td>
+                                                        {{tt.duration}}
+                                                    </td>
+                                                    <td>
+                                                        {{tt.attendance ? 'Yes' : 'No'}}
+                                                    </td>
+                                                    <td class="text-center" ng-show="SchooltimetableCtrl.roleEdit">
+                                                        <a href="javascript:void(0);" data-ng-click="SchooltimetableCtrl.editTimetable(tt.id)">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center" ng-show="SchooltimetableCtrl.roledelete">
+                                                        <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="SchooltimetableCtrl.confirmCallbackMethod(tt.id)"
+                                                            ng-bootbox-confirm-action-cancel="SchooltimetableCtrl.confirmCallbackCancel()">
+                                                            <i class="fa fa-remove"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div ng-if="false" ui-calendar="SchooltimetableCtrl.calendarConfig.calendar" calendar="schoolCalendar" ng-model="SchooltimetableCtrl.eventSources"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-Schooltimetable" class="modal  fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="SchooltimetableCtrl.closeModal()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">School TimeTable</h4>
+            </div>
+            <div class="alert alert-danger" data-ng-show="SchooltimetableCtrl.showError">
+                <button class="close" data-close="alert"></button>
+                <span>
+                    {{SchooltimetableCtrl.errorMessage}}
+                </span>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container" data-ng-if="!SchooltimetableCtrl.detailsMode">
+                    <form name="timetableForm" novalidate role="form" data-ng-submit="SchooltimetableCtrl.TimetableAction(timetableForm.$invalid)">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="title" data-ng-model="SchooltimetableCtrl.formFields.title" maxlength="50"
+                                required/>
+                            <label for="form_control_1">Title</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="time" class="form-control input-sm" name="startTime" data-ng-model="SchooltimetableCtrl.formFields.startTime"
+                                id="starttimepicker" required />
+                            <label for="form_control_1">Start Time</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info datetimepicker">
+                            <input type="time" class="form-control input-sm" name="endTime" data-ng-model="SchooltimetableCtrl.formFields.endTime" data-ng-change="SchooltimetableCtrl.duration()"
+                                id="endtimepicker" data-ng-min="SchooltimetableCtrl.formFields.startTime" required/>
+                            <label for="form_control_1">End Time</label>
+                        </div>
+                        <!--<div class="form-group form-md-radios">
+                            <label>Attendance</label>
+                            <div class="md-radio-inline">
+                                <div class="md-radio">
+                                    <input type="radio" id="radio6" name="radio2" data-ng-model="SchooltimetableCtrl.formFields.attendance" class="md-radiobtn"
+                                        required>
+                                    <label for="radio6">
+                                                            <span class="inc"></span>
+                                                            <span class="check"></span>
+                                                            <span class="box"></span> Yes
+                                                        </label>
+                                </div>
+                                <div class="md-radio">
+                                    <input type="radio" id="radio7" name="radio2" data-ng-model="SchooltimetableCtrl.formFields.attendance" class="md-radiobtn"
+                                        required>
+                                    <label for="radio7">
+                                                            <span class="inc"></span>
+                                                            <span class="check"></span>
+                                                            <span class="box"></span> No
+                                                        </label>
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="number" ng-disabled="true" class="form-control input-sm" data-ng-model="SchooltimetableCtrl.formFields.duration"
+                                name="duration" placeholder="duration" required />
+                            <!--<label for="form_control_1">Duration</label>-->
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <span> If Attendance is Yes Please check with (<i class="fa fa-check"></i>)<br>
+                                   If Attendance is No Please do not check it
+                            </span><br>
+                            <label>Attendance</label>
+                            <input type="checkbox" data-ng-model="SchooltimetableCtrl.formFields.attendance" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn default">Reset</button>
+                            <button type="submit" class="btn green" data-ng-disabled="timetableForm.$invalid"><i class="fa fa-check"></i> Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EDIT MODAL END-->
+<!--<script>
+    (function () {
+        setTimeout(function () {
+            $('#starttimepicker').datetimepicker({
+                format: 'HH:mm'                
+            });
+            $('#endtimepicker').datetimepicker({
+                format: 'HH:mm'
+            });
+        }, 500);
+    })();
+
+</script>-->

@@ -1,0 +1,292 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container-fluid">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    <a ui-sref="home.busservice">Bus Service</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Add Routes
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-truck font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">ADD ROUTE</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <!-- INNER CONTENT GOES HERE-->
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <!--<div class="btn-group">
+                                                <button class="btn green" data-toggle="modal" data-target="#edit-routes">
+                                                    Add New Route
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>-->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn green" aria-expanded="false"><a ui-sref="home.busservice">
+                                                        <b style="color:white;">Back to service</b></a>
+                                                    <!-- <i class="fa fa-angle-down"></i> --><i class="fa fa-road" style="width: 20px;color: black;" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:;"> Print </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                       
+                                        <ng-map zoom="14" map-type-id="TERRAIN" center="[17.437671,78.448498]" style="display:block;height:500px">
+                                         
+                                          <marker ng-repeat="r in BusserviceCtrl.busserviceList.routePoints" position="{{r.lat}},{{r.log}}" title="{{r.name}}"></marker>
+                                            <directions draggable="true" 
+                                                        travel-mode="DRIVING"
+                                                        origin="{{BusserviceCtrl.startPos.lat}}, {{BusserviceCtrl.startPos.log}}"
+                                                        destination="{{BusserviceCtrl.endPos.lat}}, {{BusserviceCtrl.endPos.log}}"
+                                                        waypoints="{{BusserviceCtrl.theWaypoints}}" 
+                                                        suppress-markers="true">
+                                            </directions>
+                                            
+                                          </ng-map>
+                          
+                                    </div>
+                                    <div class="col-md-6" >
+                                        <div class="col-md-4">
+                                                
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                    <label for="form_control_1">Bus List </label>
+                                            
+                                                        <!-- <input type="text" class="form-control input-sm" name="routeduration" data-ng-model="BusserviceCtrl.formFields.busList"
+                                                            maxlength="200" required /> -->
+                                                            <select ng-model="BusserviceCtrl.busserviceList.vehicleNo" class="form-control input-sm" ng-change="BusserviceCtrl.selectBusData(BusserviceCtrl.busserviceList.vehicleNo)" ng-disabled="BusserviceCtrl.mapValue=='2'" ng-options="item.vehicleNo as item.vehicleNo for item in BusserviceCtrl.busList"></select>
+                                                    </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                        <label for="form_control_1">Service Name</label>
+                                                        <input type="text" class="form-control input-sm" ng-disabled="BusserviceCtrl.mapValue=='2'" name="routelocation" data-ng-model="BusserviceCtrl.busserviceList.serviceName"
+                                                            maxlength="200"  placeholder="" required />
+                                                        
+                                                    </div>
+                                        </div>
+                                            <div class="col-md-4">
+                                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                            <label for="form_control_1">Service No</label>
+                                                            <input type="text" class="form-control input-sm" ng-disabled="BusserviceCtrl.mapValue=='2'" name="routelocation" data-ng-model="BusserviceCtrl.busserviceList.serviceNo"
+                                                                maxlength="200"  placeholder="" required />
+                                                            
+                                                        </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                    <label for="form_control_1">Pickup StartTime</label>
+                                                    <input type="time" data-ng-model="BusserviceCtrl.busserviceList.pickupStartTime" class="form-control input-sm" ng-disabled="BusserviceCtrl.mapValue=='2'" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                    <label for="form_control_1">Pickup EndTime</label>
+                                                    <input type="time" data-ng-model="BusserviceCtrl.busserviceList.pickupEndTime" class="form-control input-sm" ng-disabled="BusserviceCtrl.mapValue=='2'" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                    <label for="form_control_1">Drop StartTime</label>
+                                                    <input type="time" data-ng-model="BusserviceCtrl.busserviceList.dropStartTime" class="form-control input-sm" ng-disabled="BusserviceCtrl.mapValue=='2'" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                    <label for="form_control_1">Drop EndTime</label>
+                                                    <input type="time" data-ng-model="BusserviceCtrl.busserviceList.dropEndTime" class="form-control input-sm" ng-disabled="BusserviceCtrl.mapValue=='2'" >
+                                                </div>
+                                            </div>
+                                                
+                  <form name="addRoute">
+                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" id="addRoutes_datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:60%;">
+                                                     Pick Up Point
+                                                    </th>
+                                                    <th  style="width:15%;">
+                                                       Time
+                                                    </th>
+                                                   
+                                                  
+                                                    <th>
+                                                        Fee
+                                                    </th>
+                                                    <th>
+                                                     Status
+                                                     </th>
+                                                   
+                                                </tr>
+                                            </thead>
+                                         
+                                            <tbody>
+                                                <tr>
+                                                     
+                                                        <td >
+                                                            <input type="radio" ng-model="BusserviceCtrl.address" ng-disabled="BusserviceCtrl.mapValue=='2'" value="location" >Location <input type="radio" ng-disabled="BusserviceCtrl.mapValue=='2'" ng-model="BusserviceCtrl.address" value="points" >Points
+                                                            <input places-auto-complete ng-if="BusserviceCtrl.address=='location'" ng-disabled="BusserviceCtrl.mapValue=='2'" type="text" class="form-control input-sm" ng-model="place"  on-place-changed="BusserviceCtrl.placeChanged();" >
+                                                            <span  ng-if="BusserviceCtrl.address=='points'">
+                                                            <input  type="text" class="form-control input-sm" ng-disabled="BusserviceCtrl.mapValue=='2'" ng-model="BusserviceCtrl.latlogpoint" placeholder="Ex:17.4980408, 78.3346006"  >
+
+                                                            </span>
+                                                        
+                                                        </td>
+                                                        <td>
+                                                            <input type="time" class="form-control input-sm" ng-disabled="BusserviceCtrl.mapValue=='2'" ng-model="time" style="margin-top: 21px;" required> 
+                                                        </td>
+                                                        
+                                                       <td style="width: 16%;"> 
+                                                           <input type="text" allow-date class="form-control input-sm" ng-disabled="BusserviceCtrl.mapValue=='2'" style=" margin-top: 21px;"  ng-model="fee" required>
+                                                       </td> 
+                                                       
+                                                       <td> <button style="margin-top:15px;" class="btn green" ng-disabled="BusserviceCtrl.mapValue=='2';addRoute.$invalid;" ng-click="BusserviceCtrl.addToList(time,fee);"  >Add</button></td> 
+                                                </tr>
+                                                <tr data-ng-repeat="service in  BusserviceCtrl.busserviceList.routePoints" ng-if="BusserviceCtrl.busserviceList.routePoints.length>0">
+                                                        
+                                                    <td ng-init="BusserviceCtrl.convertIntoTime(service);"><input places-auto-complete type="text" readonly class="form-control input-sm" ng-model="service.name" on-place-changed='BusserviceCtrl.placeChanged("set")' ></td>
+                                                    <td><input type="time" class="form-control input-sm" ng-disabled="BusserviceCtrl.mapValue=='2'" ng-model="service.pickUpTime"> </td>
+                                                    <!-- <td>{{service.pickUpTime}}</td> -->
+                                                    
+                                                   <td> <input type="text" ng-disabled="BusserviceCtrl.mapValue=='2'" class="form-control input-sm" ng-model="service.fee"> </td> 
+                                                   <td> <button class="btn green" ng-disabled="BusserviceCtrl.mapValue=='2'" ng-click="BusserviceCtrl.delRec($index)">Delete</button></td> 
+                                                   <!--<td class="text-center">
+                                                        <a class="" href="javascript:void(0);" data-ng-click="BusserviceCtrl.editRoutes($index)">
+                                                            <i class="fa fa-plus"></i>
+                                                        </a>
+                                                    </td>-->
+                                                    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                    </form>
+                                        <button class="btn green"  ng-disabled="BusserviceCtrl.busserviceList.routePoints.length < 3 || BusserviceCtrl.mapValue== '2'"  ng-click="BusserviceCtrl.updateRecord()">
+                                          Update
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                        <label ng-show="BusserviceCtrl.busserviceList.routePoints.length < 3"><b style="color:#365636;">Add Three Locations To Enable Button</b></label>
+                                    </div>
+                               </div>
+                               
+                                <!-- <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="btn-group pull-right">
+                                            <button class="btn green" data-toggle="modal" ng-click="BusserviceCtrl.showPointData()" data-target="#edit-routes">
+                                                    Add New Route
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            <button type="button" class="btn default" ui-sref="home.busservice" style="margin-right: 20px;">Clear &amp; Back to Bus Service</button>
+                                            <button type="button" class="btn green" data-ng-click="BusserviceCtrl.saveRoutes()"><i class="fa fa-check" ></i> Save</button>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-routes" class="modal right fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="BusserviceCtrl.closeRoutesModal();"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">BUS ROUTES</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container">
+                    <form name="busroutesform" novalidate role="form" data-ng-submit="BusserviceCtrl.addPointeRoutes(busroutesform.$invalid)">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="routelocation" data-ng-model="BusserviceCtrl.formroutesFields.serviceNo"
+                                maxlength="200"  placeholder="" required />
+                            <label for="form_control_1">Service No</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <!-- <input type="text" class="form-control input-sm" name="routeduration" data-ng-model="BusserviceCtrl.formFields.busList"
+                                maxlength="200" required /> -->
+                                <select ng-model="selectiteoms" class="form-control input-sm" ng-change="BusserviceCtrl.selectBusData(selectiteoms)" ng-options="item.busNo for item in BusserviceCtrl.busList"></select>
+                            <label for="form_control_1">Bus List</label>
+                        </div>
+                     
+
+
+
+                      
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <!-- <input type="text" class="form-control input-sm" name="routeduration" data-ng-model="BusserviceCtrl.formFields.points"
+                                maxlength="200" required /> -->
+                               
+                                <multiselect class="input-xlarge" multiple="true"
+                                ng-model="BusserviceCtrl.selectedpoints"
+                                options="c.name for c in   BusserviceCtrl.selectedPointsData"
+                                change="BusserviceCtrl.selected()" ></multiselect>
+                               
+                              
+                           
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm calendarctrl" id="routetime" name="routetime" data-ng-model="BusserviceCtrl.formroutesFields.routeTime"
+                                maxlength="50" required />
+                            <label for="form_control_1">Time</label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="reset" class="btn default">Reset</button>
+                            <button type="submit" class="btn green" data-ng-disabled="busroutesform.$invalid"><i class="fa fa-check"></i> Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EDIT MODAL END-->
+<script>
+    (function () {
+        $('.calendarctrl').datetimepicker({
+            format: 'HH:mm'
+
+        });
+    })();
+
+</script>

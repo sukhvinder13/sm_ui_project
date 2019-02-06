@@ -1,0 +1,313 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Noticeboard
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-bullhorn font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">NOTICE BOARD</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar" style="position: absolute;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="btn-group noticeb1" ng-show="NoticeboardCtrl.roleEdit">
+                                                <button data-toggle="modal" data-target="#edit-notice" data-ng-click="NoticeboardCtrl.editmode = false;NoticeboardCtrl.setFloatLabel();NoticeboardCtrl.detailsMode = false;NoticeboardCtrl.clearformfields();"
+                                                    class="btn green">
+                                                    Add New Notice
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="btn-group pull-right noticeb2">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="NoticeboardCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;" ng-click="NoticeboardCtrl.pdfData1();" onclick="demoFromHTML();"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="NoticeboardCtrl.exportToExcel('#tableToExport1')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tableToExport" style="margin-top:-29px;">
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" datatable="ng" id="notice">
+                                        <thead>
+                                            <tr>
+                                                <th ng-hide="true">SRNO</th>
+                                                <th style="width:15%">
+                                                    Title
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th >
+                                                    From Date
+                                                </th>
+                                                <th >
+                                                    To Date
+                                                </th>
+                                               <!--  <th class="text-center">
+                                                    More Details
+                                                </th> -->
+                                                <th class="text-center" ng-show="NoticeboardCtrl.roleEdit">
+                                                    Edit
+                                                </th>
+                                                <th class="text-center" ng-show="NoticeboardCtrl.roledelete">
+                                                    Delete
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="notice in NoticeboardCtrl.noticeList |orderBy:'date1':true">
+                                                <td ng-hide="true">{{$index+1}}</td>
+                                                <td> <a href="javascript:void(0)" data-ng-click="NoticeboardCtrl.moreDetails(notice.id);">
+                                                 {{notice.title| cut:true:20:' ...'}}</a></td>
+                                                <td>{{notice.description| cut:true:25:' ...'}}</td>
+                                                <td>{{notice.date1 | date:'dd-MM-yyyy'}}</td>
+                                                <td>{{notice.date2| date:'dd-MM-yyyy'}}</td>
+                                               <!--  <td class="text-center">
+                                                    <a href="javascript:void(0)" data-ng-click="NoticeboardCtrl.moreDetails(notice.id);">
+                                                        <i class="fa fa-file-text-o"></i>
+                                                    </a>
+                                                </td> -->
+                                                <td class="text-center" ng-show="NoticeboardCtrl.roleEdit">
+                                                    <a href="javascript:void(0);" data-ng-click="NoticeboardCtrl.editNotice(notice.id)">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center" ng-show="NoticeboardCtrl.roledelete">
+                                                    <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="NoticeboardCtrl.confirmCallbackMethod(notice.id)"
+                                                        ng-bootbox-confirm-action-cancel="NoticeboardCtrl.confirmCallbackCancel(notice.id)">
+                                                        <i class="fa fa-remove"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="pdfExport" style="display:none;">
+                                    <div id="tableToExport1">
+                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="notice">
+                                            <thead>
+                                                <tr>
+                                                    <th ng-hide="true">SRNO</th>
+                                                    <th style="width:15%">
+                                                        Title
+                                                    </th>
+                                                    <th style="width:40%">
+                                                        Description
+                                                    </th>
+                                                    <th style="width:15%">
+                                                        From Date
+                                                    </th>
+                                                    <th style="width:15%">
+                                                        To Date
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-ng-repeat="notice in NoticeboardCtrl.noticeList |orderBy:'date1':true">
+                                                    <td ng-hide="true">{{$index+1}}</td>
+                                                    <td>{{notice.title}}</td>
+                                                    <td style="width:40%">{{notice.description}}</td>
+                                                    <td style="width:15%">{{notice.date1 | date:'dd-MM-yyyy'}}</td>
+                                                    <td style="width:15%">{{notice.date2| date:'dd-MM-yyyy'}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>{{NoticeboardCtrl.myUpload}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-notice" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="NoticeboardCtrl.closeModal();NoticeboardCtrl.clearformfields();"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">NoticeBoard</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container" data-ng-if="!NoticeboardCtrl.detailsMode">
+                    <form name="noticeboardform" novalidate role="form" data-ng-submit="NoticeboardCtrl.noticeboardAction(noticeboardform.$invalid)">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm edited" name="title" data-ng-model="NoticeboardCtrl.formFields.title" required />
+                            <label for="form_control_1" style="margin-top: -20px;">TITLE</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <textarea type="text" class="form-control input-sm edited" name="description" rows="3" style="max-width:100%;min-width:100%; max-height:100px"
+                                data-ng-model="NoticeboardCtrl.formFields.description" required></textarea>
+                            <label for="form_control_1">DESCRIPTION</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="date" class="form-control input-sm calendarctrl edited" id="noticedate1" name="date1" data-ng-model="NoticeboardCtrl.formFields.date1"
+                                maxlength="10" required ng-click=" NoticeboardCtrl.ValidateEndDate()" />
+                            <label for="form_control_1" style="top:0px">FROM DATE</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="date" class="form-control input-sm calendarctrl edited" id="noticedate2" ng-click=" NoticeboardCtrl.ValidateEndDate()"
+                                name="date2" data-ng-model="NoticeboardCtrl.formFields.date2" maxlength="10" required />
+                            <label for="form_control_1" style="top:0px">TO DATE</label>
+                            <br><br><br>
+
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group input-large">
+                                    <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                        <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                        <span class="fileinput-filename">{{NoticeboardCtrl.formFields.file}}</span>
+                                    </div>
+                                    <span class="input-group-addon btn default btn-file">
+                                                        <span class="fileinput-new"> Select file </span>
+                                    <span class="fileinput-exists"> Change </span>
+                                    <input type="hidden" value="" name="...">
+                                    <input type="file" name="file" data-ng-model="NoticeboardCtrl.myUpload" tabindex="24" id="noticeFile">
+                                    </span>
+                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                </div>
+                            </div>
+
+                            <input class="btn green" type="button" data-ng-click="NoticeboardCtrl.uploadFile($index)" value="Attach FIle">
+                            <i class="fa fa-upload"></i>
+                            </button><br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn default">Reset</button>
+                            <button type="submit" class="btn green" ng-disabled="!first" ><i class="fa fa-check"></i> Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="form-container" data-ng-if="NoticeboardCtrl.detailsMode">
+                <div class="row static-info">
+                    <div class="col-md-5 name">
+                        From Date:
+                    </div>
+                    <div class="col-md-7 value">
+                        {{NoticeboardCtrl.viewValueData[0].date1 | date:'dd-MM-yyyy'}}
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <div class="col-md-5 name">
+                        To Date:
+                    </div>
+                    <div class="col-md-7 value">
+                        {{NoticeboardCtrl.viewValueData[0].date2 | date:'dd-MM-yyyy'}}
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <div class="col-md-5 name">
+                        Title:
+                    </div>
+                    <div class="col-md-7 value">
+                        {{NoticeboardCtrl.viewValueData[0].title}}
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <div class="col-md-5 name">
+                        Description:
+                    </div>
+                    <div class="col-md-7 value">
+                        {{NoticeboardCtrl.viewValueData[0].description}}
+                    </div>
+                </div>
+                <div class="row static-info" ng-show="fileLength" ng-if="NoticeboardCtrl.viewValue.file">
+                    <div class="col-md-5 name" >
+                        Attachment:
+                    </div>
+                    <div class="col-md-7 value">
+                        <a href="{{NoticeboardCtrl.viewValueData.download}}">{{NoticeboardCtrl.viewValue.file}}</a>
+                    </div>
+                </div>
+                <div class="heigh-30"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var hostname = location.hostname;
+console.log(hostname);
+
+</script>
+
+<!-- EDIT MODAL END-->
+<!-- <script>
+    (function () {
+        setTimeout(function () {
+            $('#noticedate1').datetimepicker({
+                format: 'DD-MM-YYYY',
+                minDate: new Date()
+            });
+
+            $('#noticedate2').datetimepicker({
+                format: 'DD-MM-YYYY',
+                minDate: new Date()
+            });
+        }, 500);
+    })();
+
+</script> -->
+
+<script>
+    function demoFromHTML() {
+        document.getElementById('pdfExport').style.display = 'block';
+        kendo.drawing
+            .drawDOM("#tableToExport1",
+            {
+                paperSize: "A4",
+                //    pageOrientation: 'landscape',
+                margin: { top: "1cm", bottom: "1cm", left: "0.5cm", right: "0.5cm" },
+                scale: 0.52,
+                width: "80%",
+                //    height: 500
+            })
+            .then(function (group) {
+                kendo.drawing.pdf.saveAs(group, "Exported.pdf");
+            });
+
+        $timeout(function () {
+            alert("a");
+            document.getElementById('pdfExport').style.display = 'none';
+        }, 5000);
+    }
+
+</script>

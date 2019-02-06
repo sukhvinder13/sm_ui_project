@@ -1,0 +1,241 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Messages
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-comments font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">MESSAGES</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <!-- TABULAR CONTENT GOES HERE-->
+                                <div class="page-content-inner">
+                                    <div class="inbox">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="inbox-sidebar">
+                                                    <!--<a data-title="Compose" class="btn red compose-btn btn-block" data-ng-click="MessagesCtrl.showcompose=true">-->
+                                                    <a data-title="Compose" class="btn red compose-btn btn-block" ui-sref="home.sendmessages">
+                                                        <i class="fa fa-edit"></i> Compose </a>
+                                                    <ul class="inbox-nav">
+                                                        <li class="active">
+                                                            <a href="javascript:;" data-type="inbox" data-title="Inbox" data-ng-click="MessagesCtrl.showcompose=false"> Inbox
+                                                                    <span class="badge badge-success">3</span>
+                                                                </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0)" data-type="important" data-title="Inbox"> Important </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0) " data-type="sent" ui-sref="home.sentMessages" data-title="Sent"> Sent </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:;" data-type="draft" data-title="Draft"> Draft
+                                                                    <span class="badge badge-danger">8</span>
+                                                                </a>
+                                                        </li>
+                                                        <li class="divider"></li>
+                                                        <li>
+                                                            <a href="javascript:;" class="sbold uppercase" data-title="Trash"> Trash
+                                                                    <span class="badge badge-info">23</span>
+                                                                </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="inbox-body" ng-show="!MessagesCtrl.showcompose">
+                                                    <div class="inbox-header">
+                                                        <h1 class="pull-left">Inbox</h1>
+                                                        <form class="form-inline pull-right">
+                                                            <div class="input-group input-medium">
+                                                                <input type="text" class="form-control" placeholder="Search">
+                                                                <span class="input-group-btn">
+                                                                        <button type="submit" class="btn green">
+                                                                            <i class="fa fa-search"></i>
+                                                                        </button>
+                                                                    </span>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="inbox-content">
+                                                        <div class="portlet light ">
+                                                            <div class="portlet-title">
+                                                                <div class="caption font-red-intense">
+                                                                    <i class="icon-speech font-red-intense"></i>
+                                                                    <span class="caption-subject bold uppercase">Sender Name |</span>
+                                                                    <span class="caption-helper">Subject</span>
+                                                                </div>
+                                                                <div class="tools">
+                                                                    <a class="collapse" data-toggle="collapse" data-target="#context2" data-original-title="" title=""> </a>
+                                                                    <a href class="remove" data-original-title="" title=""> </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="portlet-body">
+                                                                <div id="context2" class="collapse">
+                                                                    <div class="blog-comments">
+                                                                        <h3 class="sbold blog-comments-title">Comments(30)</h3>
+                                                                        <div class="c-comment-list">
+                                                                            <div class="media">
+                                                                                <div class="media-left">
+                                                                                    <a href="#">
+                                                                                        <img class="media-object" alt="" src="../assets/pages/img/avatars/team1.jpg">                                                                                        </a>
+                                                                                </div>
+                                                                                <div class="media-body">
+                                                                                    <h4 class="media-heading">
+                                                                                        <a href="#">Sean</a> on
+                                                                                        <span class="c-date">23 May 2015, 10:40AM</span>
+                                                                                    </h4> Cras sit amet nibh libero, in gravida
+                                                                                    nulla. Nulla vel metus scelerisque ante
+                                                                                    sollicitudin commodo. Cras purus odio,
+                                                                                    vestibulum in vulputate at, tempus viverra
+                                                                                    turpis. </div>
+                                                                            </div>
+                                                                            <div class="media">
+                                                                                <div class="media-left">
+                                                                                    <a href="#">
+                                                                                        <img class="media-object" alt="" src="../assets/pages/img/avatars/team3.jpg">                                                                                        </a>
+                                                                                </div>
+                                                                                <div class="media-body">
+                                                                                    <h4 class="media-heading">
+                                                                                        <a href="#">Strong Strong</a> on
+                                                                                        <span class="c-date">21 May 2015, 11:40AM</span>
+                                                                                    </h4> Cras sit amet nibh libero, in gravida
+                                                                                    nulla. Nulla vel metus scelerisque ante
+                                                                                    sollicitudin commodo. Cras purus odio,
+                                                                                    vestibulum in vulputate at, tempus viverra
+                                                                                    turpis.
+                                                                                    <div class="media">
+                                                                                        <div class="media-left">
+                                                                                            <a href="#">
+                                                                                                <img class="media-object" alt="" src="../assets/pages/img/avatars/team4.jpg">                                                                                                </a>
+                                                                                        </div>
+                                                                                        <div class="media-body">
+                                                                                            <h4 class="media-heading">
+                                                                                                <a href="#">Emma Stone</a>                                                                                                on
+                                                                                                <span class="c-date">30 May 2015, 9:40PM</span>
+                                                                                            </h4> Cras sit amet nibh libero,
+                                                                                            in gravida nulla. Nulla vel metus
+                                                                                            scelerisque ante sollicitudin
+                                                                                            commodo. Cras purus odio, vestibulum
+                                                                                            in vulputate at, tempus viverra
+                                                                                            turpis. </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="media">
+                                                                                <div class="media-left">
+                                                                                    <a href="#">
+                                                                                        <img class="media-object" alt="" src="../assets/pages/img/avatars/team7.jpg">                                                                                        </a>
+                                                                                </div>
+                                                                                <div class="media-body">
+                                                                                    <h4 class="media-heading">
+                                                                                        <a href="#">Nick Nilson</a> on
+                                                                                        <span class="c-date">30 May 2015, 9:40PM</span>
+                                                                                    </h4> Cras sit amet nibh libero, in gravida
+                                                                                    nulla. Nulla vel metus scelerisque ante
+                                                                                    sollicitudin commodo. Cras purus odio,
+                                                                                    vestibulum in vulputate at, tempus viverra
+                                                                                    turpis. </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <h3 class="sbold blog-comments-title">Leave A Comment</h3>
+                                                                        <form action="#">
+                                                                            <div class="form-group">
+                                                                                <input type="text" placeholder="Your Name" class="form-control c-square">                                                                                </div>
+                                                                            <div class="form-group">
+                                                                                <input type="text" placeholder="Your Email" class="form-control c-square">                                                                                </div>
+                                                                            <div class="form-group">
+                                                                                <input type="text" placeholder="Your Website" class="form-control c-square">                                                                                </div>
+                                                                            <div class="form-group">
+                                                                                <textarea rows="8" name="message" placeholder="Write comment here ..." class="form-control c-square"></textarea>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <button type="submit" class="btn blue uppercase btn-md sbold btn-block">Submit</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="inbox-body" ng-show="MessagesCtrl.showcompose">
+                                                    <div class="inbox-header">
+                                                        <h1 class="pull-left">New Message</h1>
+                                                    </div>
+                                                    <div class="inbox-content">
+                                                        <div class="portlet-body">
+							<div id="tree_2" class="tree-demo jstree jstree-2 jstree-default jstree-checkbox-selection" role="tree" aria-activedescendant="j2_1"><ul class="jstree-container-ul jstree-children jstree-wholerow-ul jstree-no-dots"><li role="treeitem" aria-expanded="true" id="j2_1" class="jstree-node  jstree-open" aria-selected="false"><div unselectable="on" class="jstree-wholerow jstree-wholerow-clicked">&nbsp;</div><i class="jstree-icon jstree-ocl"></i><a class="jstree-anchor jstree-clicked" href="#"><i class="jstree-icon jstree-checkbox"></i><i class="jstree-icon jstree-themeicon fa fa-folder icon-state-warning icon-lg jstree-themeicon-custom"></i>Same but with checkboxes</a><ul role="group" class="jstree-children"><li role="treeitem" id="j2_2" class="jstree-node  jstree-leaf" aria-selected="false"><div unselectable="on" class="jstree-wholerow jstree-wholerow-clicked">&nbsp;</div><i class="jstree-icon jstree-ocl"></i><a class="jstree-anchor  jstree-clicked" href="#"><i class="jstree-icon jstree-checkbox"></i><i class="jstree-icon jstree-themeicon fa fa-folder icon-state-warning icon-lg jstree-themeicon-custom"></i>initially selected</a></li><li role="treeitem" id="j2_3" class="jstree-node  jstree-leaf" aria-selected="false"><div unselectable="on" class="jstree-wholerow jstree-wholerow-clicked">&nbsp;</div><i class="jstree-icon jstree-ocl"></i><a class="jstree-anchor jstree-clicked" href="#"><i class="jstree-icon jstree-checkbox"></i><i class="jstree-icon jstree-themeicon fa fa-warning icon-state-danger jstree-themeicon-custom"></i>custom icon</a></li><li role="treeitem" aria-expanded="true" id="j2_4" class="jstree-node  jstree-open" aria-selected="false"><div unselectable="on" class="jstree-wholerow jstree-wholerow-clicked">&nbsp;</div><i class="jstree-icon jstree-ocl"></i><a class="jstree-anchor jstree-clicked" href="#"><i class="jstree-icon jstree-checkbox"></i><i class="jstree-icon jstree-themeicon fa fa-folder icon-state-default jstree-themeicon-custom"></i>initially open</a><ul role="group" class="jstree-children"><li role="treeitem" id="j2_5" class="jstree-node  jstree-leaf jstree-last" aria-selected="false"><div unselectable="on" class="jstree-wholerow jstree-wholerow-clicked">&nbsp;</div><i class="jstree-icon jstree-ocl"></i><a class="jstree-anchor jstree-clicked" href="#"><i class="jstree-icon jstree-checkbox"></i><i class="jstree-icon jstree-themeicon fa fa-folder icon-state-warning icon-lg jstree-themeicon-custom"></i>Another node</a></li></ul></li><li role="treeitem" id="j2_6" class="jstree-node  jstree-leaf" aria-selected="false"><div unselectable="on" class="jstree-wholerow jstree-wholerow-clicked">&nbsp;</div><i class="jstree-icon jstree-ocl"></i><a class="jstree-anchor jstree-clicked" href="#"><i class="jstree-icon jstree-checkbox"></i><i class="jstree-icon jstree-themeicon fa fa-warning icon-state-warning jstree-themeicon-custom"></i>custom icon</a></li><li role="treeitem" id="j2_7" class="jstree-node  jstree-leaf jstree-last"><div unselectable="on" class="jstree-wholerow jstree-wholerow-clicked">&nbsp;</div><i class="jstree-icon jstree-ocl"></i><a class="jstree-anchor  jstree-disabled jstree-clicked" href="#"><i class="jstree-icon jstree-checkbox"></i><i class="jstree-icon jstree-themeicon fa fa-check icon-state-success jstree-themeicon-custom"></i>disabled node</a></li></ul></li><li role="treeitem" id="j2_8" class="jstree-node  jstree-leaf jstree-last"><div unselectable="on" class="jstree-wholerow">&nbsp;</div><i class="jstree-icon jstree-ocl"></i><a class="jstree-anchor" href="#"><i class="jstree-icon jstree-checkbox"></i><i class="jstree-icon jstree-themeicon fa fa-folder icon-state-warning icon-lg jstree-themeicon-custom"></i>And wholerow selection</a></li></ul></div>
+						</div>
+                                                        <form class="inbox-compose form-horizontal" id="fileupload" action="#" method="POST" enctype="multipart/form-data">
+                                                            <div class="inbox-compose-btn">
+                                                                <button class="btn green">
+                                                                <i class="fa fa-check"></i>Send</button>
+                                                                <button class="btn default inbox-discard-btn">Discard</button>
+                                                                <button class="btn default">Draft</button>
+                                                            </div>
+                                                            <div class="inbox-form-group mail-to">
+                                                                <label class="control-label">To:</label>
+                                                                <div class="controls controls-to">
+                                                                    <select id="multiple" class="form-control select2-multiple"  data-ng-model="MessagesCtrl.formFields.To" name="To" multiple="true">
+                                                                    <optgroup label="-------------student-------------------------------------">
+                                                                    <option ng-repeat="student in MessagesCtrl.studentList" value="{{student.id}}">{{student.firstName}} - {{student.lastName}}</option>
+                                                                    </optgroup>
+                                                                    <optgroup label="--------------staff--------------------------------------">
+                                                                    <option ng-repeat="staff in MessagesCtrl.staffList" value="{{staff.id}}">{{staff.firstName}} - {{staff.lastName}}</option>
+                                                                    </optgroup>
+                                                                    </select>
+                                                                    <!--<select data-ng-model="MessagesCtrl.formFields.studentId" name="studentId" class="form-control input-sm" required>
+                                                                    <option value="">Student</option>
+                                                                    <option ng-repeat="student in MessagesCtrl.studentList" value="{{student.id}}">{{student.firstName}}</option>
+                                                                    </select>-->
+                                                                </div>
+                                                            </div>
+                                                            <div class="inbox-form-group">
+                                                                <label class="control-label">Subject:</label>
+                                                                <div class="controls">
+                                                                    <input type="text" class="form-control" name="subject">                                                                    </div>
+                                                            </div>
+                                                            <div class="inbox-form-group">
+                                                                <textarea class="inbox-editor inbox-wysihtml5 form-control" name="message" rows="12" placeholder="Message Here"></textarea>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT INNER -->
+    </div>
+</div>
+<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->

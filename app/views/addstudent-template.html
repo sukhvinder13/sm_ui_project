@@ -1,0 +1,564 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+  <!-- BEGIN PAGE CONTENT -->
+  <div class="page-content">
+    <div class="container">
+      <!-- BEGIN PAGE BREADCRUMB -->
+      <ul class="page-breadcrumb breadcrumb">
+        <li>
+          <a ui-sref="home.console">Home</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          <a ui-sref="home.schooldirectory">Collaborate</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          Admission
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          Enroll Student
+        </li>
+      </ul>
+      <!-- END PAGE BREADCRUMB -->
+      <!-- BEGIN PAGE CONTENT INNER -->
+      <div class="page-content-inner">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit">
+              <div class="portlet light">
+                <div class="portlet-title tabbable-line">
+                  <div class="caption caption-md">
+                    <i class="icon-globe theme-font hide"></i>
+                    <span class="caption-subject theme-font bold uppercase">Student Info</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-container">
+                <div class="row">
+                  <form name="addstudentform" novalidate role="form" data-ng-submit="AddStudentCtrl.addstudentAction(addstudentform.$invalid)">
+                    <div class="row">
+                      <div class="col-md-3 col-lg-3 col-sm-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top: -17px;">
+                          Academic Batch
+                          <span style="color:red">*</span>
+                          <select data-ng-model="AddStudentCtrl.formFields.academicbatch" tabindex="1" name="academicbatch" class="form-control input-sm"
+                            required>
+                            <option value="">Select Batch</option>
+                            <option ng-repeat="class in AddStudentCtrl.showtable" value="{{class.id}}">{{class.academicBatch}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top: -17px;">
+                          Select Class
+                          <span style="color:red">*</span>
+                          <select data-ng-model="AddStudentCtrl.formFields.classId" tabindex="2" name="classId" class="form-control input-sm" required>
+                            <option value="">Class_Section</option>
+                            <option ng-repeat="class in AddStudentCtrl.classList" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" ng-disabled="true" class="edited form-control input-sm" name="lastName" tabindex="3" data-ng-model="AddStudentCtrl.formFields.registrationNumber"
+                            maxlength="50" />
+                          <label for="form_control_1"> Registration number
+                            <!-- <span style="color:red">*</span> -->
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" allow-date name="DOJ" tabindex="4" id="JD" data-ng-model="AddStudentCtrl.formFields.DOJ"
+                            maxlength="50" />
+                          <label for="form_control_1">Joining Date
+                            <span style="color:red">*</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" tabindex="5" class="form-control input-sm" name="firstName" tabindex="5" data-ng-model="AddStudentCtrl.formFields.firstName"
+                            maxlength="50" required onkeypress="return onlyAlphabets(event,this);" />
+                          <label for="form_control_1">First Name/Student Name
+                            <span style="color:red">*</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="lastName" tabindex="6" data-ng-model="AddStudentCtrl.formFields.lastName"
+                            maxlength="50"  onkeypress="return onlyAlphabets(event,this);" />
+                          <label for="form_control_1">Last Name/Surname
+                            
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" allow-date name="DOB" tabindex="7" id="DOB" data-ng-model="AddStudentCtrl.formFields.DOB"
+                            maxlength="50" />
+                          <label for="form_control_1">Date of Birth
+                            <span style="color:red">*</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top: -15px;">
+                          Gender
+                          <span style="color:red">*</span>
+                          <select data-ng-model="AddStudentCtrl.formFields.gender" name="gender" tabindex="8" class="form-control input-sm" required>
+                            <option value="">Select Gender</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          Blood Group
+                          <select data-ng-model="AddStudentCtrl.formFields.bloodGroup" name="bloodGroup" tabindex="9" class="form-control input-sm">
+                            <option value="">Select Blood Group</option>
+                            <option value="A+"> A+</option>
+                            <option value="A-"> A-</option>
+                            <option value="B+"> B+</option>
+                            <option value="B-"> B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-"> AB-</option>
+                            <option value="O+"> O+</option>
+                            <option value="O-"> O-</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          National Id Type
+                          <select data-ng-model="AddStudentCtrl.formFields.nationalIdType" tabindex="10" name="nationalIdType" class="form-control input-sm">
+                            <option value="">Select NationalId Type</option>
+                            <option value="Aadhar" maxlength="12" pattern="\d{12}">Aadhar ID</option>
+                            <option value="Passport">Passport</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm edited" name="National-ID" tabindex="11" data-ng-model="AddStudentCtrl.formFields.nationalId"
+                            maxlength="12" />
+                          <label for="form_control_1">Student National-ID</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="rollNo" tabindex="12" data-ng-model="AddStudentCtrl.formFields.rollNo"
+                            maxlength="50" ng-change="AddStudentCtrl.rollNo(AddStudentCtrl.formFields.classId, AddStudentCtrl.formFields.rollNo)"
+                            required ng-model-options='{ debounce: 1000 }' />
+                          <label for="form_control_1">Roll Number
+                            <span style="color:red">*</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="RFID" tabindex="13" data-ng-model="AddStudentCtrl.formFields.RFID"
+                            maxlength="50">
+                          <label for="form_control_1">RFID</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm edited" name="classofAdmission" tabindex="14" data-ng-model="AddStudentCtrl.formFields.classofAdmission"
+                            maxlength="50" />
+                          <label for="form_control_1">Class of Admission</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="email" class="form-control input-sm" ng-model-options='{ debounce: 1500 }' name="email" tabindex="15" data-ng-model="AddStudentCtrl.formFields.email"
+                            maxlength="50" >
+                          <label for="form_control_1">Student Email
+                            <!-- <span style="color:red">*</span> -->
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" data-format="dddd-ddd-ddd" tabindex="16" name="studentContact" data-ng-model="AddStudentCtrl.formFields.contact"
+                            maxlength="10" allow-date ng-keyup="AddStudentCtrl.checkContact(AddStudentCtrl.formFields.contact)"
+                            onkeypress="return onlyNumbers(event,this);" />
+                          <label for="form_control_1">Student Phone</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="fatherName" tabindex="17" data-ng-model="AddStudentCtrl.formFields.fatherName"
+                            maxlength="50" onkeypress="return onlyAlphabets(event,this);" />
+                          <label for="form_control_1">Enter Father Name</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="email" class="form-control input-sm" name="fatherEmail" tabindex="18" data-ng-model="AddStudentCtrl.formFields.fatherEmail"
+                            maxlength="32" />
+                          <label for="form_control_1">Father's Email</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" data-format="dddd-ddd-ddd" tabindex="19" name="fcontact" data-ng-model="AddStudentCtrl.formFields.fatherContact"
+                            maxlength="10" allow-date ng-keyup="AddStudentCtrl.checkContact(AddStudentCtrl.formFields.fatherContact)"
+                            onkeypress="return onlyNumbers(event,this);" />
+                          <label for="form_control_1">Father Contact No</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="motherTounge" tabindex="20" data-ng-model="AddStudentCtrl.formFields.motherTounge"
+                            maxlength="50" onkeypress="return onlyAlphabets(event,this);" />
+                          <label for="form_control_1">Mother Tongue</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="motherName" tabindex="21" data-ng-model="AddStudentCtrl.formFields.motherName"
+                            onkeypress="return onlyAlphabets(event,this);" />
+                          <label for="form_control_1">Enter Mother Name</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="email" class="form-control input-sm" name="motherEmail" tabindex="22" data-ng-model="AddStudentCtrl.formFields.motherEmail"
+                            maxlength="35" />
+                          <label for="form_control_1">Mother's Email</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="alternateContact" tabindex="23" data-ng-model="AddStudentCtrl.formFields.alternateContact"
+                            maxlength="10" allow-date allow-date ng-keyup="AddStudentCtrl.checkContact(AddStudentCtrl.formFields.alternateContact)"
+                            onkeypress="return onlyNumbers(event,this);" />
+                          <label for="form_control_1">Mother Contact No</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          Disability
+                          <select data-ng-model="AddStudentCtrl.formFields.isDisable" name="isDisable" tabindex="24" class="form-control input-sm">
+                            <option value="">Select Disability</option>
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="currentAddress" tabindex="25" data-ng-model="AddStudentCtrl.formFields.currentAddress"
+                                />
+                              <label for="form_control_1">Current Address</label>
+                            </div>
+                          </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="currentCity" tabindex="26" data-ng-model="AddStudentCtrl.formFields.currentCity"
+                            maxlength="50" onkeypress="return onlyAlphabets(event,this);" />
+                          <label for="form_control_1">Current City</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="currentState" tabindex="27" data-ng-model="AddStudentCtrl.formFields.currentState"
+                            maxlength="50" onkeypress="return onlyAlphabets(event,this);" />
+                          <label for="form_control_1">Current State</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="currentPincode" tabindex="28" data-ng-model="AddStudentCtrl.formFields.currentPincode"
+                            maxlength="6" onkeypress="return onlyNumbers(event,this);" />
+                          <label for="form_control_1">Current Pincode</label>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="previousSchool" tabindex="29" data-ng-model="AddStudentCtrl.formFields.previousSchool"
+                                maxlength="50" />
+                              <label for="form_control_1">Enter Previous school</label>
+                            </div>
+                          </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="religion" tabindex="30" data-ng-model="AddStudentCtrl.formFields.religion"
+                            maxlength="50" onkeypress="return onlyAlphabets(event,this);" />
+                          <label for="form_control_1">Religion</label>
+                        </div>
+
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="caste" tabindex="31" data-ng-model="AddStudentCtrl.formFields.caste"
+                            maxlength="50" onkeypress="return onlyAlphabets(event,this);" />
+                          <label for="form_control_1">Caste</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <input type="text" class="form-control input-sm" name="subCaste" tabindex="32" data-ng-model="AddStudentCtrl.formFields.subCaste"
+                            maxlength="50" onkeypress="return onlyAlphabets(event,this);" />
+                          <label for="form_control_1">SubCaste</label>
+                        </div>
+                      </div>
+                     
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <label for="form_control_1">Identification Marks</label>
+                              <textarea class="form-control input-sm" rows="3" cols="32" name="identificationMarks" tabindex="33" data-ng-model="AddStudentCtrl.formFields.identificationMarks"
+                                maxlength="150" style="resize:none;"></textarea>
+                            </div>
+                          </div>
+                      <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                          <label>Uploads</label>
+                          <select data-ng-model="AddStudentCtrl.formFields.upload" name="upload" tabindex="34" class="form-control input-sm" ng-change="AddStudentCtrl.uploadChange(AddStudentCtrl.formFields.upload)">
+                            <option value="">Select File Type </option>
+                            <option value="Profilepic">Profile Pic</option>
+                            <option value="TC">TC</option>
+                            <option value="Adhaar_Passport">Aadhar/Passport</option>
+                            <option value="CastCert">Caste Certificate</option>
+                            <option value="DOBCert">DOB Certificate</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-4 col-md-4 col-lg-4">
+                        <!-- Upload profile pic -->
+                        <div class="col-sm-4 col-md-4 col-lg-4" style="margin-top:-1%" ng-show="AddStudentCtrl.formFields.upload=='Profilepic'">
+                          <label for="form_control_1">Profile Pic</label>
+                          <img src="" alt="" width="100%" height="100%" border="20px">
+                          <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="input-group input-large">
+                              <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                <i class="fa fa-user fileinput-exists"></i>&nbsp;
+                                <span class="fileinput-filename">{{AddStudentCtrl.file.substring(64)}}</span>
+                              </div>
+                              <span class="input-group-addon btn default btn-file">
+                                <span class="fileinput-new"> Select file </span>
+                                <span class="fileinput-exists"> Change </span>
+                                <input type="hidden" value="" name="...">
+                                <input type="file" name="file" data-ng-model="AddStudentCtrl.myUpload1" id="studentFile" accept="image/gif, image/jpeg ,image/png">
+                              </span>
+                              <!--<a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>-->
+                            </div>
+                          </div>
+                          <input class="btn green" type="button" data-ng-click="AddStudentCtrl.uploadStudentImage($index)" value="Upload Profile Picture">
+                        </div>
+                        <!-- ends PRofile pics  -->
+                        <!-- upload tc -->
+                        <div class="col-sm-4 col-md-4 col-lg-4" ng-show="AddStudentCtrl.formFields.upload=='TC'">
+                          <label for="form_control_1">Previous School TC</label>
+
+                          <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="input-group input-large">
+                              <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                <span class="fileinput-filename">{{AddStudentCtrl.tcFile.substring(64)}}</span>
+                              </div>
+                              <span class="input-group-addon btn default btn-file">
+                                <span class="fileinput-new"> Select file </span>
+                                <span class="fileinput-exists"> Change </span>
+                                <input type="hidden" value="" name="...">
+                                <input type="file" name="file1" data-ng-model="AddStudentCtrl.myUpload2" id="tcFile" accept="application/pdf">
+                              </span>
+                              <a href=" javascript:; " class="input-group-addon btn red fileinput-exists
+                                  " data-dismiss="fileinput "> Remove </a>
+                            </div>
+                          </div>
+
+                          <input class="btn green" type="button" data-ng-click="AddStudentCtrl.uploadSchoolTc($index)" value="Upload TC">
+                        </div>
+                        <!-- ends -->
+                        <!-- AADHAR / PASSPORT tc -->
+                        <div class="col-sm-4 col-md-4 col-lg-4" ng-show="AddStudentCtrl.formFields.upload=='Adhaar_Passport'">
+                          <label for="form_control_1">AADHAR / PASSPORT</label>
+
+                          <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="input-group input-large">
+                              <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                <span class="fileinput-filename">{{AddStudentCtrl.adhaarFile.substring(64)}}</span>
+                              </div>
+                              <span class="input-group-addon btn default btn-file">
+                                <span class="fileinput-new"> Select file </span>
+                                <span class="fileinput-exists"> Change </span>
+                                <input type="hidden" value="" name="...">
+                                <input type="file" name="file2" data-ng-model="AddStudentCtrl.myUpload3" id="adhaarFile" accept="application/pdf">
+                              </span>
+                              <a href=" javascript:; " class="input-group-addon btn red fileinput-exists
+                                  " data-dismiss="fileinput "> Remove </a>
+                            </div>
+                          </div>
+
+                          <input class="btn green" type="button" data-ng-click="AddStudentCtrl.adhaar($index)" value="Upload Aadhar/Passport">
+                        </div>
+
+                        <!-- AADHAR / PASSPORT ends -->
+                        <!-- CASTE CERT upload tc -->
+                        <div class="col-sm-4 col-md-4 col-lg-4" ng-show="AddStudentCtrl.formFields.upload=='CastCert'">
+                          <label for="form_control_1">CASTE CERT</label>
+
+                          <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="input-group input-large">
+                              <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                <span class="fileinput-filename">{{AddStudentCtrl.castecertiFile.substring(64)}}</span>
+                              </div>
+                              <span class="input-group-addon btn default btn-file">
+                                <span class="fileinput-new"> Select file </span>
+                                <span class="fileinput-exists"> Change </span>
+                                <input type="hidden" value="" name="...">
+                                <input type="file" name="file3" data-ng-model="AddStudentCtrl.myUpload4" id="castecertiFile" accept="application/pdf">
+                              </span>
+                              <a href=" javascript:; " class="input-group-addon btn red fileinput-exists
+                                  " data-dismiss="fileinput "> Remove </a>
+                            </div>
+                          </div>
+
+                          <input class="btn green" type="button" data-ng-click="AddStudentCtrl.uploadCasteCerti($index)" value="Upload Caste Certi">
+                        </div>
+
+                        <!-- ends -->
+                        <!-- DATE OF BRITH CERT upload tc -->
+                        <div class="col-sm-4 col-md-4 col-lg-4" ng-show="AddStudentCtrl.formFields.upload=='DOBCert'">
+                          <label for="form_control_1">DoB CERT</label>
+
+                          <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="input-group input-large">
+                              <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                <span class="fileinput-filename">{{AddStudentCtrl.dobFile.substring(64)}}</span>
+                              </div>
+                              <span class="input-group-addon btn default btn-file">
+                                <span class="fileinput-new"> Select file </span>
+                                <span class="fileinput-exists"> Change </span>
+                                <input type="hidden" value="" name="...">
+                                <input type="file" name="file4" data-ng-model="AddStudentCtrl.myUpload5" id="dobFile" accept="application/pdf">
+                              </span>
+                              <a href=" javascript:; " class="input-group-addon btn red fileinput-exists
+                                  " data-dismiss="fileinput "> Remove </a>
+                            </div>
+                          </div>
+
+                          <input class="btn green" type="button" data-ng-click="AddStudentCtrl.uploadDOBCerti($index)" value="Upload DOB Certificate">
+                        </div>
+
+
+                        <!-- DOB Certificate ends -->
+                      </div>
+                      <div class="col-sm-2 col-md-2 col-lg-2 ">
+                        <div ng-show="AddStudentCtrl.formFields.upload=='Profilepic' ">
+                          <img alt=" " class="img-circle " style="height: 40px;width: 60px; " ng-src="{{AddStudentCtrl.file}} " />
+                          <br/>{{AddStudentCtrl.file.substring(64)}}
+                        </div>
+                        <!-- <div ng-show="AddStudentCtrl.formFields.upload=='TC' ">
+                          <br/>{{AddStudentCtrl.tcFile.substring(64)}}
+                        </div>
+                        <div ng-show="AddStudentCtrl.formFields.upload=='Adhaar_Passport' ">
+                          <br/>{{AddStudentCtrl.adhaarFile.substring(64)}}
+                        </div>
+                        <div ng-show="AddStudentCtrl.formFields.upload=='CastCert' ">
+                          <br/>{{AddStudentCtrl.castecertiFile.substring(64)}}
+                        </div>
+                        <div ng-show="AddStudentCtrl.formFields.upload=='DOBCert' ">
+                          <br/>{{AddStudentCtrl.dobFile.substring(64)}}
+                        </div> -->
+
+                      </div>
+
+                    </div>
+                    <div class="form-group ">
+                      <button type="reset" class="btn default ">Reset</button>
+                      <button type="submit" class="btn green" data-ng-disabled="addstudentform.$invalid">
+                        <i class="fa fa-check "></i> Submit</button>
+                    </div>
+
+                </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+      </div>
+    </div>
+    <!-- END PAGE CONTENT INNER -->
+  </div>
+</div>
+<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<script>
+  (function () {
+    setTimeout(function () {
+      $('#DOB').datetimepicker({
+        format: 'DD-MM-YYYY'
+      });
+      $('#JD').datetimepicker({
+        format: 'DD-MM-YYYY'
+      });
+    }, 500);
+  })();
+
+  function onlyAlphabets(e, t) {
+    try {
+      if (window.event) {
+        var charCode = window.event.keyCode;
+      } else if (e) {
+        var charCode = e.which;
+      } else {
+        return true;
+      }
+      if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123 || charCode == 32))
+        return true;
+      else
+        return false;
+    } catch (err) {
+      alert(err.Description);
+    }
+  };
+
+  function onlyNumbers(e, t) {
+    try {
+      if (window.event) {
+        var charCode = window.event.keyCode;
+      } else if (e) {
+        var charCode = e.which;
+      } else {
+        return true;
+      }
+      if ((charCode > 47 && charCode < 58))
+        return true;
+      else
+        return false;
+    } catch (err) {
+      alert(err.Description);
+    }
+  }
+</script>

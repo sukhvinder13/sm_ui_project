@@ -1,0 +1,142 @@
+.identitylogin{
+  display: table;
+  width: 100%;
+  background-color: #F4F6F9;
+}
+.identitylogin .tile-left{
+  display: table-cell;
+  height: 100%;
+  position: relative;
+}
+.identitylogin .tile-left .wrapper{
+  padding: 20px 0px 0px 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 380px;
+  -moz-transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+  -o-transition: all 0.25s;
+  transition: all 0.25s;
+}
+.identitylogin .tile-left .main{
+  overflow: auto;
+  padding-bottom: 48px;
+}
+.identitylogin .tile-left .content{
+  margin: 0px auto;
+  padding: 1.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid #D8DDE6;
+  color: #16325c;
+  background-color: #ffffff;
+  min-height: 350px;
+  height: auto;
+}
+.identitylogin .tile-right{
+  display: table-cell;
+  vertical-align: top;
+  background-color: #D8DDE6;
+  width: 50%;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.6);
+}
+.standard_logo_wrapper {
+	height: 113px;
+	overflow: hidden;
+	width: 180px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+  display: table;
+  margin-bottom: 1.5rem;
+}
+.standard_logo {
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: middle;
+	max-width: 180px;
+	max-height: 113px;
+}
+.identitylogin .register .rgbtn{
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: #ffffff;
+  border: 1px solid #D8DDE6;
+  color: #0070d2 !important;
+  border-radius: .25rem !important;
+}
+.rds{
+  border-radius: .25rem !important;
+}
+.identitylogin .register {
+  display: block;
+  margin-top: 30px;
+  text-align: center;
+}
+.identitylogin .register p{
+  margin-right: 16px;
+  display: inline;
+}
+.identitylogin .footer{
+  text-align: center;
+}
+.identitylogin .social-icons{
+  display: inline-block;
+}
+.identitylogin .slider{
+  width: 100%;
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  border: none;
+
+}
+.identitylogin .slide{
+  min-height: 800px;
+}
+.identitylogin .carousel,.item,.active{height:100%;}
+.identitylogin .carousel-inner{height:100%;}
+.identitylogin .carousel-inner>.item>img {
+    height:100%;
+}
+
+@media only screen and (max-width: 1024px) {
+	.tile-left {
+		width: 100%;
+	}
+
+	.tile-right {
+		display: none;
+	}
+}
+.identity-home{
+  min-height: 600px;
+}
+.identity-home .image-outer{
+  position: relative;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+.identity-home .image-outer img{
+
+  width: 130px;
+  height: 130px;
+}
+.identity-home .thumbnail {
+      border-radius: 12px !important;
+}
+.identity-home .login-btn {
+      text-align: right;
+}
+.identity-home .login-btn a{
+      border-radius: .25rem !important;
+}
+
+.header-container{padding-left: 10%;}
+.identity-home-header{
+  height: 100px !important;
+}

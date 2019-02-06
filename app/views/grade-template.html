@@ -1,0 +1,218 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Exams <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Grades
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-graduation-cap font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">GRADES</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar" style="position: absolute;">
+                                    <div class="row">
+                                        <div class="col-md-6" style="position: absolute;margin-left:175px;z-index: 999;margin-top: -11px;">
+                                            <div class="btn-group" ng-show="GradeCtrl.roleEdit">
+                                                <button data-toggle="modal" title="create new grade" data-target="#edit-grades" data-ng-click="GradeCtrl.editmode = false;GradeCtrl.setFloatLabel();GradeCtrl.detailsMode = false;"
+                                                    class="btn green">
+                                                    Add New Grade
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="position: absolute;margin-left: 852px;margin-top: -11px;z-index: 999;">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn green btn-outline dropdown-toggle" title="export print pdf" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="GradeCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" data-ng-click="GradeCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tableToExport" style="margin-top: -24px;">
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid table-scrollable" border="1px solid black" datatable="ng" id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Grade Name
+                                                </th>
+                                                <th>
+                                                    Grade Point
+                                                </th>
+                                                <th>
+                                                    Min Percentage(%)
+                                                </th>
+                                                <th>
+                                                    Max Percentage(%)
+                                                </th>
+                                                <th class="text-center">
+                                                    More Details
+                                                </th>
+                                                <th class="text-center" ng-show="GradeCtrl.roleEdit">
+                                                    Edit
+                                                </th>
+                                                <th class="text-center" ng-show="GradeCtrl.roledelete">
+                                                    Delete
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="grade in GradeCtrl.gradeList">
+                                                <td>{{grade.gradeName[0]}}</td>
+                                                <td>{{grade.gradePoint}}</td>
+                                                <td>{{grade.percentageRangeFrom}}</td>
+                                                <td>{{grade.percentageRangeTo}}</td>
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0)" data-ng-click="GradeCtrl.moreDetails($index);">
+                                                        <i class="fa fa-file-text-o" title="more details"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center" ng-show="GradeCtrl.roleEdit">
+                                                    <a href="javascript:void(0);" data-ng-click="GradeCtrl.editGrade($index)">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center" ng-show="GradeCtrl.roledelete">
+                                                    <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="GradeCtrl.confirmCallbackMethod($index)"
+                                                        ng-bootbox-confirm-action-cancel="GradeCtrl.confirmCallbackCancel($index)">
+                                                        <i class="fa fa-remove"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-grades" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="GradeCtrl.closeModal()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">GRADE</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container" data-ng-if="!GradeCtrl.detailsMode">
+                    <form name="gradesform" novalidate role="form" data-ng-submit="GradeCtrl.gradeAction(gradesform.$invalid)">
+                        <div class="row">
+                            <div class="col-md-6">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="gradeName" data-ng-model="GradeCtrl.formFields.gradeName" maxlength="50"
+                                required />
+                            <label for="form_control_1">Grade Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="gradePoint" data-ng-model="GradeCtrl.formFields.gradePoint" maxlength="50"
+                                required />
+                            <label for="form_control_1">Grade Point</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="percentageRangeFrom" data-ng-model="GradeCtrl.formFields.percentageRangeFrom"
+                                maxlength="50" required />
+                            <label for="form_control_1">Min Percentage (%)</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="percentageRangeTo" data-ng-model="GradeCtrl.formFields.percentageRangeTo"
+                                maxlength="50" required />
+                            <label for="form_control_1">Max Percentage (%)</label>
+                        </div>
+                    </div></div>
+                        <div class="" style="margin-left: 400px;">
+                            <button type="reset" class="btn default">Reset</button>
+                            <button type="submit" class="btn green" data-ng-disabled="gradesform.$invalid"><i class="fa fa-check"></i> Submit</button>
+                        </div>
+                        <div class="heigh-30"></div>
+                    </form>
+                </div>
+                <div class="form-container" data-ng-if="GradeCtrl.detailsMode">
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Grade Name:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{GradeCtrl.viewValue.gradeName}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Grade Point:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{GradeCtrl.viewValue.gradePoint}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Min Percentage:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{GradeCtrl.viewValue.percentageRangeFrom}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Max Percentage:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{GradeCtrl.viewValue.percentageRangeTo}}
+                        </div>
+                    </div>
+                    <div class="heigh-30"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EDIT MODAL END-->

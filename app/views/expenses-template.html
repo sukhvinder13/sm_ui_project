@@ -1,0 +1,541 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container" id="printSectionId">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Fees Management <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Expenses
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-rupee font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">EXPENSES</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar" style="position: absolute;">
+                                    <div class="row">
+                                        <div class="col-md-6" ng-show="ExpensesCtrl.roleEdit" style="position:absolute;margin-left:170px;z-index:999;margin-top: -11px;">
+                                            <div class="btn-group">
+
+                                                <button data-toggle="modal" title="Create new expense" data-target="#edit-expenses" class="btn green" ng-click="ExpensesCtrl.detailsMode = false;">
+                                                    Add New Expense
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" ng-show="ExpensesCtrl.roleEdit" style="position:absolute;margin-left:775px;margin-top:-11px;z-index:999;">
+                                            <div class="btn-group ">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="ExpensesCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" data-ng-click="ExpensesCtrl.pdf()"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="ExpensesCtrl.exportToExcel('#exportTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="expenseId" style="margin-top: -24px;">
+                                    <table class="table table-striped table-hover table-bordered sm_expense_editable_grid" datatable="ng" border="1px solid black"
+                                        id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Expense Type
+                                                </th>
+                                                <th>
+                                                    Claimed By
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th style="width:80px">
+                                                    Expense Date
+                                                </th>
+                                                <th>
+                                                    Voucher No
+                                                </th>
+                                                <th>
+                                                    Payment Mode
+                                                </th>
+                                                <th>
+                                                    Expense Amount
+                                                </th>
+                                                <th class="text-center">
+                                                    More Details
+                                                </th>
+                                                <th class="text-center">
+                                                    Expense Report
+                                                </th>
+                                                <th class="text-center" ng-show="ExpensesCtrl.roleEdit">
+                                                    Edit
+                                                </th>
+                                                <th class="text-center" ng-show="ExpensesCtrl.roledelete">
+                                                    Delete
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="expense in ExpensesCtrl.expensesList">
+                                                <td>{{expense.expenseType}}</td>
+                                                <td>{{expense.claimedBy}}</td>
+                                                <td>{{expense.description}}</td>
+                                                <td>{{expense.date | date:'dd-MM-yyyy'}}</td>
+                                                <td>{{expense.voucherNo}}</td>
+                                                <td>{{expense.paymentMode}}</td>
+                                                <td>{{expense.amount}}</td>
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0)" data-ng-click="ExpensesCtrl.moreDetails($index);">
+                                                        <i class="fa fa-file-text-o"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0);" data-ng-click="ExpensesCtrl.printExpense($index)" data-toggle="modal" data-target="#myModal">
+                                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center" ng-show="ExpensesCtrl.roleEdit">
+                                                    <a href="javascript:void(0);" data-ng-click="ExpensesCtrl.editExpense($index)">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center" ng-show="ExpensesCtrl.roledelete">
+                                                    <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="ExpensesCtrl.confirmCallbackMethod($index)"
+                                                        ng-bootbox-confirm-action-cancel="ExpensesCtrl.confirmCallbackCancel($index)">
+                                                        <i class="fa fa-remove"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <style>
+                                            .mouseEvent tbody tr td:nth-last-child(1) { display:none; }
+                                            .mouseEvent tbody tr td:nth-last-child(2) { display:none; }
+                                            .mouseEvent tbody tr td:nth-last-child(3) { display:none; }
+                                            .mouseEvent tbody tr td:nth-last-child(4) { display:none; }
+                      
+                                            .mouseEvent thead tr th:nth-last-child(1) { display:none; }
+                                            .mouseEvent thead tr th:nth-last-child(2) { display:none; }
+                                            .mouseEvent thead tr th:nth-last-child(3) { display:none; }
+                                            .mouseEvent thead tr th:nth-last-child(4) { display:none; }
+                                            </style>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-expenses" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click=" ExpensesCtrl.closeModal();ExpensesCtrl.clearform();"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">EXPENSE</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container" data-ng-if="!ExpensesCtrl.detailsMode">
+                    <form name="expensesform" novalidate role="form" data-ng-submit=" ExpensesCtrl.expenseAction(expensesform.$invalid)">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm edited" name="expensetype" data-ng-model="ExpensesCtrl.formFields.expenseType" maxlength="50"
+                                 />
+                            <label for="form_control_1">Expense Type</label>
+                        </div>
+                    </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm edited" name="claimedby" data-ng-model="ExpensesCtrl.formFields.claimedBy" maxlength="50"
+                                 />
+                            <label for="form_control_1">Claimed By</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="date" class="form-control input-sm calendarctrl edited" id="txtDate"  name="date" data-ng-model="ExpensesCtrl.formFields.date"
+                                maxlength="50"  />
+                            <label for="form_control_1">Expense Date</label>
+                        </div>
+                    </div>
+                       <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm edited" name="description" data-ng-model="ExpensesCtrl.formFields.description" required
+                            />
+                            <label for="form_control_1">Description</label>
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                            <div class="col-sm-4 col-md-4 col-lg-4">                    
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="number" class="form-control input-sm edited" name="amount" data-ng-model="ExpensesCtrl.formFields.amount" maxlength="50"
+                                 />
+                            <label for="form_control_1">Expense Amount</label>
+                        </div>
+                    </div>
+                  <div class="col-sm-4 col-md-4 col-lg-4">
+                      <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="number" class="form-control input-sm edited" name="voucherNo" data-ng-model="ExpensesCtrl.formFields.voucherNo" maxlength="50"
+                                 />
+                            <label for="form_control_1">Voucher No</label>
+                        </div>
+                  </div>                    
+
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                      <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top:-22px;">
+                        <label for="form_control_1">Payment Mode</label>
+                        <select data-ng-model="ExpensesCtrl.formFields.paymentMode" name="paymode" class="form-control input-sm">
+                            <option value="cash">cash</option>
+<!--                             <option value="cheque">cheque</option>
+                            <option value="card">card</option> -->
+                                                    
+                            </select>
+
+                        </div>
+                  </div>   
+                </div>
+                        <!-- input file -->
+
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="input-group input-large">
+                                <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                    <span class="fileinput-filename">{{ ExpensesCtrl.myUpload.substring(64)}}</span>
+                                </div>
+                                <span class="input-group-addon btn default btn-file">
+                                                        <span class="fileinput-new"> Select file </span>
+                                <span class="fileinput-exists"> Change </span>
+                                <input type="hidden" value="" name="...">
+                                <input type="file" name="file" data-ng-model="ExpensesCtrl.myUpload" id="expencesFile">
+                                </span>
+                                <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                            </div>
+
+                        <input class="btn green" type="button" data-ng-click="ExpensesCtrl.uploadFile($index)" value="Attach FIle">
+                        <i class="fa fa-upload"></i>
+                        </button><br>
+                    </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn default">Reset</button>
+                            <button type="submit" class="btn green" ng-disabled="!first"><i class="fa fa-check"></i> Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-container" data-ng-if="ExpensesCtrl.detailsMode">
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Expense Date:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExpensesCtrl.viewValue.date | date:'dd-MM-yyyy'}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Expense Type:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExpensesCtrl.viewValue.expenseType}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Claimed By:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExpensesCtrl.viewValue.claimedBy}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Voucher NO:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExpensesCtrl.viewValue.voucherNo}}
+                        </div>
+                    </div>
+                     <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Payment Mode:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExpensesCtrl.viewValue.paymentMode}}
+                        </div>
+                    </div>
+                     <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Description:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{ExpensesCtrl.viewValue.description}}
+                        </div>
+                    </div>
+                    <div class="row static-info" ng-if="ExpensesCtrl.viewValue.file">
+                        <div class="col-md-5 name">
+                            Attachment:
+                        </div>
+                        <div class="col-md-7 value" ng-show="fileLength">
+                            <a href="{{ExpensesCtrl.viewValue.file}}">{{ExpensesCtrl.viewValue.file.substring(64)}}</a>
+                        </div>
+                    </div>
+                    <div class="heigh-30"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- expense report starts -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="text-align: center;">Expense Report</h4>
+            </div>
+            <div class="modal-content">
+                <table style="width:100%">
+                    <tr>
+                        <td style="padding:25px">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-7">
+                                        <h1>Payment Receipt</h1>
+                                    </div>
+                                    <div class="col-md-5" style="float: right;">{{ExpensesCtrl.formFields.index}}
+                                        Date: <b>{{ExpensesCtrl.formFields.date| date:'dd-MM-yyyy'}}</b><br> Receipt Number:<b>E_0{{ExpensesCtrl.formFields.index}}</b></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <br>
+                                    <p>&ensp; &ensp; &ensp; &ensp; Claimed by
+                                        <u><b>{{ExpensesCtrl.formFields.claimedBy}}</b></u> for
+                                        <u><b>{{ExpensesCtrl.formFields.description}}({{ExpensesCtrl.formFields.expenseType}})</b></u>
+                                        for the amount of Rs.
+                                        <u><b>{{ExpensesCtrl.formFields.amount}}/-</b></u>
+                                    </p>
+                                </div>
+                                <div class="col-md-12">
+                                    <br><br>
+                                    <div class="col-md-6">
+                                        <table border="2px solid black" style="border-collapse: collapse;">
+                                            <tr>
+                                                <td>Cash</td>
+                                                <td style="width:20px"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cheque</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Money Order</td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="float:right">Recived By : _______________<br> Issued By : _________________</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-content" id="Expprint" style="display:none">
+                <div><img style="display:block;text-align:center;margin-top:5px;height:50px" src="{{ExpensesCtrl.studSchoolList[0].logo}}"
+                        alt="School logo"></div>
+                <table border="3px solid black" style="width:100%;height:420px;">
+                    <tr>
+                        <td style="padding:25px">
+                            <div class="row">
+
+                                <div class="col-xs-12">
+                                    <div class="col-xs-7">
+                                        <h3 style="font-size: 40px;">Payment Receipt</h3>
+                                    </div>
+                                    <div class="col-xs-5" style="float: right; margin-top: -80px;">
+                                        Date: <b>{{ExpensesCtrl.formFields.date| date:'dd-MM-yyyy'}}</b><br> Receipt Number:<b>E_0{{ExpensesCtrl.formFields.index}}</b></div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <p style="font-size:18px">&ensp; &ensp; &ensp; &ensp; Claimed by
+                                        <u><b>{{ExpensesCtrl.formFields.claimedBy}}</b></u> for
+                                        <u><b>{{ExpensesCtrl.formFields.description}}({{ExpensesCtrl.formFields.expenseType}})</b></u>
+                                        for the amount of Rs.
+                                        <u><b>{{ExpensesCtrl.formFields.amount}}/-</b></u>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-xs-6">
+                                        <table border="2px solid black" style="border-collapse: collapse;">
+                                            <tr>
+                                                <td>Cash</td>
+                                                <td style="width:20px"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cheque</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Money Order</td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-xs-6" style="margin-top:-30px">
+                                        <div style="float:right">Recived By : _______________<br><br> Issued By : _________________</div>
+                                    </div>
+                                </div>
+                                <div style="height:30px;"></div>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table><hr/>
+                <div style="height:60px;"></div><hr/>
+                <!-- Seconf print option -->
+                <div><img style="display:block;text-align:center;margin-top:15px;height:50px" src="{{ExpensesCtrl.studSchoolList[0].logo}}"
+                        alt="School logo"></div>
+                <table border="3px solid black" style="width:100%;height:420px;">
+                    <tr>
+                        <td style="padding:25px">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-xs-7">
+                                        <h3 style="font-size: 40px;">Payment Receipt</h3>
+                                    </div>
+                                    <div class="col-xs-5" style="float: right; margin-top: -80px;">
+                                        Date: <b>{{ExpensesCtrl.formFields.date| date:'dd-MM-yyyy'}}</b><br> Receipt Number:<b>E_0{{ExpensesCtrl.formFields.index}}</b></div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <p style="font-size:18px">&ensp; &ensp; &ensp; &ensp; Claimed by
+                                        <u><b>{{ExpensesCtrl.formFields.claimedBy}}</b></u> for
+                                        <u><b>{{ExpensesCtrl.formFields.description}}({{ExpensesCtrl.formFields.expenseType}})</b></u>
+                                        for the amount of Rs.
+                                        <u><b>{{ExpensesCtrl.formFields.amount}}/-</b></u>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-xs-6">
+                                        <table border="2px solid black" style="border-collapse: collapse;">
+                                            <tr>
+                                                <td>Cash</td>
+                                                <td style="width:20px"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cheque</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Money Order</td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-xs-6" style="margin-top:-30px">
+                                        <div style="float:right">Recived By : _______________<br><br> Issued By : _________________</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-default" ng-click="ExpensesCtrl.printExpense1()" value="Print">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="ExpensesCtrl.clearform();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-hide="true">
+    <table class="table table-striped table-hover table-bordered sm_expense_editable_grid" border="1px solid black"
+    id="exportTable">
+    <thead>
+        <tr>
+            <th>
+                Expense Type
+            </th>
+            <th>
+                Claimed By
+            </th>
+            <th>
+                Description
+            </th>
+            <th style="width:80px">
+                Expense Date
+            </th>
+            <th>
+                Voucher No
+            </th>
+            <th>
+                Payment Mode
+            </th>
+            <th>
+                Expense Amount
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="expense in ExpensesCtrl.expensesList">
+            <td>{{expense.expenseType}}</td>
+            <td>{{expense.claimedBy}}</td>
+            <td>{{expense.description}}</td>
+            <td>{{expense.date | date:'dd-MM-yyyy'}}</td>
+            <td>{{expense.voucherNo}}</td>
+            <td>{{expense.paymentMode}}</td>
+            <td>{{expense.amount}}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<!-- End of expense print  modal -->
+<!-- EDIT MODAL END-->
+<script>
+    (function () {
+        setTimeout(function () {
+            $('#date').datetimepicker({
+                format: 'DD-MM-YYYY',
+                // minDate: new Date()
+            });
+        }, 500);
+    })();
+
+</script>

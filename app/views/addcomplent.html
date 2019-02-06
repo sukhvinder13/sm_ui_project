@@ -1,0 +1,548 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+  <!-- BEGIN PAGE CONTENT -->
+  <div class="page-content">
+    <div class="container">
+      <!-- BEGIN PAGE BREADCRUMB -->
+      <ul class="page-breadcrumb breadcrumb">
+        <li>
+          <a ui-sref="home.console">Home</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          Suggestion
+        </li>
+      </ul>
+      <!-- END PAGE BREADCRUMB -->
+
+      <!-- BEGIN PAGE CONTENT INNER -->
+      <div class="page-content-inner">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit ">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="fa fa-bullhorn font-green"></i>
+                  <span class="caption-subject font-green bold uppercase">Suggestion</span>
+                </div>
+              </div>
+
+              <div class="portlet-body">
+                <div class="table-toolbar complentmobile">
+                    <!-- style="position: absolute;" -->
+                  <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-8 col-lg-12" style="z-index: 999;">
+                      <div class="btn-group addcomplaint1" ng-show="compleintCtrl.roleEdit">
+                        <button data-toggle="modal" data-target="#edit-Compleint2" data-ng-click="compleintCtrl.editmode = false;compleintCtrl.setFloatLabel(); compleintCtrl.setByDefault();compleintCtrl.clearfields();compleintCtrl.detailsMode=false;compleintCtrl.todayDate();"
+                          class="btn green">
+                          Add New Suggestion
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-4 col-lg-12" style="z-index: 999;">
+                      <div class="btn-group pull-right noticeb2">
+                        <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                          Tools
+                          <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                          <li>
+                            <a href="javascript:void(0)" data-ng-click="compleintCtrl.printData()">Print</a>
+                          </li>
+                          <li>
+                            <a href="javascript:;" data-ng-click="compleintCtrl.pdf(); compleintCtrl.showForPdf=false;"> Save as PDF </a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" data-ng-click="compleintCtrl.exportToExcel('#printData1')"> Export to Excel </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- table begins here -->
+                <div style="margin-top: -28px;">
+                    <div class="table-responsive" id="pdfController">
+                  <table class="table table-striped table-hover table-bordered sm_editable_grid" datatable="ng" border="1px solid black" id="printData">
+                    <thead>
+                      <tr>
+                        <th ng-hide="true">SRNO</th>
+                        <!-- <th ng-hide="userRole=='Staff'" style="width:200px;">Name</th>
+                        <th ng-show="userRole=='Staff'" style="width:200px;">Name</th> -->
+                        <th style="width:200px;">Name</th>
+                        <th>Created By</th>
+                        <th ng-hide="userRole=='Staff'">Class</th>
+                        <th class="text-center">Mobile</th>
+                        <th class="text-center" style="width:100px;">Suggestion Type</th>
+                        <th class="text-center">Date</th>
+                        <!-- <th class="text-center">Description</th> -->
+                        <th class="text-center">
+                          Status
+                        </th>
+                        <!-- <th>More details</th> -->
+                        <th class="text-center" ng-show="compleintCtrl.roleEdit" ng-click="compleintCtrl.setByDefault();">
+                          <i class="fa fa-edit"></i>
+                        </th>
+                        <th class="text-center" ng-show="compleintCtrl.roledelete">
+                          <i class="fa fa-times-circle-o"></i>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="list in compleintCtrl.compleintList|orderBy:'docomp':true">
+                        <td ng-hide="true">{{$index+1}}</td>
+                        <!-- <td ng-hide="userRole=='Staff'" ng-init="compleintCtrl.getUserName(list)">
+                          <a class="" href="javascript:void(0);" data-ng-click="compleintCtrl.detailsMode1(list);compleintCtrl.detailsMode=true;">
+                            {{list.Name}}</a>
+                        </td> -->
+                        <td ng-init="compleintCtrl.getStaffUserName(list)">
+                          <a class="" href="javascript:void(0);" data-ng-click="compleintCtrl.detailsMode1(list);compleintCtrl.detailsMode=true;">
+                            {{list.Name}}</a>
+                        </td>
+                        <td>{{list.createdBy}}</td>
+                        <td class="text-center" ng-hide="userRole=='Staff'" ng-init="compleintCtrl.getUserName(list)">
+                          {{list.class.className}}{{list.class.sectionName ? list.class.sectionName : ""}}
+                        </td>
+                        <td class="text-center">{{list.mobile}}</td>
+                        <td class="text-center">{{list.completetype}}</td>
+                        <td class="text-center">{{list.docomp | date:'dd-MM-yyyy'}}</td>
+                        <!-- <td class="text-center">{{list.description}}</td> -->
+                        <td class="text-center">
+                          {{list.status}}
+                        </td>
+                        <!-- <td class="text-center">
+                          <a class="" href="javascript:void(0);" data-ng-click="compleintCtrl.detailsMode1(list);compleintCtrl.detailsMode=true;">
+                            <i class="fa fa-file-text-o"></i>
+                          </a>
+                        </td> -->
+                        <td class="text-center" ng-show="compleintCtrl.roleEdit">
+                          <a class="" href="javascript:void(0);" data-ng-click="compleintCtrl.editcompleintlist(list.id);compleintCtrl.todayDate1();">
+                            <i class="fa fa-edit"></i>
+                          </a>
+                        </td>
+                        <td class="text-center" ng-show="compleintCtrl.roledelete">
+                          <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="compleintCtrl.confirmCallbackMethod(list.id)"
+                            ng-bootbox-confirm-action-cancel="compleintCtrl.confirmCallbackCancel($index)">
+                            <i class="fa fa-remove"></i>
+                          </a>
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+                <!-- Table ends here   -->
+                <!-- Print table starts here -->
+                <!-- table begins here -->
+                <div style="margin-top: -28px;" ng-hide="compleintCtrl.showForPdf">
+                    <div class="table-responsive">
+                  <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printData1">
+                    <thead>
+                      <tr>
+                        <th ng-hide="true">SRNO</th>
+                        <th ng-hide="userRole=='Staff'" style="width:200px;">Name</th>
+                        <th ng-show="userRole=='Staff'" style="width:200px;">Name</th>
+                        <th>Created By</th>
+                        <th ng-hide="userRole=='Staff'">Class</th>
+                        <th class="text-center">Mobile</th>
+                        <th class="text-center" style="width:100px;">Complaint Type</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Status</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="list in compleintCtrl.compleintList|orderBy:'docomp':true">
+                        {{list.classId}}
+                        <td ng-hide="true">{{$index+1}}</td>
+                        <td ng-hide="userRole=='Staff'" ng-init="compleintCtrl.getUserName(list)">
+                          <a class="" href="javascript:void(0);" data-ng-click="compleintCtrl.detailsMode1(list);compleintCtrl.detailsMode=true;">
+                            {{list.Name}}</a>
+                        </td>
+                        <td ng-show="userRole=='Staff'" ng-init="compleintCtrl.getStaffUserName(list)">
+                          <a class="" href="javascript:void(0);" data-ng-click="compleintCtrl.detailsMode1(list);compleintCtrl.detailsMode=true;">
+                            {{list.Name}}</a>
+                        </td>
+                        <td>{{list.createdBy}}</td>
+                        <td class="text-center" ng-hide="userRole=='Staff'" >
+                          <!-- <span ng-show="UserId=='Parent'">Parent</span>
+                          <span ng-show="list.classId === ''">Staff</span> -->
+                          <span ng-hide="list.classId === ''">{{list.class.className}} {{list.class.sectionName}}</span>
+                        </td>
+                        <td class="text-center">{{list.mobile}}</td>
+                        <td class="text-center">{{list.completetype}}</td>
+                        <td class="text-center">{{list.docomp | date:'dd-MM-yyyy'}}</td>
+                        <!-- <td class="text-center">{{list.description}}</td> -->
+                        <td class="text-center">
+                          {{list.status}}
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+                <!-- Table ends here   -->
+                <!-- Ends here -->
+              </div>
+            </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+  </div>
+</div>
+<!-- END PAGE CONTENT INNER -->
+</div>
+</div>
+<!-- edit model1 Begins -->
+<div id="edit-Compleint" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="compleintCtrl.closeModal();compleintCtrl.detailsMode=false;compleintCtrl.clearfields();">
+          <span class="icon-close"></span>
+        </a>
+        <h4 class="modal-title font-green">Edit Suggestion</h4>
+      </div>
+      <div class="modal-body form">
+        <div class="form-container" data-ng-if="!compleintCtrl.detailsMode">
+          <form name="editcomplaint" novalidate role="form" data-ng-submit="compleintCtrl.complaintlist(editcomplaint.$invalid);compleintCtrl.detailsMode=false;">
+
+            <div class="row">
+              <div class="col-md-4" ng-hide="compleintCtrl.hideClass ==''">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Class
+                    <span style="color:red">*</span>
+                  </label>
+                  <select class="form-control" data-ng-model="compleintCtrl.classId" ng-change="compleintCtrl.studentDetails(compleintCtrl.classId);"
+                    style="margin-top: -7px;" disabled>
+                    <option value=""></option>
+                    <option ng-repeat="x in  compleintCtrl.classList" value="{{x.id}}">{{x.className}} {{x.sectionName}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input">
+                  <label for="form_control_1">Name
+                    <span style="color:red">*</span>
+                  </label>
+                  <select class="form-control" data-ng-model="compleintCtrl.studentId" style="margin-top: -7px;" disabled>
+                    <option value="">select name</option>
+                    <option ng-repeat="x in  compleintCtrl.studentData" value="{{x.id}}">{{x.firstName}} {{x.lastName}}</option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Mobile
+                    <span style="color:red">*</span>
+                  </label>
+                  <input type="text" allow-date class="form-control input-sm calendarctrl" data-ng-model="compleintCtrl.mobile" maxlength="10"
+                    readonly/>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Date of Complaint</label>
+                  <input type="date" class="form-control input-sm" name="dateofcomp" data-ng-model="compleintCtrl.docomp" readonly/>
+
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top:-7px">
+                  <label for="form_control_1">Complaint type</label>
+                  <select class="form-control" ng-model="compleintCtrl.compty" disabled>
+                    <option value=""> Select</option>
+                    <option value="General">General</option>
+                    <option value="Fee">Fee</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Staff">Staff</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Facilities">Facilities</option>
+                    <option value="Library">Library</option>
+                    <option value="Managment">Managment</option>
+                    <option value="Hostel">Hostel</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Description</label>
+                  <textarea class="form-control input-sm" name="description" data-ng-model="compleintCtrl.description" readonly></textarea>
+
+                </div>
+              </div>
+            </div>
+            <div class="row" ng-show="userRole=='Admin'">
+              <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Date Updated</label>
+                  <input type="date" class="form-control input-sm" name="dateUpdated" data-ng-model="compleintCtrl.updatedDate" />
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top:-7px">
+                  <label for="form_control_1">Status</label>
+                  <select class="form-control" ng-model="compleintCtrl.status" ng-change="compleintCtrl.statusFun(compleintCtrl.status)" required>
+                    <option value="">Select Status</option>
+                    <option value="New">New</option>
+                    <option value="Open">Open</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Closed">Closed</option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Action</label>
+                  <input type="text" class="form-control input-sm" name="action" data-ng-model="compleintCtrl.action" ng-required="compleintCtrl.status1"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="pull-right" style="/*margin-left: 400px;*/margin-top:-4%;">
+              <!-- <button type="reset" class="btn default">Reset</button> -->
+              <button type="submit" class="btn green" data-ng-disabled="editcomplaint.$invalid">
+                <i class="fa fa-check"></i> Submit</button>
+            </div>
+            <div class="heigh-30"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+</div>
+<!-- Modal Edit complaint Ends here -->
+<!-- Modal add Complaint  begins -->
+<div id="edit-Compleint2" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="compleintCtrl.closeModal1();compleintCtrl.detailsMode=false;compleintCtrl.clearfields();">
+          <span class="icon-close"></span>
+        </a>
+        <h4 ng-show="!compleintCtrl.detailsMode" class="modal-title font-green">Add New Suggestion </h4>
+        <h4 ng-show="compleintCtrl.detailsMode" class="modal-title font-green">More Details</h4>
+      </div>
+      <div class="modal-body form">
+        <div class="form-container" data-ng-show="!compleintCtrl.detailsMode">
+          <form name="addcomplent" novalidate role="form" data-ng-submit="compleintCtrl.CompleintAction();compleintCtrl.detailsMode=false;">
+            <div class="row">
+              <div class="col-md-4" ng-hide="userRole=='Staff'">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Class
+                    <span style="color:red">*</span>
+                  </label>
+                  <select class="form-control" data-ng-model="compleintCtrl.classId" ng-show="userRole=='Admin'" ng-change="compleintCtrl.studentDetails(compleintCtrl.classId);"
+                    style="margin-top: -7px;">
+                  <option value="">Select Class</option>
+                     <option ng-repeat="x in  compleintCtrl.classList" value="{{x.id}}">{{x.className}} {{x.sectionName}}</option> 
+                  </select>
+
+                  <select class="form-control" data-ng-model="compleintCtrl.classId" ng-show="userRole =='Student'" ng-options="(x.className+''+x.sectionName) for x in compleintCtrl.classList track by $index"
+                    ng-change="compleintCtrl.studentDetails(compleintCtrl.classId);" style="margin-top: -7px;">
+                  <option value="">Select Class</option>
+                     <!--<option ng-repeat="x in  compleintCtrl.classList" value="{{x.id}}">{{x.className}} {{x.sectionName}}</option> -->
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input">
+                  <label for="form_control_1">Name
+                    <span style="color:red">*</span>
+                  </label>
+                  <select class="form-control" data-ng-model="compleintCtrl.studentId" ng-show="userRole=='Admin'" style="margin-top: -7px;">
+                    <option value="">Select Name</option>
+                     <option ng-repeat="x in  compleintCtrl.studentData" value="{{x.id}}">{{x.firstName}} {{x.lastName}}</option> 
+                  </select>
+
+                  <select class="form-control" data-ng-model="compleintCtrl.studentId" ng-show="userRole =='Student'" ng-options="(x.firstName+''+x.lastName) for x in compleintCtrl.studentData track by $index"
+                    style="margin-top: -7px;">
+                    <option value="">Select Name</option>
+                     <!--<option ng-repeat="x in  compleintCtrl.studentData" value="{{x.id}}">{{x.firstName}} {{x.lastName}}</option> -->
+                  </select>
+                   <select class="form-control" data-ng-model="compleintCtrl.studentId" ng-show="userRole =='Staff'" ng-options="(x.firstName+''+x.lastName) for x in compleintCtrl.studentData track by $index"
+                    style="margin-top: -7px;">
+                    <option value="">Select Name</option>
+                     <!--<option ng-repeat="x in  compleintCtrl.studentData" value="{{x.id}}">{{x.firstName}} {{x.lastName}}</option> -->
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Mobile
+                    <span style="color:red">*</span>
+                  </label>
+                  <input type="text" allow-date class="form-control input-sm calendarctrl" data-ng-model="compleintCtrl.mobile" maxlength="10"
+                    ng-keyup="compleintCtrl.checkContact(compleintCtrl.mobile)" required />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Date of Suggestion</label>
+                  <input type="date" id="txtDate" class="form-control input-sm" name="dateofcom" data-ng-model="compleintCtrl.docomp" />
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top: -7px;">
+                  <label for="form_control_1">Suggestion type
+                    <span style="color:red">*</span>
+                  </label>
+                  <select class="form-control" ng-model="compleintCtrl.compty" required>
+                    <option value="">Select Suggestion Type</option>
+                    <option value="General">General</option>
+                    <option value="Fee">Fee</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Staff">Staff</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Facilities">Facilities</option>
+                    <option value="Library">Library</option>
+                    <option value="Managment">Managment</option>
+                    <option value="Hostel">Hostel</option>
+                  </select>
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Descrption</label>
+                  <textarea class="form-control input-sm" name="description" data-ng-model="compleintCtrl.description" style="resize:none"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row" ng-show="userRole=='Admin'">
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Date Updated</label>
+                  <input type="date" class="form-control input-sm" name="dateUpdated" data-ng-model="compleintCtrl.updatedDate" />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top:-7px">
+                  <label for="form_control_1">Status</label>
+                  <select class="form-control" ng-model="compleintCtrl.status" ng-change="compleintCtrl.statusFun(compleintCtrl.status)">
+                    <option value="">Select Status</option>
+                    <option value="New">New</option>
+                    <option value="Open">Open</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Closed">Closed</option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">Action</label>
+                  <input type="text" class="form-control input-sm" name="action" data-ng-model="compleintCtrl.action" ng-required="compleintCtrl.status1"
+                  />
+                </div>
+              </div>
+            </div>
+
+
+            <div class="pull-right" style="/*margin-left: 400px;*/margin-top:-4%;">
+              <!-- <button type="reset" class="btn default"ng-hide="true">Reset</button> -->
+              <button type="submit" class="btn green" data-ng-disabled="addcomplent.$invalid">
+                <i class="fa fa-check"></i> Submit</button>
+            </div>
+            <div class="heigh-30">
+
+            </div>
+          </form>
+        </div>
+
+
+        <div class="form-container" data-ng-show="compleintCtrl.detailsMode">
+          <div class="row static-info">
+            <div class="col-md-4 name"  ng-if="compleintCtrl.complainListShow[0].classId">
+              Class:{{compleintCtrl.complainListShow[0].class.className}} {{compleintCtrl.complainListShow[0].class.sectionName}}
+            </div>
+
+            <div class="col-md-8 name">
+              Name:{{compleintCtrl.listName}}
+              <!-- Name:{{compleintCtrl.complainListShow.firstName}} -->
+              <!-- Name:{{compleintCtrl.complainListShow[0].student.firstName}} {{compleintCtrl.complainListShow[0].student.lastName}}
+              <td ng-hide="userRole=='Staff'" class="text-center" ng-init="compleintCtrl.getUserName(list)">{{list.Name}}</td> -->
+              <!-- {{list.Name}} -->
+            </div>
+
+
+          </div>
+          <div class="row static-info">
+            <div class="col-md-4 name">
+              Mobile: {{compleintCtrl.complainListShow[0].mobile}}
+            </div>
+            <div class="col-md-4 name">
+              Date:{{compleintCtrl.complainListShow[0].docomp| date:'dd-MM-yyyy'}}
+            </div>
+
+            <div class="col-md-4 name">
+              Complaint Type:{{compleintCtrl.complainListShow[0].completetype}}
+            </div>
+            <div class="col-md-4 name">
+            </div>
+          </div>
+          <div class="row static-info">
+            <div class="col-md-12 name">
+              Description: {{compleintCtrl.complainListShow[0].description}}
+            </div>
+          </div>
+          <div class="row static-info">
+            <div class="col-md-4 name">
+              Date Updated:{{compleintCtrl.complainListShow[0].updatedDate| date:'dd-MM-yyyy'}}
+            </div>
+
+            <div class="col-md-4 name">
+              Status:{{compleintCtrl.complainListShow[0].status}}
+            </div>
+            <div class="col-md-4 name">
+              Action: {{compleintCtrl.complainListShow[0].action}}
+            </div>
+          </div>
+          <div class="heigh-30">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+    @media screen and (min-width:700px) {
+      .complentmobile{
+        position: relative;
+        /* margin-left: 2px; */
+      }
+    }
+    @media screen and (min-width:1000px) {
+      .complentmobile{
+        position: absolute;
+      }
+    }
+    
+  </style>

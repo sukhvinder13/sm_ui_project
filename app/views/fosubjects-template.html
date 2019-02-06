@@ -1,0 +1,346 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Fo Subjects
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-book font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase" ng-show="userRole !== 'Student'">SUBJECTS</span>
+                                    <span class="caption-subject font-green bold uppercase" ng-show="userRole == 'Student'">MY SUBJECTS</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row ">
+                                        <div class="col-md-4" style="position: absolute;z-index: 999;margin-left: 162px;margin-top:-15px;">
+
+                                            <div class="btn-group pull-right" style="margin-right:-320px;" ng-show="FosubjectsCtrl.roleEdit">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="3">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="FosubjectsCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;" data-ng-click="FosubjectsCtrl.exportToPDF('#printTable');FosubjectsCtrl.showForPdf=false;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="FosubjectsCtrl.exportToExcel('#fosubjectsprintTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="btn-group pull-right " style="margin-right:-243px;" ng-show="FosubjectsCtrl.roleEdit">
+                                                <button class="btn green" tabindex="2" data-toggle="modal" data-target="#edit-fosubject" data-ng-click="FosubjectsCtrl.editmode = false;FosubjectsCtrl.classSelect();">
+                                                    Add New Subject
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <select data-ng-model="FosubjectsCtrl.classId" data-ng-change="FosubjectsCtrl.chooseClass(FosubjectsCtrl.classId);FosubjectsCtrl.viewTable(FosubjectsCtrl.classId)"
+                                                    name="classId" class="form-control input-sm" tabindex="1" style="margin-left:;height:34px;width: 136px;">
+
+                                                <option value="">CLASS</option>
+                                                <option ng-if="userRole !=='Staff'"ng-repeat="class in FosubjectsCtrl.classData" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                                                <option ng-if="userRole =='Staff'" ng-repeat="class in FosubjectsCtrl.classData" value="{{class.classId}}">{{class.class.className}}-{{class.class.sectionName}}</option>
+                                              
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-12 col-sm-12" id="showTable" style="display:none;">
+                                        <div id="tableToExport" style="margin-top: -41px;">
+                                            <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable" datatable="ng">
+                                                <thead>
+                                                    <tr>
+                                                        <th ng-hide='true'>Sr NO</th>
+                                                        <th>
+                                                            Subject Name 
+                                                        </th>
+                                                        <th ng-hide="userRole=='Student'">
+                                                            Class Name
+                                                        </th>
+                                                        <th>
+                                                            Subject Teacher
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Enable Exam
+                                                        </th>
+                                                        <th class="text-center" ng-show="FosubjectsCtrl.roleEdit">
+                                                            Edit
+                                                        </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr data-ng-repeat="subject in FosubjectsCtrl.fosubjectData|filter:FosubjectsCtrl.classId">
+                                                        <td ng-hide='true'>{{$index+1}}</td>
+                                                        <td><a href="" data-ng-click="FosubjectsCtrl.routeToLsnPlnr(subject.id)" class="ng-binding">{{subject.subjectName}}</a></td>
+                                                        <td ng-hide="userRole=='Student'">{{subject.class.className}}-{{subject.class.sectionName}}</td>
+                                                        <td>{{subject.staff.firstName}} {{subject.staff.lastName}}</td>
+                                                        <td ng-if="subject.examFlag">Yes</td>
+                                                        <td ng-if="!subject.examFlag">No</td>
+                                                        <td class="text-center" ng-show="FosubjectsCtrl.roleEdit">
+                                                            <a class="" href="javascript:void(0);" data-ng-click="FosubjectsCtrl.editFoSubject($index)">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                        <!--<td class="text-center" ng-show="userRole == 'Admin'">
+                                                            <a class="" href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="FosubjectsCtrl.confirmCallbackMethod($index)"
+                                                                ng-bootbox-confirm-action-cancel="FosubjectsCtrl.confirmCallbackCancel($index)">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                        </td>-->
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- print data -->
+<div ng-hide="FosubjectsCtrl.showForPdf">
+    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="fosubjectsprintTable"
+        >
+        <thead>
+            <tr>
+                <th>
+                    Subject Name 
+                </th>
+                <th ng-hide="userRole=='Student'">
+                    Class Name
+                </th>
+                <th>
+                    Subject Teacher
+                </th>
+                <th class="text-center">
+                    Enable Exam
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr data-ng-repeat="subject in FosubjectsCtrl.fosubjectData|filter:FosubjectsCtrl.classId">
+                <td><a href="" data-ng-click="FosubjectsCtrl.MoreDetails(subject.id)" class="ng-binding">{{subject.subjectName}}</a></td>
+                <td ng-hide="userRole=='Student'">{{subject.class.className}}-{{subject.class.sectionName}}</td>
+                <td>{{subject.staff.firstName}} {{subject.staff.lastName}}</td>
+                <td ng-if="subject.examFlag">Yes</td>
+                <td ng-if="!subject.examFlag">No</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- ends here -->
+<!-- EDIT MODAL -->
+<div id="edit-fosubject" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="FosubjectsCtrl.closeModal()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">Subjects</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container">
+                    <form name="subjectform" novalidate role="form" data-ng-submit="FosubjectsCtrl.CreateOrUpdate(subjectform.$invalid)">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info" >
+                            <label for="form_control_1">Subject Name</label>
+                            <input type="text" class="form-control input-sm" name="subjectname" data-ng-model="FosubjectsCtrl.formFields.subjectName"
+                                maxlength="50" required />
+
+                            <!-- <span data-ng-show="FosubjectsCtrl.editmode"> : {{FosubjectsCtrl.formFields.subjectName}}</span> -->
+                        </div>
+                        <div class="form-group form-md-floating-label has-info" data-ng-class="{'form-md-line-input': !FosubjectsCtrl.editmode}">
+                            <select class="form-control input-sm" name="classname" data-ng-hide="FosubjectsCtrl.editmode" data-ng-model="FosubjectsCtrl.formFields.classId"
+                                maxlength="50" required>
+                                <option value="">Class Name</option>
+                                <option data-ng-repeat="subject in FosubjectsCtrl.classData" value="{{subject.id}}">{{subject.className}} - {{subject.sectionName}}</option>
+                                </select>
+                            <label for="form_control_1" data-ng-show="FosubjectsCtrl.editmode">Class Name</label><span data-ng-show="FosubjectsCtrl.editmode"> : {{FosubjectsCtrl.viewValue.class.className}}--{{FosubjectsCtrl.viewValue.class.sectionName}}</span>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <select data-ng-model="FosubjectsCtrl.formFields.staffName" name="teachername" class="form-control input-sm" required>
+                                <option value="">Select Subject Teacher</option>
+                                <option ng-repeat="staff in FosubjectsCtrl.staffData" value="{{staff.id}}">{{staff.firstName}} {{staff.lastName}}</option>
+                            </select>
+
+                        </div>
+
+                        <div class="form-group form-md-line-input form-md-floating-label has-info ">
+
+                                <div class="form-group form-md-line-input form-md-floating-label has-info static-info">
+                                        <div class="row">
+                                        <div class="col-sm-4 col-md-4 col-lg-4"><label>Exam enable/disable: </label></div>
+                                        <div class="col-md-4 col-md-4 col-lg-4">
+                                        <div class="bs-switch">
+                                            <input type="checkbox" data-ng-init="FosubjectsCtrl.formFields.examFlag = false" ng-model="FosubjectsCtrl.formFields.examFlag" name="bs-switch" class="bs-switch-checkbox" id="mySwitch" checked="">
+                                            <label class="bs-switch-label" for="mySwitch">
+                                                <div class="bs-switch-inner"></div>
+                                                <div class="bs-switch-switch"></div>
+                                            </label>
+                                        </div>
+                                    </div>  
+                                </div>
+                                    </div>
+                            <div class="modal-footer">
+                                <button type="reset" class="btn default" ng-hide="FosubjectsCtrl.editmode">Reset</button>
+                                <button type="submit" class="btn green"  ng-disabled="!first"><i class="fa fa-check"></i> Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EDIT MODAL END-->
+
+
+<style>
+    .form-group {
+        clear: both;
+    }
+</style>
+<style>
+        .bs-switch {
+     position: relative;
+     width: 50px;
+     -webkit-user-select: none;
+     -moz-user-select: none;
+     -ms-user-select: none
+     }
+    .bs-switch .bs-switch-checkbox {
+     display: none
+     }
+    .bs-switch .bs-switch-label {
+     position: relative;
+     display: block;
+     overflow: hidden;
+     border: 2px solid #e4e4e4;
+     border-radius: 20px;
+     cursor: pointer
+     }
+    .bs-switch .bs-switch-inner {
+     margin-left: -100%;
+     width: 200%;
+     -webkit-transition-delay: 0s;
+     -moz-transition-delay: 0s;
+     -o-transition-delay: 0s;
+     transition-delay: 0s;
+     -webkit-transition-timing-function: ease-in;
+     -moz-transition-timing-function: ease-in;
+     -o-transition-timing-function: ease-in;
+     transition-timing-function: ease-in;
+     -webkit-transition-duration: 0.3s;
+     -moz-transition-duration: 0.3s;
+     -o-transition-duration: 0.3s;
+     transition-duration: 0.3s;
+     -webkit-transition-property: margin;
+     -moz-transition-property: margin;
+     -o-transition-property: margin;
+     transition-property: margin
+     }
+    .bs-switch .bs-switch-inner:before, 
+    .bs-switch .bs-switch-inner:after {
+     float: left;
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+     padding: 0;
+     width: 50%;
+     height: 18px;
+     color: #fff;
+     font-size: 10px;
+     line-height: 1.8
+     }
+    .bs-switch .bs-switch-inner:before {
+     padding-left: 6px;
+     -webkit-border-radius: 20px;
+     -moz-border-radius: 20px;
+     border-radius: 20px;
+     background-color: #53d76a;
+     color: #fff;
+     content: "YES";
+     -ms-border-radius: 20px;
+     -o-border-radius: 20px
+     }
+    .bs-switch .bs-switch-inner:after {
+     padding-right: 6px;
+     background-color: #eee;
+     color: #999;
+     content: "NO";
+     text-align: right
+     }
+    .bs-switch .bs-switch-switch {
+     position: absolute;
+     top: 0;
+     right: 28px;
+     bottom: 0;
+     margin: 2px;
+     width: 15px;
+     border: 2px solid #e4e4e4;
+     -webkit-border-radius: 15px;
+     -moz-border-radius: 15px;
+     border-radius: 15px;
+     background: #fff;
+     -webkit-transition-delay: 0s;
+     -moz-transition-delay: 0s;
+     -o-transition-delay: 0s;
+     transition-delay: 0s;
+     -webkit-transition-timing-function: ease-in;
+     -moz-transition-timing-function: ease-in;
+     -o-transition-timing-function: ease-in;
+     transition-timing-function: ease-in;
+     -webkit-transition-duration: 0.3s;
+     -moz-transition-duration: 0.3s;
+     -o-transition-duration: 0.3s;
+     transition-duration: 0.3s;
+     -webkit-transition-property: all;
+     -moz-transition-property: all;
+     -o-transition-property: all;
+     transition-property: all;
+     -ms-border-radius: 15px;
+     -o-border-radius: 15px
+     }
+    .bs-switch.bs-switch-blank .bs-switch-inner:before, 
+    .bs-switch.bs-switch-blank .bs-switch-inner:after { content: "" }
+    .bs-switch-checkbox:checked + .bs-switch-label .bs-switch-inner {
+     margin-left: 0
+     }
+    .bs-switch-checkbox:checked + .bs-switch-label .bs-switch-switch {
+     right: 0
+     }
+    </style>

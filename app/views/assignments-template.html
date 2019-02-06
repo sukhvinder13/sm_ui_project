@@ -1,0 +1,761 @@
+<!--BEGIN PAGE CONTAINER -->
+<div class="page-container">
+  <!-- BEGIN PAGE CONTENT -->
+  <div class="page-content">
+    <div class="container">
+      <!-- BEGIN PAGE BREADCRUMB -->
+      <ul class="page-breadcrumb breadcrumb">
+        <li>
+          <a ui-sref="home.console">Home</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          Assignments
+        </li>
+      </ul>
+      <!-- END PAGE BREADCRUMB -->
+      <!-- BEGIN PAGE CONTENT INNER -->
+      <div class="page-content-inner">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit ">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="fa fa-file-text font-green"></i>
+                  <span class="caption-subject font-green bold uppercase">ASSIGNMENT</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="table-toolbar">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <div class="form-group form-md-line-input form-md-floating-label has-info">
+                        <select data-ng-model="AssignmentsCtrl.classId" name="classId" class="form-control input-sm" id="assignment1" tabindex="1"
+                          ng-change="AssignmentsCtrl.chooseClass(AssignmentsCtrl.classId);AssignmentsCtrl.sub(AssignmentsCtrl.formFields.classId);">
+                          <!-- <select data-ng-model="AssignmentsCtrl.classId" data-ng-change="AssignmentsCtrl.chooseClass(AssignmentsCtrl.classId)" name="classId"
+                                                class="form-control input-sm"> -->
+                          <option value="">CLASS</option>
+                          <!-- <option ng-repeat="class in AssignmentsCtrl.classList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option> -->
+                          <option ng-if="userRole =='Admin'||userRole =='Accountant' ||userRole =='Student'" ng-repeat="class in AssignmentsCtrl.classList | orderBy:'sequenceNumber'"
+                            value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                          <option ng-if="userRole =='Staff'" ng-repeat="class in AssignmentsCtrl.classesList | orderBy:'class.sequenceNumber'" value="{{class.class.id}}">{{class.class.className}}-{{class.class.sectionName}}</option>
+                        </select>
+
+
+                      </div>
+                    </div>
+
+                    <div class="col-md-4" id="fromDate">
+                      <!-- <input type="date" class="form-control input-sm calendarctrl" id="fromDate" name="fromDate" tabindex="2" data-ng-model="AssignmentsCtrl.fromDate"
+                                                ng-change="AssignmentsCtrl.chooseClass(AssignmentsCtrl.classId,AssignmentsCtrl.fromDate)"
+                                                required /> -->
+                      <div id="calendar" style="display: none;">
+                        <span class="glyphicon" ng-click="AssignmentsCtrl.lastWeek(AssignmentsCtrl.firstday,AssignmentsCtrl.lastday,AssignmentsCtrl.classId);"
+                          style="position: absolute;margin-left: -20px;width: 20px;">&#xe079;</span>{{AssignmentsCtrl.firstday|date:'dd-mm-yyyy'}}
+                        to {{AssignmentsCtrl.lastday|date:'dd-mm-yyyy'}}
+                        <span class="glyphicon" ng-click=AssignmentsCtrl.nextWeek(AssignmentsCtrl.lastday,AssignmentsCtrl.firstday,AssignmentsCtrl.classId);
+                          style="position: absolute;margin-left:10px;width: 20px;">&#xe080;</span>
+                      </div>
+                      <!-- </div>
+                                        <div class="col-md-2"> -->
+
+                      <!--  {{AssignmentsCtrl.firstday}} to {{AssignmentsCtrl.lastday}} -->
+                      <!--  <button type="submit" class="btn green" ng-click="AssignmentsCtrl.chooseClass(AssignmentsCtrl.classId,AssignmentsCtrl.fromDate)">
+                                         Show</button> -->
+                    </div>
+                    <div class="col-md-6" ng-show="AssignmentsCtrl.roleEdit">
+                      <div class="btn-group pull-right">
+                        <button class="btn green btn-outline dropdown-toggle" tabindex="12" data-toggle="dropdown" aria-expanded="false">
+                          Tools
+                          <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                          <li>
+                            <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.printData()">Print</a>
+                          </li>
+                          <li>
+                            <a href="javascript:;" data-ng-click="AssignmentsCtrl.pdf()"> Save as PDF </a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0);" data-ng-click="AssignmentsCtrl.exportToExcel('#tableToExportfromHere')"> Export to Excel </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="btn-group pull-right" id="assignment2">
+                        <button data-toggle="modal" data-target="#edit-assignments" tabindex="3" data-ng-click="AssignmentsCtrl.editmode = false;AssignmentsCtrl.setFloatLabel();AssignmentsCtrl.detailsMode = false;AssignmentsCtrl.assignClass();"
+                          ng-show="AssignmentsCtrl.roleEdit" class="btn green">
+                          Add New Assignment
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+
+                  <div class="col-md-12 col-sm-12" style="margin-top:-45px;">
+                    <div id="tableToExport">
+                      <table class="table table-striped table-hover table-bordered sm_editable_grid " border="1px solid black" id="currentWeek">
+                        <thead>
+
+                          <tr>
+                            <th>
+                              Class
+                            </th>
+
+                            <th>
+                              Subject
+                            </th>
+                            <th>
+                              Assignment
+                            </th>
+                            <th>
+                              Description
+                            </th>
+                            <th>
+                              Assignment Date
+                            </th>
+                            <th>
+                              Due Date
+                            </th>
+                            <!-- <th class="text-center">
+                              More Details
+                            </th> -->
+                            <th class="text-center" ng-show="AssignmentsCtrl.roleEdit">
+                              Edit
+                            </th>
+                            <th class="text-center" ng-show="AssignmentsCtrl.roledelete">
+                              Delete
+                            </th>
+                          </tr>
+                          <tr>
+                            <th colspan="{{AssignmentsCtrl.colspan}}" style="text-align:center" id="pdfColspanToday">Today Due</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr data-ng-repeat="assignment in AssignmentsCtrl.assignmentList">
+                            <td ng-init="AssignmentsCtrl.getsubject(assignment);">
+                              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assignment.id);">
+                                {{assignment.class.className}} - {{assignment.class.sectionName}}</a>
+                            </td>
+                            <td>{{assignment.subject.subjectName}}</td>
+                            <td>{{assignment.title| cut:true:10:' ...'}}</td>
+                            <td>{{assignment.description| cut:true:20:' ...'}}</td>
+                            <td>{{assignment.fromDate | date:'dd-MM-yyyy'}}</td>
+                            <td>{{assignment.toDate | date:'dd-MM-yyyy'}}</td>
+                            <!--  <td class="text-center">
+                              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assignment.id);">
+                                <i class="fa fa-file-text-o"></i>
+                              </a>
+                            </td> -->
+                            <td class="text-center" ng-show="AssignmentsCtrl.roleEdit">
+                              <a href="javascript:void(0);" data-ng-click="AssignmentsCtrl.editAssignment($index,'today')">
+                                <i class="fa fa-edit"></i>
+                              </a>
+                            </td>
+                            <td class="text-center" ng-show="AssignmentsCtrl.roledelete">
+                              <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="AssignmentsCtrl.confirmCallbackMethod(assignment.id)"
+                                ng-bootbox-confirm-action-cancel="AssignmentsCtrl.confirmCallbackCancel()">
+                                <i class="fa fa-remove"></i>
+                              </a>
+                            </td>
+                          </tr>
+                          <!-- <tr><td>
+                            <button ng-click="AssignmentsCtrl.test();">test</button>
+                          </td></tr> -->
+                        <!-- </tbody>
+
+                        <thead> -->
+                          <tr>
+                            <th colspan="{{AssignmentsCtrl.colspan}}" style="text-align: center">Tomorrow Due</th>
+                          </tr>
+
+                        <!-- </thead>
+                        <tbody> -->
+                          <tr data-ng-repeat="assignment in AssignmentsCtrl.assignmentList1">
+                            <td ng-init="AssignmentsCtrl.getsubject(assignment);">
+                              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assignment.id);">
+                                {{assignment.class.className}} - {{assignment.class.sectionName}}</a>
+                            </td>
+                            <td>{{assignment.subject.subjectName}}</td>
+                            <td>{{assignment.title| cut:true:10:' ...'}}</td>
+                            <td>{{assignment.description| cut:true:20:' ...'}}</td>
+                            <td>{{assignment.fromDate | date:'dd-MM-yyyy'}}</td>
+                            <td>{{assignment.toDate | date:'dd-MM-yyyy'}}</td>
+                            <!-- <td class="text-center">
+                              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assignment.id);">
+                                <i class="fa fa-file-text-o"></i>
+                              </a>
+                            </td> -->
+                            <td class="text-center" ng-show="AssignmentsCtrl.roleEdit">
+                              <a href="javascript:void(0);" data-ng-click="AssignmentsCtrl.editAssignment($index,'tomorrow')">
+                                <i class="fa fa-edit"></i>
+                              </a>
+                            </td>
+                            <td class="text-center" ng-show="AssignmentsCtrl.roledelete">
+                              <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="AssignmentsCtrl.confirmCallbackMethod(assignment.id)"
+                                ng-bootbox-confirm-action-cancel="AssignmentsCtrl.confirmCallbackCancel()">
+                                <i class="fa fa-remove"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        <!-- </tbody>
+                        <thead> -->
+                          <tr>
+                            <th colspan="{{AssignmentsCtrl.colspan}}" style="text-align:center">This Week Due</th>
+                          </tr>
+                        <!-- </thead>
+                        <tbody data-ng-repeat="assignment in AssignmentsCtrl.thisweekDates"> -->
+                          <tr data-ng-repeat="assign in AssignmentsCtrl.thisweekDates">
+                            <td ng-init="AssignmentsCtrl.getsubject(assign);">
+                              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assign.id);">{{assign.class.className}} - {{assign.class.sectionName}}</a>
+                            </td>
+                            <td>{{assign.subject.subjectName}}</td>
+                            <td>{{assign.title| cut:true:10:' ...'}}</td>
+                            <td>{{assign.description| cut:true:25:' ...'}}</td>
+                            <td>{{assign.fromDate | date:'dd-MM-yyyy'}}</td>
+                            <td>{{assign.toDate | date:'dd-MM-yyyy'}}</td>
+                            <!-- <td class="text-center">
+                              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assignment.id);">
+                                <i class="fa fa-file-text-o"></i>
+                              </a>
+                            </td> -->
+                            <td class="text-center" ng-show="AssignmentsCtrl.roleEdit">
+                              <a href="javascript:void(0);" data-ng-click="AssignmentsCtrl.editAssignment($index,'thisweek',assign)">
+                                <i class="fa fa-edit"></i>
+                              </a>
+                            </td>
+                            <td class="text-center" ng-show="AssignmentsCtrl.roledelete">
+                              <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="AssignmentsCtrl.confirmCallbackMethod(assign.id)"
+                                ng-bootbox-confirm-action-cancel="AssignmentsCtrl.confirmCallbackCancel(assign.id)">
+                                <i class="fa fa-remove"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="lastWeek" style="display:none;">
+                        <thead>
+                          <tr>
+                            <th colspan="{{AssignmentsCtrl.colspan}}" style="text-align: center">Last Week's Due</th>
+                          </tr>
+                          <tr id="pdfLastWeekClass">
+                            <th>
+                              Class
+                            </th>
+                            <th>
+                              Subject
+                            </th>
+                            <th>
+                              Assignment
+                            </th>
+                            <th>
+                              Description
+                            </th>
+                            <th>
+                              Assignment Date
+                            </th>
+                            <th>
+                              Due Date
+                            </th>
+                            <!--                             <th class="text-center">
+                              More Details
+                            </th> -->
+                            <th class="text-center" ng-show="AssignmentsCtrl.roleEdit">
+                              Edit
+                            </th>
+                            <th class="text-center" ng-show="AssignmentsCtrl.roledelete">
+                              Delete
+                            </th>
+                          </tr>
+
+                        </thead>
+                        <tbody data-ng-repeat="assignment in AssignmentsCtrl.listOdDates">
+                          <tr data-ng-repeat="assign in assignment">
+                            <td>
+                              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assign.id);">
+                                {{assign.class.className}} - {{assign.class.sectionName}}</a>
+                            </td>
+                            <td>{{assign.subject.subjectName}}</td>
+                            <td>{{assign.title| cut:true:10:' ...'}}</td>
+                            <td>{{assign.description| cut:true:20:' ...'}}</td>
+                            <td>{{assign.fromDate | date:'dd-MM-yyyy'}}</td>
+                            <td>{{assign.toDate | date:'dd-MM-yyyy'}}</td>
+                            <!-- <td class="text-center">
+                              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assign.id);">
+                                <i class="fa fa-file-text-o"></i>
+                              </a>
+                            </td> -->
+                            <td class="text-center" ng-show="AssignmentsCtrl.roleEdit">
+                              <a href="javascript:void(0);" data-ng-click="AssignmentsCtrl.editAssignment($index,'last',assign)">
+                                <i class="fa fa-edit"></i>
+                              </a>
+                            </td>
+                            <td class="text-center" ng-show="AssignmentsCtrl.roledelete">
+                              <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="AssignmentsCtrl.confirmCallbackMethod(assign.id)"
+                                ng-bootbox-confirm-action-cancel="AssignmentsCtrl.confirmCallbackCancel(assign.id)">
+                                <i class="fa fa-remove"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="nextWeek" style="display:none;">
+                        <thead>
+                          <tr>
+                            <th colspan="{{AssignmentsCtrl.colspan}}" style="text-align: center">Next Week's Due</th>
+                          </tr>
+                          <tr id="pdfnextWeekClass">
+                            <th>
+                              Class
+                            </th>
+
+                            <th>
+                              Subject
+                            </th>
+                            <th>
+                              Assignment
+                            </th>
+                            <th>
+                              Description
+                            </th>
+                            <th>
+                              Assignment Date
+                            </th>
+                            <th>
+                              Due Date
+                            </th>
+                            <!-- <th class="text-center">
+                              More Details
+                            </th> -->
+                            <th class="text-center" ng-show="AssignmentsCtrl.roleEdit">
+                              Edit
+                            </th>
+                            <th class="text-center" ng-show="AssignmentsCtrl.roledelete">
+                              Delete
+                            </th>
+                          </tr>
+
+                        </thead>
+                        <tbody data-ng-repeat="assignment in AssignmentsCtrl.listOfDates">
+                          <tr data-ng-repeat="assign in assignment">
+                            <td ng-init="AssignmentsCtrl.getsubject(assign);">
+                              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assign.id);">
+                                {{assign.class.className}} - {{assign.class.sectionName}}</a>
+                            </td>
+                            <td>{{assign.subject.subjectName}}</td>
+                            <td>{{assign.title| cut:true:10:' ...'}}</td>
+                            <td>{{assign.description| cut:true:20:' ...'}}</td>
+                            <td>{{assign.fromDate | date:'dd-MM-yyyy'}}</td>
+                            <td>{{assign.toDate | date:'dd-MM-yyyy'}}</td>
+                            <!-- <td class="text-center">
+                              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assign.id);">
+                                <i class="fa fa-file-text-o"></i>
+                              </a>
+                            </td> -->
+                            <td class="text-center" ng-show="AssignmentsCtrl.roleEdit">
+                              <a href="javascript:void(0);" data-ng-click="AssignmentsCtrl.editAssignment($index,'next',assign)">
+                                <i class="fa fa-edit"></i>
+                              </a>
+                            </td>
+                            <td class="text-center" ng-show="AssignmentsCtrl.roledelete">
+                              <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="AssignmentsCtrl.confirmCallbackMethod(assign.id)"
+                                ng-bootbox-confirm-action-cancel="AssignmentsCtrl.confirmCallbackCancel(assign.id)">
+                                <i class="fa fa-remove"></i>
+                              </a>
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+          </div>
+        </div>
+      </div>
+      <!-- END PAGE CONTENT INNER -->
+    </div>
+  </div>
+  <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+
+<!-- print data -->
+<div ng-hide="true">
+  <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" datatable="ng" id="assignmentsprintTable">
+    <thead>
+      <tr>
+        <th>
+          Class
+        </th>
+
+        <th>
+          Subject
+        </th>
+        <th>
+          Assignment
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Assignment Date
+        </th>
+        <th>
+          Due Date
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="assignment in AssignmentsCtrl.assignmentList1">
+        <td>{{assignment.class.className}} - {{assignment.class.sectionName}}</td>
+        <td>{{assignment.subject.subjectName}}</td>
+        <td>{{assignment.title| cut:true:10:' ...'}}</td>
+        <td>{{assignment.description| cut:true:20:' ...'}}</td>
+        <td>{{assignment.fromDate | date:'dd-MM-yyyy'}}</td>
+        <td>{{assignment.toDate | date:'dd-MM-yyyy'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div ng-hide="true">
+    <div id="tableToExportfromHere">
+      <table class="table table-striped table-hover table-bordered sm_editable_grid " border="1px solid black" ng-if="AssignmentsCtrl.currentWeekDisplay">
+        <thead>
+
+          <tr>
+            <th>
+              Class
+            </th>
+
+            <th>
+              Subject
+            </th>
+            <th>
+              Assignment
+            </th>
+            <th>
+              Description
+            </th>
+            <th>
+              Assignment Date
+            </th>
+            <th>
+              Due Date
+            </th>
+          </tr>
+          <tr>
+            <th colspan="6" style="text-align:center">Today Due</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="assignment in AssignmentsCtrl.assignmentList">
+            <td ng-init="AssignmentsCtrl.getsubject(assignment);">
+              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assignment.id);">
+                {{assignment.class.className}} - {{assignment.class.sectionName}}</a>
+            </td>
+            <td>{{assignment.subject.subjectName}}</td>
+            <td>{{assignment.title| cut:true:10:' ...'}}</td>
+            <td>{{assignment.description| cut:true:20:' ...'}}</td>
+            <td>{{assignment.fromDate | date:'dd-MM-yyyy'}}</td>
+            <td>{{assignment.toDate | date:'dd-MM-yyyy'}}</td>
+          </tr>
+          <tr>
+            <th colspan="6" style="text-align: center">Tomorrow Due</th>
+          </tr>
+          <tr data-ng-repeat="assignment in AssignmentsCtrl.assignmentList1">
+            <td ng-init="AssignmentsCtrl.getsubject(assignment);">
+              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assignment.id);">
+                {{assignment.class.className}} - {{assignment.class.sectionName}}</a>
+            </td>
+            <td>{{assignment.subject.subjectName}}</td>
+            <td>{{assignment.title| cut:true:10:' ...'}}</td>
+            <td>{{assignment.description| cut:true:20:' ...'}}</td>
+            <td>{{assignment.fromDate | date:'dd-MM-yyyy'}}</td>
+            <td>{{assignment.toDate | date:'dd-MM-yyyy'}}</td>
+          </tr>
+          <tr>
+            <th colspan="6" style="text-align:center">This Week Due</th>
+          </tr>
+          <tr data-ng-repeat="assign in AssignmentsCtrl.thisweekDates">
+            <td ng-init="AssignmentsCtrl.getsubject(assign);">
+              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assign.id);">{{assign.class.className}} - {{assign.class.sectionName}}</a>
+            </td>
+            <td>{{assign.subject.subjectName}}</td>
+            <td>{{assign.title| cut:true:10:' ...'}}</td>
+            <td>{{assign.description| cut:true:25:' ...'}}</td>
+            <td>{{assign.fromDate | date:'dd-MM-yyyy'}}</td>
+            <td>{{assign.toDate | date:'dd-MM-yyyy'}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" ng-if="AssignmentsCtrl.lastWeekDisplay">
+        <thead>
+          <tr>
+            <th colspan="6" style="text-align: center">Last Week's Due</th>
+          </tr>
+          <tr>
+            <th>
+              Class
+            </th>
+            <th>
+              Subject
+            </th>
+            <th>
+              Assignment
+            </th>
+            <th>
+              Description
+            </th>
+            <th>
+              Assignment Date
+            </th>
+            <th>
+              Due Date
+            </th>
+          </tr>
+
+        </thead>
+        <tbody data-ng-repeat="assignment in AssignmentsCtrl.listOdDates">
+          <tr data-ng-repeat="assign in assignment">
+            <td>
+              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assign.id);">
+                {{assign.class.className}} - {{assign.class.sectionName}}</a>
+            </td>
+            <td>{{assign.subject.subjectName}}</td>
+            <td>{{assign.title| cut:true:10:' ...'}}</td>
+            <td>{{assign.description| cut:true:20:' ...'}}</td>
+            <td>{{assign.fromDate | date:'dd-MM-yyyy'}}</td>
+            <td>{{assign.toDate | date:'dd-MM-yyyy'}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" ng-if="AssignmentsCtrl.nextWeekDisplay">
+        <thead>
+          <tr>
+            <th colspan="6" style="text-align: center">Next Week's Due</th>
+          </tr>
+          <tr>
+            <th>
+              Class
+            </th>
+
+            <th>
+              Subject
+            </th>
+            <th>
+              Assignment
+            </th>
+            <th>
+              Description
+            </th>
+            <th>
+              Assignment Date
+            </th>
+            <th>
+              Due Date
+            </th>
+          </tr>
+
+        </thead>
+        <tbody data-ng-repeat="assignment in AssignmentsCtrl.listOfDates">
+          <tr data-ng-repeat="assign in assignment">
+            <td ng-init="AssignmentsCtrl.getsubject(assign);">
+              <a href="javascript:void(0)" data-ng-click="AssignmentsCtrl.moreDetails(assign.id);">
+                {{assign.class.className}} - {{assign.class.sectionName}}</a>
+            </td>
+            <td>{{assign.subject.subjectName}}</td>
+            <td>{{assign.title| cut:true:10:' ...'}}</td>
+            <td>{{assign.description| cut:true:20:' ...'}}</td>
+            <td>{{assign.fromDate | date:'dd-MM-yyyy'}}</td>
+            <td>{{assign.toDate | date:'dd-MM-yyyy'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+<!-- ends here -->
+
+
+
+<!-- EDIT MODAL -->
+<div id="edit-assignments" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="javascript:void(0);" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="AssignmentsCtrl.closeModal()">
+          <span class="icon-close"></span>
+        </a>
+        <h4 class="modal-title font-green">Assignments</h4>
+      </div>
+      <div class="modal-body form">
+        <div class="form-container" data-ng-if="!AssignmentsCtrl.detailsMode">
+          <form name="assignmentform" novalidate role="form" data-ng-submit="AssignmentsCtrl.assignmentAction(assignmentform.$invalid)">
+
+            <div class="col-sm">
+              <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <select data-ng-model="AssignmentsCtrl.formFields.classId" name="classId" data-ng-change="AssignmentsCtrl.selectedClass();AssignmentsCtrl.sub(AssignmentsCtrl.formFields.classId);"
+                    class="form-control input-sm" tabindex="4">
+                    <option value="">Select Class</option>
+                    <option ng-if="userRole !=='Staff'" ng-repeat="class in AssignmentsCtrl.classList | orderBy:'sequenceNumber'" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                    <option ng-if="userRole =='Staff'" ng-repeat="class in AssignmentsCtrl.classesList | orderBy:'class.sequenceNumber'" value="{{class.classId}}">{{class.class.className}}-{{class.class.sectionName}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <select tabindex="5" data-ng-model="AssignmentsCtrl.formFields.subjectId" name="subjectId" class="form-control input-sm"
+                    required ng-disabled="AssignmentsCtrl.subject">
+                    <option value="">Select Subject</option>
+                    <option ng-repeat="subject in AssignmentsCtrl.subjectList" value="{{subject.id}}">{{subject.subjectName}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <input tabindex="6" type="date" class="form-control input-sm calendarctrl" id="assignmentdate1" name="fromDate" data-ng-model="AssignmentsCtrl.formFields.fromDate"
+                    maxlength="10" ng-click="AssignmentsCtrl.ValidateEndDate()" />
+                  <label for="form_control_1" style="top:0px">Assignment Date</label>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <input type="date" tabindex="7" class="form-control input-sm calendarctrl" id="assignmentdate2" name="toDate" data-ng-model="AssignmentsCtrl.formFields.toDate"
+                    maxlength="10" ng-click="AssignmentsCtrl.ValidateEndDate()" />
+                  <label for="form_control_1" style="top:0px">Due Date</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <!-- <div class="form-group form-md-line-input form-md-floating-label has-info"> -->
+              <input type="text" class="form-control input-sm" tabindex="8" name="title" data-ng-model="AssignmentsCtrl.formFields.title"
+                maxlength="50" placeholder="TITLE" />
+              <!-- <label for="form_control_1">TITLE</label> -->
+              <!-- </div> -->
+            </div>
+            <br>
+            <!--                         <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="description" data-ng-model="AssignmentsCtrl.formFields.description"
+                                 required />
+                            <label for="form_control_1">DESCRIPTION</label>
+                        </div> -->
+
+            <div class="col-sm">
+              <!-- <div class="form-group form-md-line-input form-md-floating-label has-info"> -->
+              <textarea rows="10" cols="35" class="form-control input-sm" tabindex="9" name="description" data-ng-model="AssignmentsCtrl.formFields.description"
+                placeholder="Description" required style="resize: none;">
+              </textarea>
+              <!-- <label for="form_control_1">Description</label> -->
+              <!-- </div>    -->
+            </div>
+            </br>
+            <div class="modal-footer">
+              <button type="reset" class="btn default pull-right" tabindex="10">Reset</button>
+              <button type="submit" class="btn green pull-right" tabindex="11" ng-disabled="!first">
+                <i class="fa fa-check"></i> Submit</button>
+            </div>
+          </form>
+        </div>
+        <div class="form-container" data-ng-if="AssignmentsCtrl.detailsMode">
+          <div class="row static-info">
+            <div class="col-md-3 name">
+              From Date:
+            </div>
+            <div class="col-md-7 value">
+              {{AssignmentsCtrl.viewValue[0].fromDate | date:'dd-MM-yyyy'}}
+            </div>
+          </div>
+          <div class="row static-info">
+            <div class="col-md-3 name">
+              To Date:
+            </div>
+            <div class="col-md-7 value">
+              {{AssignmentsCtrl.viewValue[0].toDate | date:'dd-MM-yyyy'}}
+            </div>
+          </div>
+          <div class="row static-info">
+            <div class="col-md-3 name">
+              Title:
+            </div>
+            <div class="col-md-7 value">
+              {{AssignmentsCtrl.viewValue[0].title}}
+            </div>
+          </div>
+          <div class="row static-info">
+            <div class="col-md-3 name">
+              Description:
+            </div>
+            <div class="col-md-7 value">
+              {{AssignmentsCtrl.viewValue[0].description}}
+            </div>
+          </div>
+          <div class="row static-info">
+            <div class="col-md-3 name">
+              Class :
+            </div>
+            <div class="col-md-7 value">
+              {{AssignmentsCtrl.viewValue[0].class.className}}
+            </div>
+          </div>
+          <div class="row static-info">
+            <div class="col-md-3 name">
+              Section :
+            </div>
+            <div class="col-md-7 value">
+              {{AssignmentsCtrl.viewValue[0].class.sectionName}}
+            </div>
+          </div>
+          <div class="row static-info">
+            <div class="col-md-3 name">
+              Subject :
+            </div>
+            <div class="col-md-7 value">
+              {{AssignmentsCtrl.viewValue[0].subject.subjectName}}
+            </div>
+          </div>
+          <div class="heigh-30"></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- EDIT MODAL END-->
+
+<style>
+  .hideLastTwoColoms table tr td:nth-last-child(1){
+    display: none;
+  }
+  .hideLastTwoColoms table tr td:nth-last-child(2){
+    display: none;
+  }
+  .hideLastTwoColoms table tr:nth-child(1) th:nth-last-child(1){
+    display: none;
+  }
+  .hideLastTwoColoms table tr:nth-child(1) th:nth-last-child(2){
+    display: none;
+  }
+  .hideLastTwoColoms tr:nth-child(1) th:nth-last-child(2){
+    display: none;
+  }
+  /* last and next */
+  .hideLastTwoColom table tr td:nth-last-child(1){
+    display: none;
+  }
+  .hideLastTwoColom table tr td:nth-last-child(2){
+    display: none;
+  }
+  .hideLastTwoColom table tr:nth-child(2) th:nth-last-child(1){
+    display: none;
+  }
+  .hideLastTwoColom table tr:nth-child(2) th:nth-last-child(2){
+    display: none;
+  }
+</style>

@@ -1,0 +1,443 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container" ng-click="">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Fee Payment
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-file-text font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">Fee Payment </span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h2><span ng-if="FeeDetailsCtrl.studentDetails.firstName">{{FeeDetailsCtrl.studentDetails.firstName}}</span>                                                <span ng-if="FeeDetailsCtrl.studentDetails.lastName">{{FeeDetailsCtrl.studentDetails.lastName}}</span></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="FeeDetailsCtrl.showPaymentModeSelection">
+                                    <select data-ng-change="FeeDetailsCtrl.paymentModeUpdated()" data-ng-model="FeeDetailsCtrl.paymentMode" class="form-control input-sm ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched"
+                                        required="" aria-invalid="true">
+                                        <option value="" selected="selected">Payment Terms</option>
+                                        <option value="Monthly" ng-if="FeeDetailsCtrl.faymentStudents.Monthly">Monthly</option>
+                                        <option value="Term" ng-if="FeeDetailsCtrl.faymentStudents.Term">Term Wise</option>
+                                        <option value="Yearly" ng-if="FeeDetailsCtrl.faymentStudents.Yearly">Yearly</option>
+                                    </select>
+                                </div>
+                                <div id="tableToExport" ng-if="!FeeDetailsCtrl.showPaymentModeSelection">
+                                    <!-- <form class="form-inline" role="form" name="feedataform" data-ng-submit=" FeeDetailsCtrl.payFees(feedataform.$invalid)"> -->
+                                    <!--{{FeeDetailsCtrl.studentFeeData}}-->
+                                    <table class="table table-bordered">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th>Sl.No</th>
+                                                <th>Particulars</th>
+                                                <th>Due Date</th>
+
+                                                <th>Amount</th>
+                                                <th style="width:61px;">Discount</th>
+                                                <th>Comments</th>
+                                                <th>Payable</th>
+                                                <th>Paid</th>
+                                                <th>Balance</th>
+                                                <th ng-show="userRole !== 'Student'" style="width:61px;">Current Payment</th>
+                                                <th ng-show="userRole !== 'Student'">Select checkbox</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr data-ng-repeat="feedata in FeeDetailsCtrl.studentDetails.feeSetup">
+                                                <td>{{$index+1}}
+                                                    <span ng-show="(userRole !=='Student' && feedata.removalble)" ng-click="FeeDetailsCtrl.removeOptionalItems(feedata, $index)"
+                                                        ng-if="feedata.mandatory === 'Optional'" style="padding-left:15px;font-size:10px;">
+                                                        (Remove optional fee)
+                                                    </span>
+                                                </td>
+                                                <td style="width:25%;">{{feedata.feetype}}</td>
+                                                <td>
+                                                    <div ng-repeat="fee in feedata.feeitems| orderBy:orderByCustom" class="feespace">
+                                                        {{fee.date | date:'dd-MM-yyyy'}}
+                                                    </div>
+                                                </td>
+                                                <!-- Amount -->
+                                                <td>
+                                                    <div ng-repeat="fee in feedata.feeitems| orderBy:orderByCustom" class="feespace">
+                                                        {{fee.amount}}
+                                                    </div>
+                                                </td>
+                                                <!-- Discount -->
+                                                <td>
+                                                    <div ng-repeat="fee in feedata.feeitems| orderBy:orderByCustom">
+                                                        <input id="{{$index}}{{$parent.$index}}disCheck" class="invisibleInput" type="number" min="0" ng-disabled="!FeeDetailsCtrl.discountMode"
+                                                            ng-blur="FeeDetailsCtrl.discountCheck(fee, $index,$parent.$index);"
+                                                            ng-change="FeeDetailsCtrl.calculatePayments(fee);" ng-model="fee.discount"
+                                                            style="width:61px;">
+                                                    </div>
+                                                </td>
+                                                <!-- Comments-->
+
+                                                <td>
+                                                    <div ng-repeat="fee in feedata.feeitems| orderBy:orderByCustom" class="feespace" id="data">
+                                                       
+                                                        <input class="invisibleInput iffyTip hideText2" type="text" ng-min="0" ng-model="fee.discComment" style="width:61px;" ng-show="FeeDetailsCtrl.discountMode" data-ng-click="FeeDetailsCtrl.savediscIndex(fee,$index);">
+                                                       <div class="iffyTip hideText2" ng-show="!FeeDetailsCtrl.discountMode">{{fee.discComment}}</div>
+                                                    </div>
+                                                    
+
+                                                </td>
+                                                <!-- Payable -->
+                                                <td>
+                                                    <div ng-repeat="fee in feedata.feeitems| orderBy:orderByCustom" class="feespace">
+                                                        {{fee.payable}}
+                                                    </div>
+                                                </td>
+                                                <!-- Paid -->
+
+                                                <td>
+                                                    <div ng-repeat="fee in feedata.feeitems| orderBy:orderByCustom" class="feespace">
+                                                        {{fee.paid}}
+                                                    </div>
+                                                </td>
+                                                <!-- Balance -->
+
+                                                <td>
+                                                    <div ng-repeat="fee in feedata.feeitems| orderBy:orderByCustom" class="feespace">
+                                                        {{fee.due}}
+                                                    </div>
+                                                </td>
+                                                <!-- Current Payment -->
+
+                                                <td ng-show="userRole !== 'Student'">
+                                                    <div ng-repeat="fee in feedata.feeitems| orderBy:orderByCustom">
+                                                        <input class="invisibleInput" type="number" ng-min="0" ng-model="fee.pay" onkeypress="return AllowOnlyNumbers(event);" ng-change="FeeDetailsCtrl.calculateTotal(fee)"
+                                                            style="width:61px;">
+                                                    </div>
+                                                </td>
+                                                <!-- Checkboxes -->
+                                                <td ng-show="userRole !== 'Student'">
+                                                    <div ng-repeat="fee in feedata.feeitems| orderBy:orderByCustom" class="feespace">
+                                                        <input type="checkbox" ng-disabled="shouldBeDisabled(fee)" ng-change="FeeDetailsCtrl.calculateTotal(fee)" ng-model="fee.isSelected">                                                        Select Fee</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">Totals</td>
+                                                <td> {{FeeDetailsCtrl.amounts}} </td>
+                                                <td> {{FeeDetailsCtrl.discounts}} </td>
+                                                <td></td>
+                                                <td> {{FeeDetailsCtrl.payables}} </td>
+                                                <td> {{FeeDetailsCtrl.paids}} </td>
+                                                <td> {{FeeDetailsCtrl.dues}} </td>
+                                                <td ng-show="userRole !== 'Student'">{{FeeDetailsCtrl.pays}}</td>
+                                                <td ng-show="userRole !== 'Student'"></td>
+                                            </tr>
+                                            <tr ng-show="userRole=='Admin'||userRole=='Accountant'">
+                                                <td colspan="8" ng-show="userRole !== 'Student'">Total Fees</td>
+                                                <td>{{FeeDetailsCtrl.totalFAmount}}</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr ng-show="userRole=='Admin'||userRole=='Accountant'">
+                                                <td colspan="8">Total Discount</td>
+                                                <td>{{FeeDetailsCtrl.totalFDiscount}}</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr ng-show="userRole=='Student'">
+                                                <td colspan="4">Total Discount</td>
+                                                <td>{{FeeDetailsCtrl.TotalDiscount}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+                                    <div class="col-md-12" ng-show="userRole !== 'Student'">
+                                        <div class="col-md-2">
+                                            <button class="btn green" data-toggle="modal" data-target="#optionalFeeModal">
+                                                <b>+ Add Optional Fees</b>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2" ng-show="FeeDetailsCtrl.discView">
+                                            <button class="btn green" ng-if="!FeeDetailsCtrl.discountMode" ng-click="FeeDetailsCtrl.discountMode = !FeeDetailsCtrl.discountMode">
+                                                <b>+ Add Discount</b>
+                                                <!-- <b ng-if="FeeDetailsCtrl.discountMode" ng-click="FeeDetailsCtrl.SaveDiscount();">Save Discount</b> -->
+                                            </button>
+                                            <button class="btn green" ng-if="FeeDetailsCtrl.discountMode" ng-click="FeeDetailsCtrl.SaveDiscount();">
+                                                <b>Save Discount</b>
+                                            </button>
+                                            <br>
+                                            <br>
+                                        </div>
+
+                                        <form name="myForm" novalidate data-ng-submit="FeeDetailsCtrl.payFee(myForm.$invalid)">
+                                            <div class="form-group col-md-2">
+                                                <select data-ng-model="FeeDetailsCtrl.paymode" name="paymode" class="form-control input-sm">
+                                                    <option value="">Payment Mode</option>
+
+                                                    <option ng-repeat="op in FeeDetailsCtrl.availablePamentOptions" value="{{op.id}}">{{op.value}}</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-2">
+                                                <input type="text" data-ng-model="FeeDetailsCtrl.description" class="form-control" id="refid" placeholder="Receipt Remarks">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <input type="date" data-ng-model="FeeDetailsCtrl.dateof" id="theDate" ng-click="FeeDetailsCtrl.ValidateEndDate()" class="form-control"
+                                                    required>
+                                            </div>
+                                            <div class="form-group col-md-2" id="feepaymentdetails1" style="float:right;">
+                                                <button type="submit" class="btn green" ng-disabled="!first || FeeDetailsCtrl.discountMode">Pay Fees</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br/>
+
+                            <!--<div ng-show="FeeDetailsCtrl.showHistory">-->
+                            <div id="receiptHistory" ng-show="FeeDetailsCtrl.studentDetails.payments.length>0 && !FeeDetailsCtrl.showPaymentModeSelection">
+                                <h3>Receipt History</h3>
+                                <div id="tableToExport1">
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Receipt Number
+                                                </th>
+                                                <th>
+                                                    Fee Type
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    Payment Date / Time
+                                                </th>
+                                                <th>
+                                                    Paid Amount
+                                                </th>
+                                                <th>
+                                                    Payment Mode
+                                                </th>
+                                                <th ng-show="FeeDetailsCtrl.deleteFee==true">Due Date</th>
+                                                 <th>
+                                                </th>
+                                                <th ng-show="FeeDetailsCtrl.deleteFee==true">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="receipt in FeeDetailsCtrl.studentDetails.payments| orderBy:'order_temp'| orderBy:'payDate'">
+                                                <td>
+                                                    <span ng-hide="receipt.receiptNumber=='NaN' || receipt.receiptNumber=='undefined_undefined'"></span>
+                                                    <span ng-show="receipt.receiptNumber!=='NaN'">{{receipt.receiptNumber}}</span>
+                                                </td>
+                                                <td>{{receipt.feetype}}</td>
+                                                <td>{{receipt.description}}</td>
+                                                <td>{{receipt.payDate| date:'dd-MM-yyyy'}}</td>
+                                                <td>{{receipt.paidAmount}}</td>
+                                                <td>{{receipt.paymode}}</td>
+                                                <td ng-init="FeeDetailsCtrl.getItemDate(receipt)" ng-show="FeeDetailsCtrl.deleteFee==true">{{receipt.feeItemDueDt| date:'dd-MM-yyyy'}}</td>
+                                                <td class="col-3 receipt-actions">
+                                                    <a href="javascript:void(0);" target="_blank" ng-click="FeeDetailsCtrl.printreceiptHistory($index, receipt, 'receiptHistory')"
+                                                        title="Print">
+                                                        <span class="fa fa-print"></span>
+                                                    </a>
+                                                </td>
+                                                 <td class="text-center" ng-show="FeeDetailsCtrl.deleteFee==true">
+                                                    <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="FeeDetailsCtrl.confirmCallbackMethod($index,receipt)"
+                                                        ng-bootbox-confirm-action-cancel="FeeDetailsCtrl.confirmCallbackCancel($index)">
+                                                        <i class="fa fa-remove"></i>
+                                                    </a>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+
+
+                    </div>
+
+
+
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT INNER -->
+    </div>
+</div>
+<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+
+<div id="optionalFeeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 950px;" id="feepaymentdetails2">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Optional Fee</h4>
+                <p class="addMoreButton" ng-click="FeeDetailsCtrl.addItem()">Add+</p>
+            </div>
+            <div class="modal-body" style="overflow: auto;" id="feepaymentdetails3">
+
+                <table class="table table-bordered">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Particulars</th>
+                            <th>Amount</th>
+                            <th>Due Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="feedata in FeeDetailsCtrl.studentDetails.optionals">
+                            <td>{{$index+1}}</td>
+                            <td ng-if="!feedata.editable">{{feedata.feetype}}</td>
+                            <td ng-if="feedata.editable">
+                                <input ng-model="feedata.feetype" type="text">
+                            </td>
+                            <td ng-if="!feedata.editable">
+                                <div ng-repeat="fee in feedata.feeitems">
+                                    {{fee.amount}}
+                                </div>
+                            </td>
+                            <td ng-if="feedata.editable">
+                                <div ng-repeat="fee in feedata.feeitems">
+                                    <input ng-model="fee.amount" type="number">
+                                </div>
+
+                            </td>
+                            <td>
+                                <div ng-repeat="fee in feedata.feeitems">
+                                    {{fee.date |date:'dd-MM-yyyy'}}
+                                </div>
+
+                            </td>
+                            <td>
+                                <div class="checkbox">
+                                    <label style="float:right">
+                                        <input type="checkbox" ng-model="feedata.isSelected"> Select Fee</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr-blank " style="height: 11px;" id="feepaymentdetails4"></tr>
+
+                    </tbody>
+
+                </table>
+                <button class="pull-right btn green" ng-click="FeeDetailsCtrl.addOptionalItems()">
+                    <b>Save</b>
+                </button>
+                <div class="heigh-30"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- Discount COmments-->
+<div id="disc-comment" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="FeeDetailsCtrl.closeModal()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">Discount Comment</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container">
+                    <form name="discCommentform" novalidate role="form">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info" >
+                            <label for="form_control_1">Comment</label>
+                            <input type="text" class="form-control input-sm" name="discComment" data-ng-model="FeeDetailsCtrl.discComment"
+                                maxlength="50" required />
+                        </div>                                    
+                           <div class="modal-footer">
+                                <button type="reset" class="btn default">Reset</button>
+                                <button type="submit" class="btn green" data-ng-click="FeeDetailsCtrl.showComment();"><i class="fa fa-check"></i> Submit</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .addMoreButton {
+        color: #FFFFFF;
+        background-color: #26a69a;
+        display: block;
+        width: 50px;
+        padding: 4px;
+        text-align: center;
+        float: right;
+    }
+    
+    #data {
+        width: 50px;
+        /*overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;*/
+    }
+    
+    /*#data:hover {
+        overflow: visible;
+        white-space: normal;
+        width: auto;
+    }*/
+    
+    .iffyTip {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    
+    .hideText2 {
+        max-width: 200px;
+    }
+</style>
+<script>
+ $(document).on('mouseenter', ".iffyTip", function () {
+     var $this = $(this);
+     if (this.offsetWidth < this.scrollWidth && !$this.attr('title')) {
+         $this.tooltip({
+             title: $this.text(),
+             placement: "top"
+         });
+         $this.tooltip('show');
+     }
+ });
+$('.hideText').css('width',$('.hideText').parent().width());
+</script>

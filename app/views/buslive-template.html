@@ -1,0 +1,100 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+      <!-- BEGIN PAGE CONTENT -->
+      <div class="page-content">
+            <div class="container">
+                  <!-- BEGIN PAGE BREADCRUMB -->
+                  <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                              <a ui-sref="home.console">Home</a>
+                              <i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Transport Management
+                              <i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Bus Live Service
+                        </li>
+                  </ul>
+                  <!-- END PAGE BREADCRUMB -->
+                  <!-- BEGIN PAGE CONTENT INNER -->
+                  <div class="page-content-inner">
+                        <div class="row">
+                              <div class="col-md-12">
+                                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                                    <div class="portlet light portlet-fit ">
+                                          <div class="portlet-title">
+                                                <div  title="To UpDate Go To Settings">
+                                                      <b class="font-green bold">SchoolAddress:</b> {{BusliveCtrl.schoollist.busaddress}}
+                                                </div>
+                                                <div class="caption" >
+                                                      <i class="fa fa-subway font-green"></i>
+                                                     <b class="caption-subject font-green bold uppercase"> BUS LIVE SERVICE: </b> <span class="caption-subject font-green bold uppercase">{{BusliveCtrl.vehList.servicerel.serviceNo}}</span>
+                                                </div>
+                                          </div>
+                                          <div class="portlet-body">
+                                                <div class="table-toolbar">
+                                                      <div class="row">
+                                                            <div class="col-lg-12 col-md-12">
+                                                                  <div id='liveStream_canvas_map'>
+
+                                                                  </div>
+                                                            </div>
+                                                            <!-- END EXAMPLE TABLE PORTLET-->
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <!-- END PAGE CONTENT INNER -->
+                                    </div>
+                              </div>
+                              <!-- END PAGE CONTENT -->
+                        </div>
+
+                  </div>
+            </div>
+      </div>
+</div>
+
+<!-- END PAGE CONTAINER -->
+<style>
+      #liveStream_canvas_map {
+            width: 1000px;
+            height: 400px;
+      }
+</style>
+<style>
+      .selcls {
+            padding: 3px;
+            border: solid 1px #517B97;
+            outline: 0;
+            background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #eab817), to(#FFFFFF));
+            background: -moz-linear-gradient(top, #FFFFFF, #CAD9E3 1px, #FFFFFF 25px);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+            -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+            -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+            width: 150px;
+      }
+
+      .seldemo {
+            background: #A0CFCF;
+            height: 75px;
+            width: 250px;
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 22px;
+            color: #fff;
+      }
+</style>
+<script>
+      (function () {
+            setTimeout(function () {
+                  $('#servicepickup').datetimepicker({
+                        format: 'HH:mm'
+                  });
+                  $('#servicedrop').datetimepicker({
+                        format: 'HH:mm'
+                  });
+            }, 500);
+      })();
+</script>

@@ -1,0 +1,640 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Admission
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Certificate
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-book font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase" ng-show="userRole !== 'Student'">Certificate
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row ">
+                                        <div class="col-md-2" btn-group pull-left>
+                                            <select data-ng-model="certificateType" name="classId" data-ng-change="BonafideCtrl.selectClass()"
+                                                class="form-control input-sm">
+                                                <option value="" disabled>Select Certificate</option>
+                                                <option value="bonafiedCertificate">Bonafied Certificate</option>
+                                                <option value="studyCertificate">Study Certificate</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2" style="display:none" id="selectClass">
+                                            <select data-ng-model="BonafideCtrl.formFields.classId" name="classId"
+                                                data-ng-change="BonafideCtrl.selectClassStudent()" class="form-control input-sm">
+                                                <option value="">Class-Section</option>
+                                                <option ng-repeat="class in BonafideCtrl.classInfo" value="{{class.id}}">{{class.className}}
+                                                    {{class.sectionName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2" style="display:none" id="selectStudent">
+                                            <select ng-show="BonafideCtrl.studentList" data-ng-model="BonafideCtrl.formFields.studentId"
+                                                name="subjectId" class="form-control input-sm" data-ng-change="BonafideCtrl.printResult()">
+                                                <option value="">Student</option>
+                                                <option ng-repeat="stud in  BonafideCtrl.studentList" value="{{stud.id}}">{{stud.firstName}}
+                                                    {{stud.lastName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1" style="display:none" id="printButton" ng-hide="certificateType=='studyCertificate'">
+                                            <button data-toggle="modal" data-ng-click="" class="btn btn-primary"
+                                                data-target="#myModal">Print</button>
+                                        </div>
+                                        <div class="col-md-1" style="display:none" id="printButton1" ng-hide="certificateType=='bonafiedCertificate'">
+                                            <button data-toggle="modal" data-ng-click="" class="btn btn-primary"
+                                                data-target="#myModal1">Print</button>
+                                        </div>
+                                        <div class="col-md-1" style="display:none" id="pdfButton">
+                                            <button data-toggle="modal" data-ng-click="BonafideCtrl.pdf();" class="btn btn-primary"
+                                                ng-hide="certificateType=='studyCertificate'">PDF</button>
+                                        </div>
+
+                                        <div class="col-md-1" style="display:none;" id="pdfButton1">
+                                            <button data-toggle="modal" data-ng-click="BonafideCtrl.pdf1();" class="btn btn-primary"
+                                                ng-hide="certificateType=='bonafiedCertificate'" style="margin-left: -146%;">PDF
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END PAGE CONTENT INNER -->
+                            <!-- Print begins -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog modal-md">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="text-align: center;"><b><u>BONAFIDE/DOMICILE
+                                                        CERTIFICATE</b></u></h4>
+
+                                        </div>
+                                        <div class="modal-content">
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <td style="padding:25px">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <p style="text-align: justify;
+                                                            text-justify: distribute;font-size: 20px;">
+                                                                    This is certify that Mr/Ms <strong>{{BonafideCtrl.firstName}}
+                                                                        {{BonafideCtrl.lastName}}</strong>
+                                                                    Son/Daughter Of Mr.<strong>
+                                                                        {{BonafideCtrl.fatherName}}
+                                                                    </strong> studied/studying in this
+                                                                    School from <strong>
+                                                                        {{BonafideCtrl.classofAdmission}}</strong>
+                                                                    to <strong> {{BonafideCtrl.className}}
+                                                                        {{BonafideCtrl.sectionName}}</strong> , during
+                                                                    the years
+                                                                    <b>{{ BonafideCtrl.joinYear }}</b> to <b>{{BonafideCtrl.currentYear}}.</b>
+                                                                    <!-- . <br><p style="margin-left:5%;font-size: 20px;" >His/Her conduct and character during
+                                                                    his/her stay
+                                                                    in this school is/was found <strong>Good.</strong> <br /></p> -->
+                                                                    <p style="margin-left:1%;font-size: 20px;">His/Her
+                                                                        is/was very
+                                                                        obedient ,Sincere and hardworking.
+                                                                    </p>
+                                                                    <p style="margin-left:1%;font-size: 20px;">He/She
+                                                                        bears a good
+                                                                        moral character.His/Her Date of Birth as per
+                                                                        the record is
+                                                                        <strong>{{BonafideCtrl.DOBFormat
+                                                                            | date : "dd-MM-yyyy" }}</strong></p>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <fieldset>
+                                            <div class="modal-content" id="Expprint" style="display:none">
+                                                <fieldset>
+                                                    <tr>
+                                                        <img style="display:block;text-align:center;margin-top:5px;height: 100px;
+                                            width: 130px;;position: absolute;"
+                                                            src="{{ BonafideCtrl.schoolInfo[0].logo}}" alt="School logo">
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <h2 style="text-align: center;margin-top: 8px;">{{BonafideCtrl.schoolInfo[0].schoolName}}</h2>
+                                                            <h4 style="text-align: center;margin-top: -10px;">{{BonafideCtrl.schoolInfo[0].AffiliatedBy}}</h4>
+                                                            <h4 style="text-align: center;margin-top: -10px;">{{BonafideCtrl.schoolInfo[0].address}},{{BonafideCtrl.schoolInfo[0].city}}
+                                                                {{BonafideCtrl.schoolInfo[0].state}} -
+                                                                {{BonafideCtrl.schoolInfo[0].code}} </h4>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <hr />
+                                                <hr /> -->
+                                                    <h3 style="text-align:center"><b><u>BONAFIDE/DOMICILE CERTIFICATE</b></u></h3>
+                                                    <!-- <hr />
+                                                <hr /> -->
+                                                    <tr>
+                                                        <td> <span>Admission Number:<b>{{BonafideCtrl.admissionNo}}</b></span></td>
+                                                        <td><span style="margin-left: 300px;">Issue Date
+                                                                :{{BonafideCtrl.issueDate | date : "d - MMMM - y"}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <!-- <fieldset> -->
+                                                        <p style="text-align: justify;
+                                                text-justify: distribute;font-size: 20px;"
+                                                            class="font-weight-normal">
+                                                            This is certify that Mr/Ms <strong>{{BonafideCtrl.firstName}}
+                                                                {{BonafideCtrl.lastName}}</strong>
+                                                            Son/Daughter Of Mr.<strong> {{BonafideCtrl.fatherName}}
+                                                            </strong> studied/studying in this
+                                                            School from <strong> {{BonafideCtrl.classofAdmission}}</strong>
+                                                            to <strong> {{BonafideCtrl.className}}
+                                                                {{BonafideCtrl.sectionName}}</strong> , during
+                                                            the years
+                                                            <b>{{ BonafideCtrl.joinYear }}</b> to <b>{{BonafideCtrl.currentYear}}.</b>
+                                                            <!-- . <br><p style="margin-left:5%;font-size: 20px;" >His/Her conduct and character during
+                                                            his/her stay
+                                                            in this school is/was found <strong>Good.</strong> <br /></p> -->
+                                                            <p style="margin-left:20%;font-size: 20px;">His/Her is/was
+                                                                very
+                                                                obedient ,Sincere and hardworking.
+                                                            </p>
+                                                            <p style="margin-left:1%;font-size: 20px;">He/She bears a
+                                                                good
+                                                                moral character.His/Her Date of Birth as per the record
+                                                                is
+                                                                <strong>{{BonafideCtrl.DOBFormat
+                                                                    | date : "dd-MM-yyyy" }}</strong></p>
+                                                        </p><br /><br />
+                                                        <span style="margin-left:580px">
+                                                            .........................................
+                                                        </span><br />
+                                                        <span style="margin-right:630px">
+                                                            Place:
+                                                        </span>
+                                                        <span style="margin-left:630px">
+                                                            Principal
+                                                        </span>
+
+                                                        <!-- </fieldset> -->
+                                                    </tr>
+                                                </fieldset>
+                                                <div style="height:60px;"></div>
+                                                <!-- Second print option Begins-->
+                                                <fieldset>
+                                                    <tr>
+                                                        <img style="display:block;text-align:center;margin-top:5px;height: 100px;
+                                            width: 130px;;position: absolute;"
+                                                            src="{{ BonafideCtrl.schoolInfo[0].logo}}" alt="School logo">
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <h2 style="text-align: center;margin-top: 8px;">{{BonafideCtrl.schoolInfo[0].schoolName}}</h2>
+                                                            <h4 style="text-align: center;margin-top: -10px;">{{BonafideCtrl.schoolInfo[0].AffiliatedBy}}</h4>
+                                                            <h4 style="text-align: center;margin-top: -10px;">{{BonafideCtrl.schoolInfo[0].address}},{{BonafideCtrl.schoolInfo[0].city}}
+                                                                {{BonafideCtrl.schoolInfo[0].state}} -
+                                                                {{BonafideCtrl.schoolInfo[0].code}} </h4>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <hr />
+                                                <hr /> -->
+                                                    <h3 style="text-align:center"><b><u>BONAFIDE/DOMICILE CERTIFICATE</b></u></h3>
+                                                    <!-- <hr />
+                                                <hr /> -->
+                                                    <tr>
+                                                        <td> <span>Admission Number:<b>{{BonafideCtrl.admissionNo}}</b></span></td>
+                                                        <td><span style="margin-left: 300px;">Issue Date
+                                                                :{{BonafideCtrl.issueDate | date : "d - MMMM - y"}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <!-- <fieldset> -->
+                                                        <p style="text-align: justify;
+                                                text-justify: distribute;font-size: 20px;"
+                                                            class="font-weight-normal">
+                                                            This is certify that Mr/Ms <strong>{{BonafideCtrl.firstName}}
+                                                                {{BonafideCtrl.lastName}}</strong>
+                                                            Son/Daughter Of Mr.<strong> {{BonafideCtrl.fatherName}}
+                                                            </strong> studied/studying in this
+                                                            School from <strong> {{BonafideCtrl.classofAdmission}}</strong>
+                                                            to <strong> {{BonafideCtrl.className}}
+                                                                {{BonafideCtrl.sectionName}}</strong> , during
+                                                            the years
+                                                            <b>{{ BonafideCtrl.joinYear }}</b> to <b>{{BonafideCtrl.currentYear}}.</b>
+                                                            <!-- . <br><p style="margin-left:5%;font-size: 20px;" >His/Her conduct and character during
+                                                            his/her stay
+                                                            in this school is/was found <strong>Good.</strong> <br /></p> -->
+                                                            <p style="margin-left:20%;font-size: 20px;">His/Her is/was
+                                                                very
+                                                                obedient ,Sincere and hardworking.
+                                                            </p>
+                                                            <p style="margin-left:1%;font-size: 20px;">He/She bears a
+                                                                good
+                                                                moral character.His/Her Date of Birth as per the record
+                                                                is
+                                                                <strong>{{BonafideCtrl.DOBFormat
+                                                                    | date : "dd-MM-yyyy" }}</strong></p>
+                                                        </p><br /><br />
+                                                        <span style="margin-left:580px">
+                                                            .........................................
+                                                        </span><br />
+                                                        <span style="margin-right:630px">
+                                                            Place:
+                                                        </span>
+                                                        <span style="margin-left:630px">
+                                                            Principal
+                                                        </span>
+
+                                                        <!-- </fieldset> -->
+                                                    </tr>
+                                                </fieldset>
+                                                <!-- Second print option End-->
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="button" class="btn btn-default" ng-click="BonafideCtrl.printExpense1()"
+                                                    value="Print">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal"
+                                                    ng-click="BonafideCtrl.clearform();BonafideCtrl.selectClass();">Close</button>
+                                            </div>
+                                    </div>
+                                </div>
+                                </fieldset>
+                            </div>
+                            <!-- Print -->
+                            <!-- Print to PDF   -->
+                            <div class="modal-content" id="pdf" style="display:none">
+                                <fieldset>
+                                    <tr>
+                                        <img style="display:block;text-align:center;margin-top:5px;height: 100px;
+                            width: 130px;;position: absolute;"
+                                            src="{{ BonafideCtrl.schoolInfo[0].logo}}" alt="School logo">
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:center">
+                                            <h2 style="text-align: center;">{{BonafideCtrl.schoolInfo[0].schoolName}}</h2>
+                                            <h5 style="text-align: center;">{{BonafideCtrl.schoolInfo[0].AffiliatedBy}}</h5>
+                                            <h5 style="text-align: center;">{{BonafideCtrl.schoolInfo[0].address}},{{BonafideCtrl.schoolInfo[0].city}}
+                                                {{BonafideCtrl.schoolInfo[0].state}} -
+                                                {{BonafideCtrl.schoolInfo[0].code}} </h5>
+                                        </td>
+                                    </tr>
+                                    <!-- <hr /> -->
+                                    <!-- <hr /> -->
+                                    <h3 style="text-align:center"><b><u>BONAFIDE/DOMICILE CERTIFICATE</b></u></h3>
+                                    <!-- <hr /> -->
+                                    <!-- <hr /> -->
+                                    <tr>
+                                        <td> <span>Admission Number: <strong> {{BonafideCtrl.admissionNo}}</strong>
+                                            </span></td>
+                                        <td><span style="margin-left: 700px;">Issue Date
+                                                :<strong>{{BonafideCtrl.issueDate|date : "d, MMM y"}} </strong>.</span></td>
+                                    </tr>
+                                    <tr>
+                                        <fieldset>
+                                            <p style="text-align: justify;font-size: 20px;">
+                                                This is certify that Mr/Ms <strong>{{BonafideCtrl.firstName}}
+                                                    {{BonafideCtrl.lastName}}</strong>
+                                                Son/Daughter Of Mr.<strong> {{BonafideCtrl.fatherName}}
+                                                </strong> studied/studying in this
+                                                School from <strong> {{BonafideCtrl.classofAdmission}}</strong>
+                                                to <strong> {{BonafideCtrl.className}}
+                                                    {{BonafideCtrl.sectionName}}</strong> , during
+                                                the years
+                                                <b>{{ BonafideCtrl.joinYear }}</b> to <b>{{BonafideCtrl.currentYear}}.</b>
+                                                <!-- . <br><p style="margin-left:5%;font-size: 20px;" >His/Her conduct and character during
+                                                his/her stay
+                                                in this school is/was found <strong>Good.</strong> <br /></p> -->
+                                                <p style="margin-left:20%;font-size: 20px;">His/Her is/was very
+                                                    obedient ,Sincere and hardworking.
+                                                </p>
+                                                <p style="margin-left:10%;font-size: 20px;">He/She bears a good
+                                                    moral character.His/Her Date of Birth as per the record is
+                                                    <strong>{{BonafideCtrl.DOBFormat
+                                                        | date : "dd-MM-yyyy" }}</strong></p>
+                                            </p><br /><br />
+                                            <span style="margin-left:880px">
+                                                .........................................
+                                            </span><br />
+                                            <span style="margin-right:630px">
+                                                Place:
+                                            </span>
+                                            <span style="margin-left:920px">
+                                                Principal
+                                            </span>
+                                        </fieldset>
+                                    </tr>
+                                </fieldset>
+                            </div>
+                            <!-- Ends here -->
+
+
+
+                            <!--Study Print begins -->
+                            <div class="modal fade" id="myModal1" role="dialog">
+                                <div class="modal-dialog modal-md">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="text-align: center;">Study
+                                                Certificate</h4>
+                                        </div>
+                                        <div class="modal-content">
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <td style="padding:25px">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <p style="text-align: justify;
+                                    text-justify: distribute;font-size: 20px;">
+                                                                    This is to certify that Mr/Ms <strong>{{BonafideCtrl.firstName}}
+                                                                        {{BonafideCtrl.lastName}}</strong>
+                                                                    Son/Daughter Of Mr.<strong>
+                                                                        {{BonafideCtrl.fatherName}}
+                                                                    </strong> studied from <b>1</b> std to <b>X</b> std
+                                                                    in our
+                                                                    Institution
+                                                                    <!-- <strong> {{BonafideCtrl.classofAdmission}}</strong>
+                                                                 <strong> {{BonafideCtrl.className}}
+                                                                    {{BonafideCtrl.sectionName}}</strong> ,  -->
+                                                                    during the year
+                                                                    <b>{{ BonafideCtrl.joinYear }}</b> to <b>{{BonafideCtrl.currentYear}}.</b>
+
+                                                                    His/Her Date of Birth is
+                                                                    <strong>{{BonafideCtrl.DOBFormat
+                                                                        | date : "dd-MM-yyyy" }}</strong> as per the
+                                                                    Institution
+                                                                    records.</p>
+                                                                <p style="margin-left:0%;font-size: 20px;">During this
+                                                                    period
+                                                                    His/Her Character and Conduct was Satisfactory.
+                                                                </p>
+                                                                <p style="margin-left:0%;font-size: 20px;">The above
+                                                                    details
+                                                                    are
+                                                                    true and correct to the best of my Knowlegde.
+
+                                                                </p>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <!-- Print -->
+                                        <fieldset>
+                                            <div class="modal-content" id="Expprint1" style="display:none">
+                                                <fieldset>
+                                                    <tr>
+                                                        <img style="display:block;text-align:center;margin-top:5px;height: 100px;
+                    width: 130px;;position: absolute;"
+                                                            src="{{ BonafideCtrl.schoolInfo[0].logo}}" alt="School logo">
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <h2 style="text-align: center;">{{BonafideCtrl.schoolInfo[0].schoolName}}</h2>
+                                                            <h4 style="text-align: center;margin-top: -10px;">{{BonafideCtrl.schoolInfo[0].AffiliatedBy}}</h4>
+                                                            <h4 style="text-align: center;margin-top: -10px;">{{BonafideCtrl.schoolInfo[0].address}},{{BonafideCtrl.schoolInfo[0].city}}
+                                                                {{BonafideCtrl.schoolInfo[0].state}} -
+                                                                {{BonafideCtrl.schoolInfo[0].code}} </h4>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <hr />
+                        <hr /> -->
+                                                    <h3 style="text-align:center"><b><u>STUDY CERTIFICATE</b></u></h3>
+                                                    <!-- <hr />
+                        <hr /> -->
+                                                    <!-- <tr>
+                                                    <td> <span>Admission Number:<b>{{BonafideCtrl.admissionNo}}</b></span></td>
+                                                    <td><span style="margin-left: 300px;">Issue Date
+                                                            :{{BonafideCtrl.issueDate | date : "d - MMMM - y"}}</span></td>
+                                                </tr> -->
+                                                    <tr>
+                                                        <!-- <fieldset> -->
+                                                        <p style="text-align: justify;
+                        text-justify: distribute;font-size: 20px;"
+                                                            class="font-weight-normal">
+                                                            This is to certify that Mr/Ms <strong>{{BonafideCtrl.firstName}}
+                                                                {{BonafideCtrl.lastName}}</strong>
+                                                            Son/Daughter Of Mr.<strong> {{BonafideCtrl.fatherName}}
+                                                            </strong> studied from <b>1</b> std to <b>X</b> std in our
+                                                            Institution
+                                                            <!-- <strong> {{BonafideCtrl.classofAdmission}}</strong>
+                                                         <strong> {{BonafideCtrl.className}}
+                                                            {{BonafideCtrl.sectionName}}</strong> ,  -->
+                                                            during the year
+                                                            <b>{{ BonafideCtrl.joinYear }}</b> to <b>{{BonafideCtrl.currentYear}}.</b>
+
+                                                            His/Her Date of Birth is
+                                                            <strong>{{BonafideCtrl.DOBFormat
+                                                                | date : "dd-MM-yyyy" }}</strong> as per the
+                                                            Institution
+                                                            records.</p>
+                                                        <p style="margin-left:15%;font-size: 20px;">During this period
+                                                            His/Her Character and Conduct was Satisfactory.
+                                                        </p>
+                                                        <p style="margin-left:15%;font-size: 20px;">The above details
+                                                            are
+                                                            true and correct to the best of my Knowlegde.
+
+                                                        </p>
+                                                        </p><br /><br />
+                                                        <span style="margin-left:580px">
+                                                            .........................................
+                                                        </span><br />
+                                                        <span style="margin-right:630px">
+                                                            Place:
+                                                        </span>
+                                                        <span style="margin-left:630px">
+                                                            Principal
+                                                        </span>
+
+                                                        <!-- </fieldset> -->
+                                                    </tr>
+                                                </fieldset>
+                                                <div style="height:60px;"></div>
+                                                <!-- Second print option Begins-->
+                                                <fieldset>
+                                                    <tr>
+                                                        <img style="display:block;text-align:center;margin-top:5px;height: 100px;
+                        width: 130px;;position: absolute;"
+                                                            src="{{ BonafideCtrl.schoolInfo[0].logo}}" alt="School logo">
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <h2 style="text-align: center;">{{BonafideCtrl.schoolInfo[0].schoolName}}</h2>
+                                                            <h4 style="text-align: center;margin-top: -10px;">{{BonafideCtrl.schoolInfo[0].AffiliatedBy}}</h4>
+                                                            <h4 style="text-align: center;margin-top: -10px;">{{BonafideCtrl.schoolInfo[0].address}},{{BonafideCtrl.schoolInfo[0].city}}
+                                                                {{BonafideCtrl.schoolInfo[0].state}} -
+                                                                {{BonafideCtrl.schoolInfo[0].code}} </h4>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <hr />
+                            <hr /> -->
+                                                    <h3 style="text-align:center"><b><u>STUDY CERTIFICATE</b></u></h3>
+                                                    <!-- <hr />
+                            <hr /> -->
+                                                    <!-- <tr>
+                                                        <td> <span>Admission Number:<b>{{BonafideCtrl.admissionNo}}</b></span></td>
+                                                        <td><span style="margin-left: 300px;">Issue Date
+                                                                :{{BonafideCtrl.issueDate | date : "d - MMMM - y"}}</span></td>
+                                                    </tr> -->
+                                                    <tr>
+                                                        <!-- <fieldset> -->
+                                                        <p style="text-align: justify;
+                            text-justify: distribute;font-size: 20px;"
+                                                            class="font-weight-normal">
+                                                            This is to certify that Mr/Ms <strong>{{BonafideCtrl.firstName}}
+                                                                {{BonafideCtrl.lastName}}</strong>
+                                                            Son/Daughter Of Mr.<strong> {{BonafideCtrl.fatherName}}
+                                                            </strong> studied from <b>1</b> std to <b>X</b> std in our
+                                                            Institution
+                                                            <!-- <strong> {{BonafideCtrl.classofAdmission}}</strong>
+                                                             <strong> {{BonafideCtrl.className}}
+                                                                {{BonafideCtrl.sectionName}}</strong> ,  -->
+                                                            during the year
+                                                            <b>{{ BonafideCtrl.joinYear }}</b> to <b>{{BonafideCtrl.currentYear}}.</b>
+
+                                                            His/Her Date of Birth is
+                                                            <strong>{{BonafideCtrl.DOBFormat
+                                                                | date : "dd-MM-yyyy" }}</strong> as per the
+                                                            Institution
+                                                            records.</p>
+                                                        <p style="margin-left:15%;font-size: 20px;">During this period
+                                                            His/Her Character and Conduct was Satisfactory.
+                                                        </p>
+                                                        <p style="margin-left:15%;font-size: 20px;">The above details
+                                                            are
+                                                            true and correct to the best of my Knowlegde.
+
+                                                        </p>
+                                                        </p><br /><br />
+                                                        <span style="margin-left:580px">
+                                                            .........................................
+                                                        </span><br />
+                                                        <span style="margin-right:630px">
+                                                            Place:
+                                                        </span>
+                                                        <span style="margin-left:630px">
+                                                            Principal
+                                                        </span>
+
+                                                        <!-- </fieldset> -->
+                                                    </tr>
+                                                </fieldset>
+                                                <!-- Second print option Ends-->
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <input type="button" class="btn btn-default" ng-click="BonafideCtrl.printExpense2()"
+                                                    value="Print">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal"
+                                                    ng-click="BonafideCtrl.clearform();BonafideCtrl.selectClass();">Close</button>
+                                            </div>
+                                    </div>
+                                </div>
+                                </fieldset>
+                            </div>
+                            <!--study Print -->
+                            <!-- Print to PDF   -->
+                            <div class="modal-content" id="pdf1" style="display:none">
+                                <fieldset>
+                                    <tr>
+                                        <img style="display:block;text-align:center;margin-top:5px;height: 100px;
+                            width: 130px;;position: absolute;"
+                                            src="{{ BonafideCtrl.schoolInfo[0].logo}}" alt="School logo">
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:center">
+                                            <h2 style="text-align: center;">{{BonafideCtrl.schoolInfo[0].schoolName}}</h2>
+                                            <h4 style="text-align: center;">{{BonafideCtrl.schoolInfo[0].AffiliatedBy}}</h4>
+                                            <h4 style="text-align: center;">{{BonafideCtrl.schoolInfo[0].address}},{{BonafideCtrl.schoolInfo[0].city}}
+                                                {{BonafideCtrl.schoolInfo[0].state}} -
+                                                {{BonafideCtrl.schoolInfo[0].code}} </h4>
+                                        </td>
+                                    </tr>
+                                    <!-- <hr />
+                                    <hr /> -->
+                                    <h3 style="text-align:center"><b><u>STUDY CERTIFICATE</b></u></h3>
+                                    <!-- <hr />
+        <hr /> -->
+                                    <!-- <tr>
+                                    <td> <span>Admission Number:<b>{{BonafideCtrl.admissionNo}}</b></span></td>
+                                    <td><span style="margin-left: 300px;">Issue Date
+                                            :{{BonafideCtrl.issueDate | date : "d - MMMM - y"}}</span></td>
+                                </tr> -->
+                                    <tr>
+                                        <fieldset>
+                                            <p style="text-align: justify;
+        text-justify: distribute;font-size: 20px;"
+                                                class="font-weight-normal">
+                                                This is to certify that Mr/Ms <strong>{{BonafideCtrl.firstName}}
+                                                    {{BonafideCtrl.lastName}}</strong>
+                                                Son/Daughter Of Mr.<strong> {{BonafideCtrl.fatherName}}
+                                                </strong> studied from <b>1</b> std to <b>X</b> std in our
+                                                Institution
+                                                <!-- <strong> {{BonafideCtrl.classofAdmission}}</strong>
+                                         <strong> {{BonafideCtrl.className}}
+                                            {{BonafideCtrl.sectionName}}</strong> ,  -->
+                                                during the year
+                                                <b>{{ BonafideCtrl.joinYear }}</b> to <b>{{BonafideCtrl.currentYear}}.</b>
+
+                                                His/Her Date of Birth is
+                                                <strong>{{BonafideCtrl.DOBFormat
+                                                    | date : "dd-MM-yyyy" }}</strong> as per the Institution
+                                                records.</p>
+                                            <p style="margin-left:20%;font-size: 20px;">During this period
+                                                His/Her Character and Conduct was Satisfactory.
+                                            </p>
+                                            <p style="margin-left:20%;font-size: 20px;">The above details are
+                                                true and correct to the best of my Knowlegde.
+
+                                            </p>
+                                            <span style="margin-left:880px">
+                                                .........................................
+                                            </span><br />
+                                            <span style="margin-right:630px">
+                                                Place:
+                                            </span>
+                                            <span style="margin-left:920px">
+                                                Principal
+                                            </span>
+                                        </fieldset>
+                                    </tr>
+                                </fieldset>
+                            </div>
+                            <!-- Print to PDF   -->
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT -->
+        </div>
+    </div>
+    <!-- END PAGE CONTAINER -->
+</div>
+<!-- print data -->
+
+<!-- ends here -->

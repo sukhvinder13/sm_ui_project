@@ -1,0 +1,433 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+  <!-- BEGIN PAGE CONTENT -->
+  <div class="page-content">
+    <div class="container">
+      <!-- BEGIN PAGE BREADCRUMB -->
+      <ul class="page-breadcrumb breadcrumb">
+        <li>
+          <a ui-sref="home.console">Home</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          <a ui-sref="home.schooldirectory">Collaborate</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          Admission
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          Enroll Staff
+        </li>
+      </ul>
+      <!-- END PAGE BREADCRUMB -->
+      <!-- BEGIN PAGE CONTENT INNER -->
+      <div class="page-content-inner">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit ">
+              <div class="portlet light">
+                <div class="portlet-title tabbable-line">
+                  <div class="caption caption-md">
+                    <i class="icon-globe theme-font hide"></i>
+                    <span class="caption-subject theme-font bold uppercase">Staff Info</span>
+                  </div>
+
+                </div>
+              </div>
+              <div class="form-container">
+                <div class="row">
+                  <form name="addstaffform" novalidate role="form" data-ng-submit=" AddStaffCtrl.addstaffAction(addstaffform.$invalid)">
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="basicInfo">
+                        <div class="row">
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm edited" name="regId" data-ng-model="AddStaffCtrl.formFields.regId" readonly
+                                 tabindex="1" />
+                              <label for="form_control_1">Registration Number</label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="firstName" data-ng-model="AddStaffCtrl.formFields.firstName" maxlength="50"
+                                required tabindex="2" onkeypress="return onlyAlphabets(event,this);"/>
+                              <label for="form_control_1">First Name/Staff Name
+                                <span style="color:red">*</span>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="lastName" data-ng-model="AddStaffCtrl.formFields.lastName" maxlength="50"
+                                tabindex="3"  onkeypress="return onlyAlphabets(event,this);"/>
+                              <label for="form_control_1">Last Name/Surname
+                                
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="dateofJoin" id="JD" data-ng-model="AddStaffCtrl.formFields.dateofJoin"
+                                tabindex="4" maxlength="10" />
+                              <label for="form_control_1">Joining Date
+                                <span style="color:red">*</span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top: -5%;">Gender
+                              <span style="color:red">*</span>
+                              <select data-ng-model="AddStaffCtrl.formFields.gender" name="gender" class="form-control input-sm" tabindex="5" required>
+                                <option value="">Select Gender </option>
+                                <option>Male</option>
+                                <option>Female</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="dateofBirth" id="DOB" data-ng-model="AddStaffCtrl.formFields.dateofBirth"
+                                tabindex="6" maxlength="10" />
+                              <label for="form_control_1">Date of Birth</label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="email" class="form-control input-sm" name="email" tabindex="7" ng-change="AddStaffCtrl.checkMail(AddStaffCtrl.formFields.email)"
+                                data-ng-model="AddStaffCtrl.formFields.email" maxlength="50"  />
+                              <label for="form_control_1">Email
+                                <!-- <span style="color:red">*</span> -->
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="contact" data-ng-model="AddStaffCtrl.formFields.contact" maxlength="10"
+                                tabindex="8" allow-date ng-keyup="AddStaffCtrl.checkContact(AddStaffCtrl.formFields.contact)"
+                                date onkeypress="return onlyNumbers(event,this);"/>
+                              <label for="form_control_1">Contact Number</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <select data-ng-model="AddStaffCtrl.formFields.nationalIdType" name="nationalIdType" class="form-control input-sm" tabindex="9">
+                                <option value="">Select NationalId Type </option>
+                                <option value="Aadhar">Aadhar ID</option>
+                                <option value="Passport">Passport</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="nationalId" data-ng-model="AddStaffCtrl.formFields.nationalId" maxlength="50"
+                                tabindex="10" />
+                              <label for="form_control_1">National ID</label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <select data-ng-model="AddStaffCtrl.formFields.bloodGroup" name="bloodGroup" tabindex="11" class="form-control input-sm">
+                                <option value="">Blood Group </option>
+                                <option value="A+"> A+</option>
+                                <option value="A-"> A-</option>
+                                <option value="B+"> B+</option>
+                                <option value="B-"> B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="Designation" data-ng-model="AddStaffCtrl.formFields.designation"
+                                maxlength="50" tabindex="12" />
+                              <label for="form_control_1">Designation</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="qualifiedUniversity" data-ng-model="AddStaffCtrl.formFields.qualifiedUniversity"
+                                tabindex="13" maxlength="50" />
+                              <label for="form_control_1">Enter Qualified University</label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="qualification" data-ng-model="AddStaffCtrl.formFields.qualification"
+                                maxlength="50" tabindex="14" />
+                              <label for="form_control_1">Enter Qualification</label>
+                            </div>
+
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="percentage" data-ng-model="AddStaffCtrl.formFields.percentage" maxlength="50"
+                                tabindex="15" />
+                              <label for="form_control_1">Enter Percentage</label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+
+                            <label for="radiobed">
+                              <span class="inc"></span>
+                              <span class="check"></span>
+                              <span class="box"></span> BED Certified:</label>
+                            </br>
+                            <input type="radio" ng-model="AddStaffCtrl.formFields.BED" value="Yes" tabindex="16">Yes
+                            <input type="radio" ng-model="AddStaffCtrl.formFields.BED" value="No" tabindex="16">No
+                          </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="currentAddress" data-ng-model="AddStaffCtrl.formFields.currentAddress"
+                                 tabindex="17"/>
+                              <label for="form_control_1">Current Address</label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="currentCity" data-ng-model="AddStaffCtrl.formFields.currentCity" maxlength="50"
+                                tabindex="18" onkeypress="return onlyAlphabets(event,this);"/>
+                              <label for="form_control_1">Current City</label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="currentState" data-ng-model="AddStaffCtrl.formFields.currentState"
+                                maxlength="50" tabindex="19" onkeypress="return onlyAlphabets(event,this);"/>
+                              <label for="form_control_1">Current State</label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="currentPincode" data-ng-model="AddStaffCtrl.formFields.currentPincode"
+                                maxlength="6" tabindex="20" onkeypress="return onlyNumbers(event,this);"/>
+                              <label for="form_control_1">Current Pincode</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <input type="text" class="form-control input-sm" name="RFID" data-ng-model="AddStaffCtrl.formFields.RFID" maxlength="50"
+                                tabindex="21" />
+                              <label for="form_control_1">RFID</label>
+                            </div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              <select data-ng-model="AddStaffCtrl.formFields.upload" name="upload" tabindex="22" class="form-control input-sm">
+                                <option value="">Select Upload Type</option>
+                                <option value="ProfilePic">Profile Pic</option>
+                                <option value="Experience">Experience Certificate</option>
+                                <option value="AADHAR_PASSPORT">Aadhar / Passport</option>
+                                <option value="Pancard">Pancard</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-5 col-md-5 col-lg-5">
+                            <!-- ProfilePic   -->
+                            <div class="col-sm-4 col-md-4 col-lg-4" style="margin-top:-1%" ng-show="AddStaffCtrl.formFields.upload=='ProfilePic'">
+                              <label for="form_control_1"></label>
+                              <label for="form_control_1">Profile Picture</label>
+                              <img src="" alt="" width="100%" height="100%" border="20px">
+                              <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group input-large">
+                                  <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                    <i class="fa fa-user fileinput-exists"></i>&nbsp;
+                                    <span class="fileinput-filename">{{AddStaffCtrl.file.substring(64)}}</span>
+                                  </div>
+                                  <span class="input-group-addon btn default btn-file">
+                                    <span class="fileinput-new"> Select file </span>
+                                    <span class="fileinput-exists"> Change </span>
+                                    <input type="hidden" value="" name="...">
+                                    <input type="file" name="file" data-ng-model="AddStaffCtrl.myUpload" id="myFile" accept="image/gif, image/jpeg, image/png">
+                                  </span>
+                                  <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                </div>
+                              </div>
+                              <input class="btn green" type="button" data-ng-click="AddStaffCtrl.uploadImage($index)" data-ng-disabled="fileuploadform.$invalid"
+                                value="Upload Profile Picture">
+                            </div>
+                            <!-- Profile pic end -->
+                            <!-- Upload Exp -->
+                            <div class="col-sm-4 col-md-4 col-lg-4" style="margin-top:-1%" id="expC" ng-show="AddStaffCtrl.formFields.upload=='Experience'">
+                              <label for="form_control_1"></label>
+                              <label for="form_control_1">Exp Certificate</label>
+                              <img src="" alt="" width="100%" height="100%" border="20px">
+                              <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group input-large">
+                                  <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                    <i class="fa fa-user fileinput-exists"></i>&nbsp;
+                                    <span class="fileinput-filename">{{AddStaffCtrl.ExpcertiFile.substring(64)}}</span>
+                                  </div>
+                                  <span class="input-group-addon btn default btn-file">
+                                    <span class="fileinput-new"> Select file </span>
+                                    <span class="fileinput-exists"> Change </span>
+                                    <input type="hidden" value="" name="...">
+                                    <input type="file" name="file1" data-ng-model="AddStaffCtrl.myUpload1" id="ExpcertiFile" accept="application/pdf">
+                                  </span>
+                                  <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                </div>
+                              </div>
+                              <input class="btn green" type="button" data-ng-click="AddStaffCtrl.uploadExpCerti($index)" data-ng-disabled="fileuploadform.$invalid"
+                                value="Upload Experience Certificate">
+                            </div>
+
+
+                            <!-- Upload Exper Ends -->
+                            <!-- Upload Adhaar/passport -->
+                            <div class="col-sm-4 col-md-4 col-lg-4" style="margin-top:-1%" id="adhaar" ng-show="AddStaffCtrl.formFields.upload=='AADHAR_PASSPORT'">
+                              <label for="form_control_1"></label>
+                              <label for="form_control_1">Aadhar/Passport</label>
+                              <img src="" alt="" width="100%" height="100%" border="20px">
+                              <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group input-large">
+                                  <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                    <i class="fa fa-user fileinput-exists"></i>&nbsp;
+                                    <span class="fileinput-filename">{{AddStaffCtrl.adhaarFile.substring(64)}}</span>
+                                  </div>
+                                  <span class="input-group-addon btn default btn-file">
+                                    <span class="fileinput-new"> Select file </span>
+                                    <span class="fileinput-exists"> Change </span>
+                                    <input type="hidden" value="" name="...">
+                                    <input type="file" name="file2" data-ng-model="AddStaffCtrl.myUpload2" id="adhaarFile" accept="application/pdf">
+                                  </span>
+                                  <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                </div>
+                              </div>
+                              <input class="btn green" type="button" data-ng-click="AddStaffCtrl.uploadAdhaar($index)" data-ng-disabled="fileuploadform.$invalid"
+                                value="Upload Aadhar/Passport">
+                            </div>
+
+                            <!-- Upload adhaar/passport Ends -->
+                            <!-- Upload Pancard -->
+                            <div class="col-sm-4 col-md-4 col-lg-4" style="margin-top:-1%" id="pancard" ng-show="AddStaffCtrl.formFields.upload=='Pancard'">
+                              <label for="form_control_1"></label>
+                              <label for="form_control_1">Pancard</label>
+                              <img src="" alt="" width="100%" height="100%" border="20px">
+                              <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group input-large">
+                                  <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                    <i class="fa fa-user fileinput-exists"></i>&nbsp;
+                                    <span class="fileinput-filename"> {{AddStaffCtrl.pancardFile.substring(64)}}</span>
+                                  </div>
+                                  <span class="input-group-addon btn default btn-file">
+                                    <span class="fileinput-new"> Select file </span>
+                                    <span class="fileinput-exists"> Change </span>
+                                    <input type="hidden" value="" name="...">
+                                    <input type="file" name="file3" data-ng-model="AddStaffCtrl.myUpload3" id="pancardFile" accept="application/pdf">
+                                  </span>
+                                  <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                </div>
+                              </div>
+                              <input class="btn green" type="button" data-ng-click="AddStaffCtrl.uploadPancard($index)" data-ng-disabled="fileuploadform.$invalid"
+                                value="Upload Pancard ">
+                            </div>
+
+                            <!-- Upload pancard Ends -->
+
+                          </div>
+                          <div class="col-sm-1 col-md-1 col-lg-1">
+                            <div ng-show="AddStaffCtrl.formFields.upload=='ProfilePic'">
+                              <img alt=" " class="img-circle " style="height: 40px;width: 60px; " ng-src="{{AddStaffCtrl.file}} " />
+                              <br/>{{AddStaffCtrl.file.substring(64)}}
+                            </div>
+                            <!-- <div ng-show="AddStaffCtrl.formFields.upload=='Experience'">
+                              {{AddStaffCtrl.ExpcertiFile.substring(64)}}
+                            </div>
+                            <div ng-show="AddStaffCtrl.formFields.upload=='AADHAR_PASSPORT'">
+                              {{AddStaffCtrl.adhaarFile.substring(64)}}
+                            </div>
+                            <div ng-show="AddStaffCtrl.formFields.upload=='Pancard'">
+                              {{AddStaffCtrl.pancardFile.substring(64)}}
+                            </div> -->
+                          </div>
+                        </div>
+                        <div class="form-group">
+
+                          <button type="reset" class="btn default">Reset</button>
+                          <button type="submit" class="btn green" data-ng-disabled="addstaffform.$invalid">
+                            <i class="fa fa-check"></i> Submit</button>
+                        </div>
+                  </form>
+                  </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+          <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+      </div>
+    </div>
+    <!-- END PAGE CONTENT INNER -->
+
+    <!-- END PAGE CONTENT -->
+    <!-- END PAGE CONTAINER -->
+    <script>
+      (function () {
+        setTimeout(function () {
+          $('#DOB').datetimepicker({
+            format: 'DD-MM-YYYY'
+          });
+          $('#JD').datetimepicker({
+            format: 'DD-MM-YYYY'
+          });
+        }, 500);
+      })();
+      function onlyAlphabets(e, t) {
+      try {
+          if (window.event) {
+              var charCode = window.event.keyCode;
+          }
+          else if (e) {
+              var charCode = e.which;
+          }
+          else { return true; }
+          if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123 || charCode==32))
+              return true;
+          else
+              return false;
+      }
+      catch (err) {
+          alert(err.Description);
+      }
+  };
+  function onlyNumbers(e, t) {
+      try {
+          if (window.event) {
+              var charCode = window.event.keyCode;
+          }
+          else if (e) {
+              var charCode = e.which;
+          }
+          else { return true; }
+          if ((charCode > 47 && charCode < 58) )
+              return true;
+          else
+              return false;
+      }
+      catch (err) {
+          alert(err.Description);
+      }
+  }
+
+
+    </script>

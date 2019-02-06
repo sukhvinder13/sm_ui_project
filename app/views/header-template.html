@@ -1,0 +1,500 @@
+<!-- BEGIN HEADER -->
+<div class="page-header">
+    <!-- BEGIN HEADER TOP -->
+    <div class="page-header-top">
+        <div class="container">
+            <!-- BEGIN LOGO -->
+            <!--<div class="page-logo">
+                <a ui-sref="home.console"><img src="../images/company.png" height="75" style="margin-top:0;" alt="logo" class="logo-default"></a>
+            </div>-->
+            <!-- END LOGO -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <div class="schoollogo" ng-if="HeaderCtrl.schoolLogo" width="95" style="margin-top:10px;" alt="logo">
+                <img ng-src="{{HeaderCtrl.schoolLogo}}" alt="School Logo" />
+            </div>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <a href="javascript:;" class="menu-toggler"></a>
+                <ul class="nav navbar-nav pull-right">
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    <!-- END NOTIFICATION DROPDOWN -->
+                    <!-- BEGIN TODO DROPDOWN -->
+                    <!-- BEGIN INBOX DROPDOWN -->
+                    <!-- END INBOX DROPDOWN -->
+                    <!-- BEGIN USER LOGIN DROPDOWN -->
+                    <li class="dropdown dropdown-user dropdown-dark">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            <img alt="" class="img-circle" style="height: 49px;width: 60px;margin-top: -13px;" ng-src="{{HeaderCtrl.file}}" />
+                            <span class="username username-hide-mobile" style="float:initial;">{{HeaderCtrl.userName}} {{HeaderCtrl.lastName}}
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default">
+                          
+
+                            <li>
+                                <a href="javascript:void(0)" data-ng-click="HeaderCtrl.home()">
+                                    <i class="icon-home"></i> Home
+                                </a>
+                            </li>
+                            <li>
+                                    <a href="javascript:void(0);" data-ng-click="HeaderCtrl.directory()" ng-show="HeaderCtrl.role !== 'Admin'">
+                                        <i class="icon-user"></i> My Profile
+                                    </a>
+                                </li>
+                            
+                            <li>
+                                <a ui-sref="home.profile">
+                                        <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                                     My Settings
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" data-ng-click="HeaderCtrl.logout()">
+                                    <i class="icon-key"></i> Log Out
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+    </div>
+    <!-- END HEADER TOP -->
+    <!-- BEGIN HEADER MENU -->
+    <div class="page-header-menu">
+        <div class="container">
+            <!-- BEGIN HEADER SEARCH BOX -->
+            <!-- <form class="search-form" action="extra_search.html" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="query">
+                    <span class="input-group-btn">
+                        <a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+                    </span>
+                </div>
+            </form> -->
+            <!-- END HEADER SEARCH BOX -->
+            <!-- BEGIN MEGA MENU -->
+            <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
+            <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
+            <div class="hor-menu">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a ui-sref="home.console">Console</a>
+                    </li>
+                    <li class="menu-dropdown mega-menu-dropdown mega-menu-full">
+                        <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:void(0)" class="dropdown-toggle">
+                            Menu
+                            <i class="fa fa-angle-down">
+                            </i>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="mega-menu-content">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <ul class="mega-menu-submenu" ng-hide="!HeaderCtrl.EnquiryroleView&&!HeaderCtrl.ComplaintroleView&&!HeaderCtrl.VisitorroleView">
+                                                <li>
+                                                    <h3>Front Desk</h3>
+                                                </li>
+                                                <li>
+                                                    <!-- <a ui-sref="home.enquiry" class="iconify" ng-show="userRole == 'Admin'||userRole=='Accountant'"> -->
+                                                    <a ui-sref="home.enquiry" class="iconify" ng-show="HeaderCtrl.EnquiryroleView">
+                                                        <i class="fa fa-pencil"></i> Enquiry Form
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.complent" class="iconify" ng-show="HeaderCtrl.ComplaintroleView">
+                                                        <i class="fa fa-pencil"></i> Suggestion Box
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.visitor" class="iconify" ng-show="HeaderCtrl.VisitorroleView">
+                                                        <i class="fa fa-pencil"></i> Visitor Book
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <br />
+                                            <ul class="mega-menu-submenu" ng-hide="!HeaderCtrl.EnrollementroleView&&!HeaderCtrl.PromoteStudentroleView&&!HeaderCtrl.CertificateroleView">
+                                                <li>
+                                                    <h3>Administrative Desk</h3>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.enrollmentform" class="iconify" ng-show="HeaderCtrl.EnrollementroleView">
+                                                        <i class="fa fa-user"></i> Enrollment Form
+                                                    </a>
+                                                </li>
+                                                <!-- <li>
+                                                    <a ui-sref="home.addstudent" class="iconify">
+                                                        <i class="fa fa-user"></i> Enroll Student
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.addstaff" class="iconify">
+                                                        <i class="fa fa-user-plus"></i> Enroll Staff
+                                                    </a>
+                                                </li>
+                                                <li ng-hide="userRole=='Accountant'">
+                                                    <a ui-sref="home.addaccountant" class="iconify">
+                                                        <i class="fa fa-user-plus"></i> Enroll Accountant
+                                                    </a>
+                                                </li> -->
+
+                                                <li>
+                                                    <a ui-sref="home.promote" class="iconify" ng-show="HeaderCtrl.PromoteStudentroleView">
+
+                                                        <i class="fa fa-user-times"></i> Promote Students
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.certify" class="iconify" ng-show="HeaderCtrl.CertificateroleView">
+                                                        <i class="fa fa-user-times"></i> Certificates
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-2" ng-hide="!HeaderCtrl.SchoolDirectoryroleView&&!HeaderCtrl.MediaroleView&&!HeaderCtrl.SchoolCalenderroleView&&!HeaderCtrl.MessagesroleView&&!HeaderCtrl.MessagesroleView&&!HeaderCtrl.NoticeBoardroleView">
+                                            <ul class="mega-menu-submenu">
+                                                <li>
+                                                    <h3>Communication Desk</h3>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.schooldirectory" class="iconify" ng-show="HeaderCtrl.SchoolDirectoryroleView">
+                                                        <i class="fa fa-institution"></i> Directory
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.noticeboard" class="iconify" ng-show="HeaderCtrl.NoticeBoardroleView">
+                                                        <i class="fa fa-bullhorn"></i> Notice Board
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.messages" class="iconify" ng-show="HeaderCtrl.MessagesroleView">
+                                                        <i class="fa fa-comments"></i> Messages
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.schoolcalendar" class="iconify" ng-show="HeaderCtrl.SchoolCalenderroleView">
+                                                        <i class="fa fa-calendar"></i>Holiday Calendar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.mediauploads" class="iconify" ng-show="HeaderCtrl.MediaroleView">
+                                                        <i class="fa fa-upload"></i> Media Center
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-2" ng-hide="!HeaderCtrl.classroleView&&!HeaderCtrl.AttendanceroleView&&!HeaderCtrl.LeaveApprovalroleView&&!HeaderCtrl.LeaveroleView&&!HeaderCtrl.SchooltimeroleView&&!HeaderCtrl.SubjectroleView&&!HeaderCtrl.FOsubjectroleView&&!HeaderCtrl.SubjectroleView">
+                                            <ul class="mega-menu-submenu">
+                                                <li>
+                                                    <h3>Collaborate</h3>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.class" class="iconify" ng-show="HeaderCtrl.classroleView">
+                                                        <i class="fa fa-home "></i>Classes
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.subjects" class="iconify" ng-if="HeaderCtrl.schmarkFormat!=='FO'" ng-show="HeaderCtrl.FOsubjectroleView">
+                                                        <i class="fa fa-book"></i> Subjects
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.fosubjects" ng-if="HeaderCtrl.schmarkFormat=='FO'" class="iconify" ng-show="HeaderCtrl.FOsubjectroleView">
+                                                        <i class="fa fa-book"></i> Subjects
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a ui-sref="home.timetable" class="iconify" ng-show="HeaderCtrl.SchoolTimetableroleView">
+                                                        <i class="fa fa-calendar"></i> Time Table
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.attendance" class="iconify" ng-show="HeaderCtrl.AttendanceroleView">
+                                                        <i class="fa fa-check-square-o"></i> Attendance
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.myattendance" class="iconify" ng-show="userRole=='Staff'">
+                                                        <i class="fa fa-check-square-o"></i> My Attendance
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.leave" class="iconify" ng-show="HeaderCtrl.LeaveroleView">
+                                                        <i class="fa fa-user-plus"></i> Leave Application
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.leaveapprove" class="iconify" ng-show="HeaderCtrl.LeaveApprovalroleView">
+                                                        <i class="fa fa-user-plus"></i> Leave Approval
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.Rfid" class="iconify" ng-show="HeaderCtrl.rfidroleView">
+                                                        <i class="fa fa-user-plus"></i> Rfid
+                                                    </a>
+                                                </li>
+                                                <!-- <li>
+                                                    <a ui-sref="home.attendance" class="iconify" ng-show="HeaderCtrl.AttendanceroleView">
+                                                        <i class="fa fa-check-square-o"></i> Attendance
+                                                    </a>
+                                                </li> -->
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-2" ng-hide="!HeaderCtrl.LessonPlannerroleView&&!HeaderCtrl.LibraryroleView&&!HeaderCtrl.FOmarksroleView&&!HeaderCtrl.ExamroleView&&!HeaderCtrl.ExamsroleView&&!HeaderCtrl.ExamroleView&&!HeaderCtrl.AssignmentroleView">
+                                            <ul class="mega-menu-submenu">
+                                                <li>
+                                                    <h3>Compete</h3>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.lessonplanner" class="iconify" ng-show="HeaderCtrl.LessonPlannerroleView">
+                                                        <i class="fa fa-book"></i> Lesson Planner
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.assignments" class="iconify" ng-show="HeaderCtrl.AssignmentroleView">
+                                                        <i class="fa fa-file-text"></i> Assignments
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.exams" ng-show="HeaderCtrl.ExamroleView&&HeaderCtrl.schmarkFormat!=='FO'">
+                                                        <i class="fa fa-lightbulb-o"></i> Exams
+                                                    </a>
+                                                </li>
+                                                <!-- <li>
+                                                    <a ui-sref="home.exams" ng-show="HeaderCtrl.ExamroleView">
+                                                        <i class="fa fa-lightbulb-o"></i> Exams
+                                                    </a>
+                                                </li> -->
+                                                <li>
+                                                    <a ui-sref="home.foexams" ng-show="HeaderCtrl.ExamroleView&&HeaderCtrl.schmarkFormat=='FO'">
+                                                        <i class="fa fa-lightbulb-o"></i> Exam
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.marks" class="iconify" ng-show="HeaderCtrl.FOmarksroleView&&HeaderCtrl.schmarkFormat!=='FO'">
+                                                        <i class="fa fa-list-alt"></i> Add Marks
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.fomarks" class="iconify" ng-show="HeaderCtrl.FOmarksroleView&&HeaderCtrl.schmarkFormat=='FO'">
+                                                        <i class="fa fa-list-alt"></i> Add Marks
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.viewmarks" class="iconify" ng-show="HeaderCtrl.ViewMarksroleView&&HeaderCtrl.viewMarks">
+                                                        <i class="fa fa-list-alt"></i> View Marks
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.viewmarksTemp2" class="iconify" ng-show="HeaderCtrl.ViewMarksroleView&&HeaderCtrl.viewMarks1">
+                                                        <i class="fa fa-list-alt"></i> View Marks
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.viewmarksTemp3" class="iconify" ng-show="HeaderCtrl.ViewMarksroleView&&HeaderCtrl.viewMarks2">
+                                                        <i class="fa fa-list-alt"></i> View Marks
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.library" class="iconify" ng-show="HeaderCtrl.LibraryroleView">
+                                                        <i class="fa fa-book"></i> Library
+                                                    </a>
+                                                </li>
+
+
+
+
+
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-2" ng-hide="!HeaderCtrl.FeeSetuproleView&&!HeaderCtrl.feeStructureroleView&&!HeaderCtrl.ReportsroleView&&!HeaderCtrl.ExpencesroleView&&!HeaderCtrl.FeePaymentroleView">
+                                            <ul class="mega-menu-submenu">
+                                                <li>
+                                                    <h3>Collection</h3>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.fees" class="iconify" ng-show="HeaderCtrl.FeeSetuproleView">
+                                                        <i class="fa fa-money"></i> Fee Setup
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.feeStructure" class="iconify" ng-show="HeaderCtrl.FeeStructureroleView">
+                                                        <i class="fa fa-money"></i>Fee Structure
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.feepayment" class="iconify" ng-show="HeaderCtrl.FeePaymentroleView">
+                                                        <i class="fa fa-credit-card"></i> Fee Payment
+                                                    </a>
+                                                </li>
+                                                <!--<li>
+                                                    <a ui-sref="home.feeReport" class="iconify" ng-show="userRole !== 'Staff'">
+                                                        <i class="fa fa-credit-card"></i> Fee Reports
+                                                    </a>
+                                                </li>-->
+                                                <li>
+                                                    <a ui-sref="home.expenses" class="iconify" ng-show="HeaderCtrl.ExpencesroleView">
+                                                        <i class="fa fa-rupee"></i> Expenses
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.deposite" class="iconify" ng-show="userRole == 'Admin'">
+                                                        <i class="fa fa-rupee"></i> Deposit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.reports" class="iconify" ng-show="HeaderCtrl.ReportsroleView">
+                                                        <i class="fa fa-rupee"></i> Reports
+                                                    </a>
+                                                </li>
+
+
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-2" ng-hide="!HeaderCtrl.BusroleView&&!HeaderCtrl.BusLiveroleView&&!HeaderCtrl.BusSubscriptionroleVieww&&!HeaderCtrl.BusServiceroleView">
+                                            <ul class="mega-menu-submenu">
+                                                <li>
+                                                    <h3>Commute</h3>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.busservices" class="iconify" ng-show="HeaderCtrl.BusroleView">
+                                                        <i class="fa fa-bus"></i> Bus Setup
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.busservice" class="iconify" ng-show="HeaderCtrl.BusServiceroleView">
+                                                        <i class="fa fa-subway"></i> Bus Service
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.bussubscription" class="iconify" ng-show="HeaderCtrl.BusSubscriptionroleView">
+                                                        <i class="fa fa-newspaper-o"></i>Bus Subscription
+                                                    </a>
+
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.buslive" class="iconify" ng-if="HeaderCtrl.role!='Admin'" ng-show="HeaderCtrl.BusLiveroleView">
+                                                        <i class="fa fa-map-marker"></i> Bus Live Status
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.adminbushistory" class="iconify" ng-show="HeaderCtrl.BusroleView">
+                                                        <i class="fa fa-map-marker"></i> Bus Live History
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ui-sref="home.gpsReports" class="iconify" ng-show="HeaderCtrl.BusroleView">
+                                                        <i class="fa fa-map-marker"></i> Bus reports
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-dropdown" ng-show="userRole=='Admin'">
+                        <a ui-sref="home.settings" data-close-others="true" data-toggle="dropdown" class="dropdown-toggle">
+                            Settings
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <!-- <ul class="dropdown-menu pull-left"> -->
+                        <!--<li>
+                                <a ui-sref="home.new" class="iconify">
+                                   new
+                                </a>
+                            </li>-->
+                        <!-- <li>
+                                <a ui-sref="home.schooltimetable" class="iconify" ng-show="HeaderCtrl.SchoolTimetableroleView">
+                                    School Timetable
+                                </a>
+                            </li> -->
+                        <!--<li>
+                                <a ui-sref="home.bulkupload" class="iconify">
+                                    Bulk Uploads
+                                </a>
+                            </li>-->
+                        <!-- <li>
+                                <a ui-sref="home.bulkremovals" class="iconify" ng-show="HeaderCtrl.BulkUploadroleView">
+                                    Bulk Removals
+                                </a>
+                            </li> -->
+                        <!--<li>
+                                <a ui-sref="home.workingdays" class="iconify">
+                                    Working Days
+                                </a>
+                            </li>-->
+                        <!--<li>
+                                <a ui-sref="home.classupgrade" class="iconify">
+                                    Class Upgrade
+                                </a>
+                            </li>-->
+                        <!--<li>
+                                <a ui-sref="home.grade" class="iconify" ng-show="HeaderCtrl.GraderoleView">
+                                    Grade System
+                                </a>
+                            </li>-->
+                        <!-- <li>
+                                <a ui-sref="home.examtype" class="iconify" ng-show="HeaderCtrl.ExamTyperoleView">
+                                    Exam Type
+                                </a>
+                            </li> -->
+                        <!-- <li>
+                                <a ui-sref="home.feecategory" class="iconify" ng-show="HeaderCtrl.FeeCategoryroleView">
+                                    Fee Category
+                                </a>
+                            </li> -->
+                        <!-- <li>
+                                <a ui-sref="home.RoleCreation" class="iconify" ng-show="HeaderCtrl.RoleCreationroleView">
+                                    Role Creation
+                                </a>
+                            </li> -->
+                        <!-- </ul> -->
+                    </li>
+                </ul>
+                </div>
+                </div>
+                <!-- END MEGA MENU -->
+            </div>
+
+
+
+        </div>
+        <!-- END HEADER MENU -->
+    </div>
+    <!-- END HEADER -->
+    <script>
+        $(function () {
+            $('.mega-menu-dropdown').hover(function () {
+                $(this).addClass('open');
+            },
+                function () {
+                    $(this).removeClass('open');
+                });
+        });
+        $(function () {
+            $('.menu-dropdown').hover(function () {
+                $(this).addClass('open');
+            },
+                function () {
+                    $(this).removeClass('open');
+                });
+        });
+
+
+
+
+    </script>

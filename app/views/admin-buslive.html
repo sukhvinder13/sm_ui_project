@@ -1,0 +1,159 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+      <!-- BEGIN PAGE CONTENT -->
+      <div class="page-content">
+            <div class="container">
+                  <!-- BEGIN PAGE BREADCRUMB -->
+                  <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                              <a ui-sref="home.console">Home</a>
+                              <i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Transport Management
+                              <i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Bus Live Service
+                        </li>
+                  </ul>
+                  <!-- END PAGE BREADCRUMB -->
+                  <!-- BEGIN PAGE CONTENT INNER -->
+                  <div class="page-content-inner">
+                        <div class="row">
+                              <div class="col-md-12">
+                                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                                    <div class="portlet light portlet-fit ">
+                                          <div class="portlet-title">
+                                                <div ng-repeat="date in BusliveCtrl.schoollist" title="To UpDate Go To Settings">
+                                                      <b>SchoolAddress: {{date.busaddress}}</b>asds
+                                                </div>
+                                                <div class="caption">
+                                                      <i class="fa fa-subway font-green"></i>
+                                                      <span class="caption-subject font-green bold uppercase">BUS LIVE
+                                                            HISTORY: {{ BusliveCtrl.serviceNoDetails}}</span>
+
+                                                      <select class="selcls" style="margin-left: 11px; width: 101px;margin-top: -27px;"
+                                                            data-ng-model="serviceNo" required>
+
+                                                            <option ng-repeat="vehNo in BusAdminliveCtrl.vehList" value="{{vehNo}}">{{vehNo.serviceNo}}</option>
+                                                      </select>
+                                                      <input type="date" style="width: 170px;margin-top: -30px;padding-top: 2px;padding-bottom: 0px;"
+                                                            class="selcls" id="datePicker" data-ng-model="historydate"
+                                                            max='{{maxDate()}}' maxlength="200px">
+                                                      <button type="submit" class="selclss" style="margin-top: -51px;padding-top: 6px;padding-bottom: 5px;padding-bottom: 4px;width: 100px;"
+                                                            ng-click="polyline_status&&history(serviceNo,historydate)">
+                                                            <span ng-if="polyline_status">Get</span>
+                                                            <span ng-if="!polyline_status">wait..</span>
+                                                      </button>
+                                                </div>
+                                          </div>
+
+                                          <div class="portlet-body">
+                                                <div class="table-toolbar">
+                                                      <div class="row">
+                                                            <marquee ng-if="vehicle_stats">
+                                                                  <span>
+                                                                        <font size="4"> vehicle No:</font>
+                                                                        <font size="4" color="blue">{{vehicle_stats.regno}}
+                                                                        </font>
+                                                                  </span>
+                                                                  <span>
+                                                                        <font size="4"> Status:</font>
+                                                                        <font size="4" color="green" ng-if="vehicle_stats.ignition">Running
+                                                                        </font>
+                                                                        <font size="4" color="red" ng-if="!vehicle_stats.ignition">Stopped
+                                                                        </font>
+                                                                  </span>
+                                                                  <span>
+                                                                        <font size="4"> Current speed:</font>
+                                                                        <font size="4" color="blue">{{vehicle_stats.speedKPH}}
+                                                                              kmph</font>
+                                                                  </span>
+                                                                  <span>
+                                                                        <font size="4"> Current Location:</font>
+                                                                        <font size="4" color="blue" ng-if="vehicle_stats.location">{{vehicle_stats.location}}</font>
+                                                                        <font size="4" color="blue" ng-if="!vehicle_stats.location">{{vehicle_stats.lat}}
+                                                                              {{vehicle_stats.lng}}</font>
+                                                                  </span>
+                                                                  <span>
+                                                                        <font size="4"> Distance Traveled:</font>
+                                                                        <font size="4" color="blue">{{vehicle_stats.totalDistanceTravelledInKm}}
+                                                                              km</font>
+                                                                  </span>
+                                                            </marquee>
+                                                            <div class="col-lg-12 col-md-12" id='map_canvas_history'>
+
+                                                            </div>
+
+                                                            <!-- END EXAMPLE TABLE PORTLET-->
+                                                      </div>
+                                                </div>
+
+                                          </div>
+                                          <!-- END PAGE CONTENT INNER -->
+                                    </div>
+                              </div>
+                              <!-- END PAGE CONTENT -->
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+
+<!-- EDIT MODAL END-->
+<style>
+      #map_canvas_history {
+            width: 1300px;
+            height: 700px;
+      }
+</style>
+<style>
+      .selcls {
+            padding: 3px;
+            border: solid 1px #517B97;
+            outline: 0;
+            background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, lavender), to(#FFFFFF));
+            background: -moz-linear-gradient(top, #FFFFFF, #CAD9E3 1px, #FFFFFF 25px);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+            -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+            -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+            width: 150px;
+      }
+
+      .selclss {
+            padding: 3px;
+            border: solid 1px #517B97;
+            outline: 0;
+            background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, lavender), to(#FFFFFF));
+            background: -moz-linear-gradient(top, #FFFFFF, #CAD9E3 1px, #FFFFFF 25px);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+            -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+            -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+            width: 108px;
+      }
+
+      .seldemo {
+            background: #A0CFCF;
+            height: 75px;
+            width: 250px;
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 22px;
+            color: #fff;
+      }
+</style>
+<script>
+      (function () {
+            setTimeout(function () {
+                  $('#servicepickup').datetimepicker({
+                        format: 'HH:mm'
+                  });
+                  $('#servicedrop').datetimepicker({
+                        format: 'HH:mm'
+                  });
+            }, 500);
+      })();
+</script>

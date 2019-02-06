@@ -1,0 +1,68 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Marks
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-list-alt font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">Student Marks</span>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <ul class="nav nav-tabs" style="border:none">
+                                    <li ng-repeat="marks in MarksCtrl.subjectMarksDetails " ng-click="MarksCtrl.getSubjects(marks.id,marks.subjectList)">
+                                        <button class="btn green btn-o" class="active">{{marks.examName}}</button>
+                                    </li>
+                                </ul>
+                                  <div class="row">
+                                <div class="col-lg-5">
+                                <div class="table-responsive">
+                                <table class="table table-striped table-responsive table-hover table-bordered m-top20">
+                                       <thead>
+                                       <tr>
+                                            <th>subjectName</th>
+                                            <th>MarksScored</th>
+                                            <th>MaximumMark</th>
+                                           </tr>
+                                       </thead>
+                                           <tr ng-init="i=$index" ng-repeat="studentsmarks in MarksCtrl.subjectMarks">
+                                               <td>{{studentsmarks.subjectName}}</td>
+                                               <td>{{studentsmarks.subjectMarks}}</td>
+                                               <td>{{MarksCtrl.myList[i].maximumMark}}</td>
+                                           </tr>
+                                       </table>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->

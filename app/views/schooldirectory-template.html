@@ -1,0 +1,431 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Directory
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-institution font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase"> DIRECTORY</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="btn-group">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 dirAlign1">
+
+                                        </div>
+                                    </div>
+                                    <!-- INNER CONTENT GOES HERE-->
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-12 dirAlign2">
+                                            <div class="row">
+
+                                                <div class="form-group form-md-radios col-md-8">
+
+                                                    <div class="col-md-4">
+
+                                                        <select data-ng-model="SchooldirectoryCtrl.formFields.roleId" style="border:none;width:140px;border-bottom: solid 1px #a79494;"
+                                                            name="roleId" class="form-control input-sm" ng-change="SchooldirectoryCtrl.selectchange(SchooldirectoryCtrl.formFields.roleId);SchooldirectoryCtrl.clearform();"
+                                                            required>
+                                                            <option value="">Select User Type</option>
+                                                            <option value="stud">Student</option>
+                                                            <option value="staff">Staff</option>
+                                                            <option value="Accountant">Accountant</option>
+                                                            
+
+                                                        </select>
+                                                    </div>
+                                                    <div class=" form-md-line-input form-md-floating-label has-info col-md-4" ng-show="SchooldirectoryCtrl.formFields.roleId=='stud' && userRole == 'Admin'||SchooldirectoryCtrl.formFields.roleId=='stud' && userRole == 'Accountant'">
+                                                        <select data-ng-model="SchooldirectoryCtrl.classId" style="border:none;margin-right: 5px;width:140px;border-bottom: solid 1px #a79494;"
+                                                            name="classId" data-ng-change="SchooldirectoryCtrl.chooseClass(SchooldirectoryCtrl.classId)"
+                                                            class="form-control input-sm">
+                                                            <option value="">CLASS</option>
+                                                            <option ng-repeat="class in SchooldirectoryCtrl.classesList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-md-line-input form-md-floating-label has-info col-md-4" ng-show="SchooldirectoryCtrl.formFields.roleId=='stud' && userRole == 'Staff'"
+                                                        st>
+                                                        <select data-ng-model="SchooldirectoryCtrl.classId" name="classId" data-ng-change="SchooldirectoryCtrl.chooseClass(SchooldirectoryCtrl.classId)"
+                                                            class="form-control input-sm" style="border:none;">
+                                                            <option value="">CLASS</option>
+                                                            <option ng-repeat="class in SchooldirectoryCtrl.classList" value="{{class.class.id}}">{{class.class.className}}-{{class.class.sectionName}}</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="btn-group col-md-4 " ng-show="userRole == 'Admin'||userRole=='Accountant'" style="margin-left: 135px;">
+                                                        <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                            Tools
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu pull-right">
+                                                            <li>
+                                                                <a href="javascript:void(0)" data-ng-click="SchooldirectoryCtrl.printData()">Print</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:;" data-ng-click="SchooldirectoryCtrl.pdf();SchooldirectoryCtrl.showForPdf=false;"> Save as PDF </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0)" data-ng-click="SchooldirectoryCtrl.exportToExcel('#tableToExport1')"> Export to Excel </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12" id="tableToExport" style="margin-top: -56px;">
+                                            <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" datatable="ng">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="scgfig2">
+                                                            Photo
+                                                        </th>
+                                                        <th class="scgfig2" ng-show="SchooldirectoryCtrl.formFields.roleId == 'stud'">
+                                                            Registration No
+                                                        </th>
+                                                        <th class="scgfig2">
+                                                            Name
+                                                        </th>
+                                                        <th class="scgfig2">
+                                                            Email
+                                                        </th>
+                                                        <th class="scgfig2" ng-show="SchooldirectoryCtrl.formFields.roleId == 'stud'">
+                                                            Roll No
+                                                        </th>
+                                                        <th class="scgfig2" ng-show="SchooldirectoryCtrl.formFields.roleId == 'stud'">
+                                                            Class / Section
+                                                        </th>
+                                                        <th class="scgfig2">
+                                                            Contact
+                                                        </th>
+                                                        <th class="text-center scgfig2" ng-hide="SchooldirectoryCtrl.formFields.roleId == 'Accountant'||userRole == 'Student' || userRole == 'Staff'">
+                                                            More Details
+                                                        </th> 
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-ng-repeat="data in SchooldirectoryCtrl.directorList|orderBy:['class.className','rolll']">
+                                                        <td ng-init="SchooldirectoryCtrl.test(data)">
+                                                            <figure id="schfig" style="text-align:center;">
+                                                                <img prevent-right-click class="img-circle" ng-src="{{data.file}}" alt="Photo" height="64px" width="64px" />
+                                                                <figure>
+                                                        </td>
+                                                        <td ng-show="SchooldirectoryCtrl.formFields.roleId == 'stud'" style="width:297px; text-align:center;vertical-align: middle;">
+                                                            <span ng-if="data.regid">{{data.regId}}</span>
+                                                            <span ng-if="data.registrationNo">{{data.registrationNo}}</span>
+                                                        </td>
+                                                        <td style="width:297px; text-align:left;vertical-align: middle;">
+                                                            <a href data-ng-click="SchooldirectoryCtrl.MoreDetails(data.id)">{{data.firstName}} {{data.lastName}}</a>
+                                                        </td>
+                                                        <td style="width:10%; text-align:left;vertical-align: middle;">{{data.email}}</td>
+                                                        <td ng-show="SchooldirectoryCtrl.formFields.roleId == 'stud'" style="width:135px; text-align:center;vertical-align: middle;">{{data.rollNo}}</td>
+                                                        <td ng-show="SchooldirectoryCtrl.formFields.roleId == 'stud'" style="width:400px; text-align:center;vertical-align: middle;">{{data.class.className}} - {{data.class.sectionName}}</td>
+                                                        <td style="width:300px; text-align:center;vertical-align: middle;">(+91){{data.contact | tel}}</td>
+                                                        <td class="text-center" style="width:105px; text-align:center;vertical-align: middle;" ng-hide="SchooldirectoryCtrl.formFields.roleId == 'Accountant'||userRole == 'Student' || userRole == 'Staff'">
+                                                            <!--<a class="" href="javascript:void(0)" data-ng-click="SchooldirectoryCtrl.showMoreDetails(data)" title="MoreDetails">
+                                                            <i class="fa fa-file-text-o"></i>
+                                                        </a>-->
+                                                            <a href="javascript:void(0);" ng-show="userRole == 'Admin'||userRole=='Accountant'" data-ng-click="SchooldirectoryCtrl.editDetails(data)"
+                                                                title="edit">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                            <a href="javascript:void(0);" ng-show="userRole == 'Admin'||userRole=='Accountant'" ng-bootbox-confirm="Are you sure you want to delete this record ?"
+                                                                ng-bootbox-confirm-action="SchooldirectoryCtrl.confirmCallbackMethod(data)"
+                                                                ng-bootbox-confirm-action-cancel="SchooldirectoryCtrl.confirmCallbackCancel()"
+                                                                title="remove">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                            <a href="javascript:void(0);" ng-show="userRole=='Admin'||userRole=='Accountant'" data-placement="top" title="subscribe"
+                                                                data-trigger="click" data-toggle="popover" data-html="true" data-content="<input type='email' ng-model='SchooldirectoryCtrl.subscribeemail' /> <button class='btn btn-primary' style='margin:10px 50px;' ng-click='SchooldirectoryCtrl.submitemail({{data}})'>Submit</button>"
+                                                                rel="popover" id="{{$index}}">
+                                                                <i class="fa fa-rss"></i>
+                                                            </a>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+                                                <tbody ng-show="staffdata" data-ng-repeat="data1 in SchooldirectoryCtrl.directorList1">
+                                                    <tr data-ng-repeat="data in data1">
+                                                        <td>
+                                                            <figure id="schfig" style="text-align:center;">
+                                                                <img prevent-right-click class="img-circle" ng-src="{{data.file}}" alt="Photo" height="64px" width="64px" />
+                                                                <figure>
+                                                        </td>
+                                                        <td ng-show="SchooldirectoryCtrl.formFields.roleId == 'stud'" style="width:297px; text-align:center;vertical-align: middle;">
+                                                            <span ng-if="data.regid">{{data.regId}}</span>
+                                                            <span ng-if="data.registrationNo">{{data.registrationNo}}</span>                                                            </td>
+                                                        <td style="width:297px;text-align:left;vertical-align: middle;">
+                                                            <a href data-ng-click="SchooldirectoryCtrl.MoreDetails(data.id)">{{data.firstName}} {{data.lastName}}</a>
+                                                        </td>
+                                                        <td style="width:10%;text-align:left;vertical-align: middle;">{{data.email}}</td>
+                                                        <td ng-show="SchooldirectoryCtrl.formFields.roleId == 'stud'" style="width:135px;text-align:center;vertical-align: middle;">{{data.rollNo}}</td>
+                                                        <td ng-show="SchooldirectoryCtrl.formFields.roleId == 'stud'" style="width:200px;text-align:center;vertical-align: middle;">{{data.class.className}} - {{data.class.sectionName}}</td>
+                                                        <td style="text-align:center;vertical-align: middle;">(+91){{data.contact | tel}}</td>
+                                                        <td class="text-center" style="width:105px;text-align:center;vertical-align: middle;">
+
+                                                            <a href="javascript:void(0);" ng-show="userRole == 'Admin'||userRole=='Accountant'" data-ng-click="SchooldirectoryCtrl.editDetails(data)"
+                                                                title="edit">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                            <a href="javascript:void(0);" ng-show="userRole == 'Admin'||userRole=='Accountant'" ng-bootbox-confirm="Are you sure you want to delete this record ?"
+                                                                ng-bootbox-confirm-action="SchooldirectoryCtrl.confirmCallbackMethod(data)"
+                                                                ng-bootbox-confirm-action-cancel="SchooldirectoryCtrl.confirmCallbackCancel()"
+                                                                title="remove">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                            <a href="javascript:void(0);" ng-show="userRole=='Admin'||userRole=='Accountant'" data-placement="top" title="subscribe"
+                                                                data-trigger="click" data-toggle="popover" data-html="true" data-content="<input type='email' ng-model='SchooldirectoryCtrl.subscribeemail' /> <button class='btn btn-primary' style='margin:10px 50px;' ng-click='SchooldirectoryCtrl.submitemail({{data}})'>Submit</button>"
+                                                                rel="popover" id="{{$index}}">
+                                                                <i class="fa fa-rss"></i>
+                                                            </a>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END EXAMPLE TABLE PORTLET-->
+                        </div>
+                    </div>
+                </div>
+                <!-- END PAGE CONTENT INNER -->
+            </div>
+        </div>
+        <!-- END PAGE CONTENT -->
+    </div>
+    <!-- END PAGE CONTAINER -->
+    <!-- DETAILS MODAL -->
+    <div id="details-modal" class="modal fade bs-modal-lg" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="SchooldirectoryCtrl.closeProfileModal()">
+                        <span class="icon-close"></span>
+                    </a>
+                    <h4 class="modal-title font-green">More Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row profile">
+                        <div class="col-md-3">
+                            <ul class="list-unstyled profile-nav">
+                                <li>
+                                    <img data-ng-src="{{SchooldirectoryCtrl.profileList.file}}" class="img-responsive pic-bordered" alt="{{SchooldirectoryCtrl.profileList.firstName}}">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-12 profile-info">
+                                    <h1 class="font-green sbold uppercase">{{SchooldirectoryCtrl.profileList.firstName}} {{SchooldirectoryCtrl.profileList.lastName}}</h1>
+                                    <p ng-if="SchooldirectoryCtrl.formFields.roleId == 'stud'">
+                                        Roll No: {{SchooldirectoryCtrl.profileList.rollNo}}
+                                    </p>
+                                    <p ng-if="SchooldirectoryCtrl.formFields.roleId == 'stud'">
+                                        Class: {{SchooldirectoryCtrl.profileList.class.className}} - {{SchooldirectoryCtrl.profileList.class.sectionName}}
+                                    </p>
+                                    <p>
+                                        Email:
+                                        <a href="emailTo:javascript:void(0);"> {{SchooldirectoryCtrl.profileList.email}} </a>
+                                    </p>
+                                    <p>
+                                        Phone Number: {{SchooldirectoryCtrl.profileList.contact}}
+                                    </p>
+                                    <ul class="list-inline block">
+                                        <li>
+                                            <i class="fa fa-map-marker"></i> {{SchooldirectoryCtrl.profileList.currentAddress}},
+                                            {{SchooldirectoryCtrl.profileList.currentCity}}, {{SchooldirectoryCtrl.profileList.currentState}},
+                                            {{SchooldirectoryCtrl.profileList.currentPincode}}
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-calendar"></i> {{SchooldirectoryCtrl.profileList.dateofBirth
+                                            | date:'dd MMM yyyy'}}
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-briefcase"></i> {{SchooldirectoryCtrl.profileList.type}}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn green btn-outline dropdown-toggle">Chat
+                                        <i class="icons icon-bubble"></i>
+                                    </button>
+                                </div>
+                                <div class="col-md-3 hide">
+                                    <ul class="list-inline icon-large">
+                                        <li>
+                                            <i class="icons icon-social-facebook"></i>
+                                        </li>
+                                        <li>
+                                            <i class="icons icon-bubble"></i>
+                                        </li>
+                                        <li>
+                                            <i class="icons icon-envelope"></i>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--end col-md-8-->
+                            </div>
+                            <!--end row-->
+                            <div class="tabbable-line tabbable-custom-profile">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="javascript:void(0);" id="personaltab" data-target="#personalinfo" data-toggle="tab" aria-expanded="true"> Personal Info </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" id="attendancetab" data-target="#attendance" data-toggle="tab" aria-expanded="true" ng-if="SchooldirectoryCtrl.formFields.roleId == 'stud'">
+                                            Attendance </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" id="markstab" data-ng-click="SchooldirectoryCtrl.openTab('marks')" aria-expanded="true" ng-if="SchooldirectoryCtrl.formFields.roleId == 'stud'">
+                                            Marks </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" id="activitytab" data-ng-click="SchooldirectoryCtrl.openTab('activity')" aria-expanded="true"
+                                            ng-if="SchooldirectoryCtrl.formFields.roleId == 'stud'"> Activity Log </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="personalinfo">
+                                        <div class="portlet-body">
+                                            <table class="table table-striped table-bordered table-advance table-hover">
+                                                <tr>
+                                                    <th> DateofBirth :</th>
+                                                    <td>{{ SchooldirectoryCtrl.profileList.dateofBirth | date:'MMM dd yyyy' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th> DateofJoin :</th>
+                                                    <td>{{ SchooldirectoryCtrl.profileList.dateofJoin | date:'MMM dd yyyy' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th> BloodGroup :</th>
+                                                    <td>{{ SchooldirectoryCtrl.profileList.bloodGroup }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th> MotherTounge :</th>
+                                                    <td>{{ SchooldirectoryCtrl.profileList.motherTounge }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th> Father Name :</th>
+                                                    <td>{{ SchooldirectoryCtrl.profileList.fatherName }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th> Mother Name :</th>
+                                                    <td>{{ SchooldirectoryCtrl.profileList.motherName }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th> Father Mobile:</th>
+                                                    <td>{{ SchooldirectoryCtrl.profileList.fatherContact }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th> Mother Mobile:</th>
+                                                    <td>{{ SchooldirectoryCtrl.profileList.motherContact }}</td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!--tab-pane-->
+                                    <div class="tab-pane" id="attendance">
+                                        coming Soon..
+                                    </div>
+                                    <!--tab-pane-->
+                                    <!--tab-pane-->
+                                    <div class="tab-pane" id="marks">
+                                        coming Soon..
+                                    </div>
+                                    <!--tab-pane-->
+                                    <!--tab-pane-->
+                                    <div class="tab-pane" id="activity">
+                                        coming Soon..
+                                    </div>
+                                    <!--tab-pane-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- DETAILS MODAL END -->
+    <div class="col-md-12 col-sm-12" id="tableToExport1" ng-hide="SchooldirectoryCtrl.showForPdf">
+        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" style="/*display:none;*/"
+            id="printTable">
+            <thead>
+                <tr>
+
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th ng-if="SchooldirectoryCtrl.formFields.roleId!== 'staff'">
+                        Roll No
+                    </th>
+                    <th ng-if="SchooldirectoryCtrl.formFields.roleId!== 'staff'">
+                        Class / Section
+                    </th>
+                    <th>
+                        Contact
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="data in SchooldirectoryCtrl.directorList|orderBy:['class.className','rolll']">
+
+                    <td style="width:297px;">{{data.firstName}} {{data.lastName}}</td>
+                    <td style="width:10%;">{{data.email}}</td>
+                    <td ng-if="SchooldirectoryCtrl.formFields.roleId!== 'staff'" style="width:135px;">{{data.rollNo}}</td>
+                    <td ng-if="SchooldirectoryCtrl.formFields.roleId!== 'staff'" style="width:400px;">{{data.class.className}} - {{data.class.sectionName}}</td>
+                    <td>+91 {{data.contact}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- <style>
+    
+</style> -->
+    <script>
+        function bigImg(x) {
+            x.style.height = "96px";
+            x.style.width = "96px";
+        }
+
+        function normalImg(x) {
+            x.style.height = "64px";
+            x.style.width = "64px";
+        }
+    </script>

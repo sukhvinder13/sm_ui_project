@@ -1,0 +1,160 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container" ng-cloak="">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Marks
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-list-alt font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">Marks</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <select data-ng-model="MarksCtrl.formFields.classId" name="classId" class="form-control input-sm" data-ng-change="MarksCtrl.selectClass()">
+                                                <option value="">Class-Section</option>
+                                                  <option ng-if="userRole !=='Staff'" ng-repeat="class in MarksCtrl.classList" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option>
+                                                <option ng-if="userRole =='Staff'" ng-repeat="class in MarksCtrl.classesList | orderBy:'class.sequenceNumber'" value="{{class.class.id}}">{{class.class.className}} {{class.class.sectionName}}</option>                             
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select data-ng-model="MarksCtrl.formFields.examId" name="examId" class="form-control input-sm" ng-change="MarksCtrl.selectExam()"
+                                                ng-show="MarksCtrl.examList">
+                                                <option value="">Exam</option>
+                                                <option ng-repeat="exam in MarksCtrl.examList" value="{{exam.id}}">{{exam.examName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select data-ng-model="MarksCtrl.formFields.subjectId" name="subjectId" class="form-control input-sm" ng-change="MarksCtrl.subjectFilter.subjectId = MarksCtrl.formFields.subjectId; "
+                                                ng-show="MarksCtrl.subjectList">
+                                                <option value="">Subject</option>
+                                                <option ng-repeat="subject in MarksCtrl.subjectList" value="{{subject.subjectId}}">{{subject.subjectName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 text-right">
+                                            <!-- Purpose? -->
+                                            <div class="btn-group">
+                                                <button class="btn green" ng-show="!MarksCtrl.editMode && MarksCtrl.formFields.classId && MarksCtrl.formFields.examId && MarksCtrl.formFields.subjectId"
+                                                    data-ng-click="MarksCtrl.showTable = true; MarksCtrl.showEditButton = true">
+                                                    <i class="fa fa-check" ></i> View
+                                                </button>
+                                            </div>
+                                            <div class="btn-group">
+                                                <button class="btn green" data-ng-click="MarksCtrl.editMode = true;" ng-show="MarksCtrl.showEditButton">
+                                                    <i class="fa fa-check"></i> Edit
+                                                </button>
+                                            </div>
+                                            <div class="btn-group" ng-show="MarksCtrl.editMode">
+                                                <button class="btn green" ng-click="MarksCtrl.saveMarks()">
+                                                        <i class="fa fa-check" ></i> Update
+                                                    </button>
+                                            </div>
+                                            <!-- <div class="btn-group ">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                        Tools <i class="fa fa-angle-down"></i> 
+                                                    </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:;"> Print </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Export to Excel</a>
+                                                    </li>
+                                                </ul>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- INNER CONTENT GOES HERE-->
+                                <div class="row" ng-show="MarksCtrl.showTable">
+                                    <div class="col-md-12 col-sm-12">
+                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" id="marks_datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Student Name
+                                                    </th>
+                                                    <th>
+                                                        Roll Number
+                                                    </th>
+                                                    <th data-ng-repeat="subjects in  MarksCtrl.subjectList | filter:MarksCtrl.subjectFilter">
+                                                        {{subjects.subjectName}}
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-ng-repeat="students in MarksCtrl.studentList |orderBy : 'rollNo'">
+                                                    <td>{{students.firstName}}--{{students.lastName}}</td>
+                                                    <td>{{students.rollNo}}</td>
+                                                    <td data-ng-repeat="subject in students.subjects | filter:MarksCtrl.subjectFilter">
+                                                        <div class="col-md-12 no-padding" data-ng-repeat="sub in subject.subSections">
+                                                            <div class="col-md-10 no-padding">
+                                                                <label class="pull-right label-spacing">{{sub.assesments}} :</label>
+                                                            </div>
+                                                            <div class="col-md-2 no-padding">
+                                                                <input ng-show="MarksCtrl.editMode" type="text" class="form-control" ng-model="sub.marks" />
+                                                                <span ng-show="!MarksCtrl.editMode">
+                                                                    {{sub.marks || 0}}
+                                                            </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 no-padding">
+                                                            <div class="col-md-10 no-padding">
+                                                                <label class="pull-right label-spacing">Overall Marks :</label>
+                                                            </div>
+                                                            <div class="col-md-2 no-padding">
+                                                                <input ng-show="MarksCtrl.editMode" type="text" class="form-control" ng-model="subject.overAllMarks" />
+                                                                <span ng-show="!MarksCtrl.editMode">
+                                                                    {{subject.overAllMarks || 0}}
+                                                            </span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+
+<style>
+    .no-padding {
+        padding: 0 !important;
+    }
+
+    .label-spacing {
+        padding-top: 6px;
+        padding-right: 10px;
+    }
+</style>

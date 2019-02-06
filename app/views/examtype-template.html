@@ -1,0 +1,313 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Subjects
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-book font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase" ng-show="userRole !== 'Student'">EXAM TYPE</span>
+                                    <span class="caption-subject font-green bold uppercase" ng-show="userRole == 'Student'">MY SUBJECTS</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-4" >
+                                            <div class="form-group form-md-line-input form-md-floating-label has-info" ng-hide="userRole=='Student'" style="position: absolute;margin-top:-27px;width:150px;">
+
+                                            <select data-ng-model="ExamtypeCtrl.classId" data-ng-change="ExamtypeCtrl.chooseClass(ExamtypeCtrl.classId)" name="classId"
+                                                class="form-control input-sm">
+
+                                                <option value="">CLASS</option>
+                                                <option ng-repeat="class in ExamtypeCtrl.classList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                                              
+                                            </select>
+                                        </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="btn-group" ng-show="ExamtypeCtrl.roleEdit" style="position: absolute;margin-left:469px;margin-top: -12px;z-index: 999;">
+                                                <button class="btn green" data-toggle="modal" data-target="#edit-subject" data-ng-click="ExamtypeCtrl.editmode = false;">
+                                                    Add New Exam Type
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="btn-group pull-right" style="position: absolute;margin-left:269px;margin-top: -12px;z-index: 999;">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="ExamtypeCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="ExamtypeCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- <div class="col-md-2 col-sm-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label has-info" ng-hide="userRole=='Student'">
+
+                                            <select data-ng-model="ExamtypeCtrl.classId" data-ng-change="ExamtypeCtrl.chooseClass(ExamtypeCtrl.classId)" name="classId"
+                                                class="form-control input-sm">
+
+                                                <option value="">CLASS</option>
+                                                <option ng-repeat="class in ExamtypeCtrl.classList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                                              
+                                            </select>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-md-12 col-sm-12" style="margin-top:13px;">
+                                        <div id="tableToExport">
+                                            <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Exam Type
+                                                        </th>
+                                                        <th>
+                                                            <table width=100%>
+                                                                <tr>
+                                                                    <th style="width:158px;">
+                                                                        Assesments
+                                                                    </th>
+                                                                    <tr>
+                                                            </table>
+                                                        </th>
+
+                                                        <th class="text-center" ng-show="ExamtypeCtrl.roleEdit">
+                                                            Edit
+                                                        </th>
+                                                        <th class="text-center" ng-show="ExamtypeCtrl.roledelete">
+                                                            Delete
+                                                        </th>
+                                                        </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr data-ng-repeat="subject in ExamtypeCtrl.subjectList">
+                                                        <td>{{subject.examtypeName}}</td>
+                                                        <td>
+
+                                                            <table style="width:100%" class="table-striped">
+                                                                <tbody>
+                                                                    <tr data-ng-repeat="subjectdetails in subject.assesments">
+                                                                        <td style="width:135px;">
+                                                                            {{subjectdetails.assesments}}
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+
+                                                        <td class="text-center" ng-show="ExamtypeCtrl.roleEdit">
+                                                            <a class="" href="javascript:void(0);" data-ng-click="ExamtypeCtrl.editExamType($index)">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                       <td class="text-center" ng-show="ExamtypeCtrl.roledelete">
+                                                            <a class="" href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="ExamtypeCtrl.confirmCallbackMethod($index)"
+                                                                ng-bootbox-confirm-action-cancel="ExamtypeCtrl.confirmCallbackCancel($index)">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-subject" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="ExamtypeCtrl.closeModal()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">Exam Type</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container">
+                    <form name="subjectform" novalidate role="form" data-ng-submit="ExamtypeCtrl.CreateOrUpdate(subjectform.$invalid)">
+                        <div class="form-group form-md-floating-label has-info" >
+                            <input type="text" class="form-control input-sm" name="subjectname" data-ng-model="ExamtypeCtrl.formFields.subjectName" maxlength="50"
+                                required />
+                        </div>
+
+                        <div class="form-group form-md-line-input form-md-floating-label has-info ">
+                            <div ng-repeat="subjAsses in  ExamtypeCtrl.oneTimePay">
+                                <input type="text" class="form-control input-sm" name="subjectassesments" data-ng-model="subjAsses.assesments" maxlength="50"
+                                />
+                                <label for="form_control_1">Types of Assesments</label>
+                            </div>
+                            <div class="form-group" style="margin-top:10px;">
+                                <input type="button" class="btn btn-danger pull-right" data-ng-click="ExamtypeCtrl.delOneTimeRow()" value="Remove">
+                                <input type="button" class="btn btn-primary addnew pull-right" data-ng-click="ExamtypeCtrl.addOneTimeRow()" value="Add New">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="reset" class="btn default" ng-hide="ExamtypeCtrl.editmode">Reset</button>
+                                <button type="submit" class="btn green" data-ng-disabled="subjectform.$invalid"><i class="fa fa-check"></i> Submit</button>
+                            </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- EDIT MODAL END-->
+    <!-- DETAILS MODAL -->
+    <div id="details-modal" class="modal fade bs-modal-lg" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="ExamtypeCtrl.closeProfileModal()"><span class="icon-close"></span></a>
+                    <h4 class="modal-title font-green">Lesson Planner</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row profile">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12 profile-info">
+                                    <h1 class="font-green sbold uppercase">{{}}</h1>
+                                    <p>
+                                        Roll No: {{ExamtypeCtrl.rollNo}}
+                                    </p>
+                                    <p>
+                                        Class: {{ExamtypeCtrl.class.className}} - {{ExamtypeCtrl.class.sectionName}}
+                                    </p>
+                                    <p>
+                                        Teacher: {{ExamtypeCtrl.contact}}
+                                    </p>
+                                </div>
+                            </div>
+                            <!--end row-->
+                            <div class="tabbable-line tabbable-custom-profile">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="personalinfo">
+                                        <div class="portlet-body">
+                                            <!--<table class="table table-striped table-bordered table-advance table-hover">-->
+                                            <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Lesson</th>
+                                                        <th>Chapter</th>
+                                                        <th> Teacher Name</th>
+                                                        <th> From</th>
+                                                        <th> To</th>
+                                                        <th> Save</th>
+                                                        <th> Edit</th>
+                                                        <th> Delete</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <form name="feeoccuranceform" novalidate>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:125px" name="occurance" data-ng-model="FeesCtrl.formFields.occurance"
+                                                                    required />
+                                                            </td>
+                                                            <td>
+                                                                <input type="date" class="form-control" style="width:125px" name="date" data-ng-model="FeesCtrl.formFields.date" required
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:125px" name="annualamount" data-ng-model="FeesCtrl.formFields.annualamount"
+                                                                    required />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:100px" name="quartelyamount" data-ng-model="FeesCtrl.formFields.quaterlyamount"
+                                                                    required />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:100px" name="monthlyamount" data-ng-model="FeesCtrl.formFields.monthlyamount"
+                                                                    required />
+                                                            </td>
+                                                            <td>
+                                                                <a href="javascript:void(0)" data-ng-click="FeesCtrl.saveAction(feeoccuranceform.$invalid)" data-ng-disabled="feeoccuranceform.$invalid">
+                                                                <i class="fa fa-save"></i>
+                                                            </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="javascript:void(0)" data-ng-click="FeesCtrl.moreDetails(feeoccuranceform.$invalid)" data-ng-disabled="feeoccuranceform.$invalid">
+                                                                <i class="fa fa-file-text-o"></i>
+                                                            </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="javascript:void(0)" data-ng-click="FeesCtrl.removeEditedFields()">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                            </td>
+                                                        </form>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!--tab-pane-->
+                                    <div class="tab-pane" id="attendance">
+                                        coming Soon..
+                                    </div>
+                                    <!--tab-pane-->
+                                    <!--tab-pane-->
+                                    <div class="tab-pane" id="marks">
+                                        coming Soon..
+                                    </div>
+                                    <!--tab-pane-->
+                                    <!--tab-pane-->
+                                    <div class="tab-pane" id="activity">
+                                        coming Soon..
+                                    </div>
+                                    <!--tab-pane-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- DETAILS MODAL END -->
+
+    <style>
+        .form-group {
+            clear: both;
+        }
+    </style>

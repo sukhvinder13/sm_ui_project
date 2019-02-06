@@ -1,0 +1,358 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Subjects
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-book font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase" ng-show="userRole !== 'Student'">SUBJECTS</span>
+                                    <span class="caption-subject font-green bold uppercase" ng-show="userRole == 'Student'">MY SUBJECTS</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="btn-group" ng-show="SubjectsCtrl.roleEdit">
+                                                <button class="btn green" data-toggle="modal" data-target="#edit-subject" data-ng-click="SubjectsCtrl.editmode = false;">
+                                                    Add New Subject
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" ng-show="SubjectsCtrl.roleEdit">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="SubjectsCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="SubjectsCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label has-info" ng-hide="userRole!=='Admin'">
+
+                                            <!--<select data-ng-model="SubjectsCtrl.classId" data-ng-change="SubjectsCtrl.chooseClass(SubjectsCtrl.classId)" name="classId"
+                                                class="form-control input-sm">-->
+
+                                            <select data-ng-model="SubjectsCtrl.classId" data-ng-change="SubjectsCtrl.chooseClass(SubjectsCtrl.classId)" name="classId"
+                                                class="form-control input-sm">
+
+                                                <option value="">CLASS</option>
+                                                <option ng-repeat="class in SubjectsCtrl.classList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                                              
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-12">
+                                        <div id="tableToExport">
+                                            <table datatable="ng" class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Subject Name
+                                                        </th>
+                                                        <th ng-hide="userRole=='Student'">
+                                                            Class Name
+                                                        </th>
+                                                        <th>
+                                                            Subject Teacher
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Enable Exam
+                                                        </th>
+                                                        <th>
+                                                            Class Time
+                                                        </th>
+                                                        <!--<th>
+                                                            Lesson Planner
+                                                        </th>-->
+                                                        <th class="text-center" ng-show="SubjectsCtrl.roleEdit">
+                                                            Edit
+                                                        </th>
+                                                        <th class="text-center" ng-show="SubjectsCtrl.roledelete">
+                                                            Delete
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <!--<tr data-ng-repeat="subject in SubjectsCtrl.subjectList | filter: SubjectsCtrl.classId ">-->
+                                                    <tr data-ng-repeat="subject in SubjectsCtrl.subjectList">
+                                                        <!--<tr data-ng-repeat="subject in SubjectsCtrl.subjectList ">    -->
+                                                        <!--<select ng-model="searchObj.practitionerType" ng-options="item.practitionerTypeID as item.practitionerTypeID for item in practitionerType">    -->
+                                                        <td>{{subject.subjectName}}</td>
+                                                        <td ng-hide="userRole=='Student'">{{subject.class.className}}-{{subject.class.sectionName}}</td>
+                                                        <td>{{subject.staff.firstName}} {{subject.staff.lastName}}</td>
+                                                        <td ng-if="subject.examFlag">Yes</td>
+                                                        <td ng-if="!subject.examFlag">No</td>
+                                                        <!--<td class="text-center">
+                                                            <a class="" href="javascript:void(0)" data-ng-click="SubjectsCtrl.showMoreDetails($index)">
+                                                                <i class="fa fa-file-text-o"></i>
+                                                            </a>
+                                                        </td>-->
+                                                        <td></td>
+                                                        <td class="text-center" ng-show="SubjectsCtrl.roleEdit">
+                                                            <a class="" href="javascript:void(0);" data-ng-click="SubjectsCtrl.editSubject($index)">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center" ng-show="SubjectsCtrl.roledelete">
+                                                            <a class="" href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="SubjectsCtrl.confirmCallbackMethod($index)"
+                                                                ng-bootbox-confirm-action-cancel="SubjectsCtrl.confirmCallbackCancel($index)">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-subject" class="modal right fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="SubjectsCtrl.closeModal()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">Subjects</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container">
+                    <form name="subjectform" novalidate role="form" data-ng-submit="SubjectsCtrl.CreateOrUpdate(subjectform.$invalid)">
+                        <div class="form-group form-md-floating-label has-info" data-ng-class="{'form-md-line-input': !SubjectsCtrl.editmode}">
+                            <input type="text" class="form-control input-sm" name="subjectname" data-ng-model="SubjectsCtrl.formFields.subjectName" maxlength="50"
+                                data-ng-hide="SubjectsCtrl.editmode" required />
+                            <label for="form_control_1">Subject Name</label><span data-ng-show="SubjectsCtrl.editmode"> : {{SubjectsCtrl.formFields.subjectName}}</span>
+                        </div>
+                        <div class="form-group form-md-floating-label has-info" data-ng-class="{'form-md-line-input': !SubjectsCtrl.editmode}">
+                            <select class="form-control input-sm" name="classname" data-ng-model="SubjectsCtrl.formFields.classId" maxlength="50" ng-hide="SubjectsCtrl.editmode"
+                                required>
+                                <option value="">Class Name</option>
+                                <option data-ng-repeat="subject in SubjectsCtrl.classList" value="{{subject.id}}">{{subject.className}} - {{subject.sectionName}}</option>
+                                </select>
+                            <label for="form_control_1" data-ng-show="SubjectsCtrl.editmode">Class Name</label><span data-ng-show="SubjectsCtrl.editmode"> : {{SubjectsCtrl.viewValue.class.className}}--{{SubjectsCtrl.viewValue.class.sectionName}}</span>
+                            <!--<label for="form_control_1">Class Name</label><span data-ng-show="SubjectsCtrl.editmode">: {{SubjectsCtrl.formFields.className}}</span>-->
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <select data-ng-model="SubjectsCtrl.formFields.staffName" name="teachername" class="form-control input-sm" required>
+                                <option value="">Select Subject Teacher</option>
+                                <option ng-repeat="staff in SubjectsCtrl.staffList" value="{{staff.id}}">{{staff.firstName}} {{staff.lastName}}</option>
+                            </select>
+
+                        </div>
+                        <!--<div class="form-group mtop30" ng-repeat="stopics in   lessonPlnrCtrl.oneTimePay">
+                                <input type="text" class="form-control input-sm" data-ng-model="stopics.subtopicName" placeholder="Sub-Topics">
+                                <h4 class="mtop20">
+                                    <u>Please select the Sub-Topic PDF:</u>
+                                </h4>
+                                <input type="file" class="mtop10" id="topicPDF" ng-model="stopics.topicPDF">
+                                <div class="btn-group">
+                                    <input type="button" class="btn green mtop10" data-ng-click="lessonPlnrCtrl.uploadPDF($index)" value="Submit PDF">
+                                </div>
+                                <input type="text" class="mtop20 form-control input-sm" data-ng-model="stopics.Iframe" placeholder="Enter Your Iframed Youtube Link">
+                                <textarea class="mtop20" rows="5" cols="100" placeholder="assignments" data-ng-model="stopics.Assignments"></textarea>
+                        </div>
+                        <div class="form-group">
+                                <input type="button" class="btn btn-danger pull-right" data-ng-click="lessonPlnrCtrl.delOneTimeRow()" value="Remove">
+                                <input type="button" class="btn btn-primary addnew pull-right" data-ng-click="lessonPlnrCtrl.addOneTimeRow ()" value="Add New">
+                        </div>-->
+
+                        <div class="form-group form-md-line-input form-md-floating-label has-info ">
+                            <div ng-repeat="subjAsses in  SubjectsCtrl.oneTimePay">
+                                <input type="text" class="form-control input-sm" name="subjectassesments" data-ng-model="subjAsses.assesments" maxlength="50"
+                                />
+                                <label for="form_control_1">Types of Assesments</label>
+                            </div>
+                            <div class="form-group" style="margin-top:10px;">
+                                <input type="button" class="btn btn-danger pull-right" data-ng-click="SubjectsCtrl.delOneTimeRow()" value="Remove">
+                                <input type="button" class="btn btn-primary addnew pull-right" data-ng-click="SubjectsCtrl.addOneTimeRow()" value="Add New">
+                            </div>
+
+                            <!--<div ng-repeat="subjAsses in  SubjectsCtrl.oneTimePay" class="form-group form-md-floating-label has-info" data-ng-class="{'form-md-line-input': !SubjectsCtrl.editmode}">
+                                <input type="text" class="form-control input-sm" name="subjectassesments" data-ng-model="subjAsses.assesments" maxlength="50"
+                                    data-ng-hide="SubjectsCtrl.editmode" />
+                                <label for="form_control_1">Type of Assesments</label><span data-ng-show="SubjectsCtrl.editmode"> : {{SubjectsCtrl.formFields.Assesments}}</span>
+                            </div>
+                            <div class="form-group form-md-floating-label has-info" style="margin-top:10px;">
+                                <input type="button" class="btn btn-danger pull-right" data-ng-click="SubjectsCtrl.delOneTimeRow()" value="Remove">
+                                <input type="button" class="btn btn-primary addnew pull-right" data-ng-click="SubjectsCtrl.addOneTimeRow ()" value="Add New">
+
+                            </div>-->
+
+                            <div class="form-group form-md-line-input form-md-floating-label has-info static-info">
+                                <label>Exam enable/disable: </label>
+                                <input bs-switch data-ng-init="SubjectsCtrl.formFields.examFlag = false" ng-model="SubjectsCtrl.formFields.examFlag" type="checkbox"
+                                    switch-size="mini" switch-on-text="Yes" switch-off-text="No" />
+                            </div>
+                            <div class="form-group">
+                                <button type="reset" class="btn default" ng-hide="SubjectsCtrl.editmode">Reset</button>
+                                <button type="submit" class="btn green" data-ng-disabled="subjectform.$invalid"><i class="fa fa-check"></i> Submit</button>
+                            </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- EDIT MODAL END-->
+    <!-- DETAILS MODAL -->
+    <div id="details-modal" class="modal fade bs-modal-lg" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="SubjectsCtrl.closeProfileModal()"><span class="icon-close"></span></a>
+                    <h4 class="modal-title font-green">Lesson Planner</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row profile">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12 profile-info">
+                                    <h1 class="font-green sbold uppercase">{{}}</h1>
+                                    <p>
+                                        Roll No: {{SubjectsCtrl.rollNo}}
+                                    </p>
+                                    <p>
+                                        Class: {{SubjectsCtrl.class.className}} - {{SubjectsCtrl.class.sectionName}}
+                                    </p>
+                                    <p>
+                                        Teacher: {{SubjectsCtrl.contact}}
+                                    </p>
+                                </div>
+                            </div>
+                            <!--end row-->
+                            <div class="tabbable-line tabbable-custom-profile">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="personalinfo">
+                                        <div class="portlet-body">
+                                            <!--<table class="table table-striped table-bordered table-advance table-hover">-->
+                                            <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Lesson</th>
+                                                        <th>Chapter</th>
+                                                        <th> Teacher Name</th>
+                                                        <th> From</th>
+                                                        <th> To</th>
+                                                        <th> Save</th>
+                                                        <th> Edit</th>
+                                                        <th> Delete</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <form name="feeoccuranceform" novalidate>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:125px" name="occurance" data-ng-model="FeesCtrl.formFields.occurance"
+                                                                    required />
+                                                            </td>
+                                                            <td>
+                                                                <input type="date" class="form-control" style="width:125px" name="date" data-ng-model="FeesCtrl.formFields.date" required
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:125px" name="annualamount" data-ng-model="FeesCtrl.formFields.annualamount"
+                                                                    required />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:100px" name="quartelyamount" data-ng-model="FeesCtrl.formFields.quaterlyamount"
+                                                                    required />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:100px" name="monthlyamount" data-ng-model="FeesCtrl.formFields.monthlyamount"
+                                                                    required />
+                                                            </td>
+                                                            <td>
+                                                                <a href="javascript:void(0)" data-ng-click="FeesCtrl.saveAction(feeoccuranceform.$invalid)" data-ng-disabled="feeoccuranceform.$invalid">
+                                                                <i class="fa fa-save"></i>
+                                                            </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="javascript:void(0)" data-ng-click="FeesCtrl.moreDetails(feeoccuranceform.$invalid)" data-ng-disabled="feeoccuranceform.$invalid">
+                                                                <i class="fa fa-file-text-o"></i>
+                                                            </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="javascript:void(0)" data-ng-click="FeesCtrl.removeEditedFields()">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                            </td>
+                                                        </form>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!--tab-pane-->
+                                    <div class="tab-pane" id="attendance">
+                                        coming Soon..
+                                    </div>
+                                    <!--tab-pane-->
+                                    <!--tab-pane-->
+                                    <div class="tab-pane" id="marks">
+                                        coming Soon..
+                                    </div>
+                                    <!--tab-pane-->
+                                    <!--tab-pane-->
+                                    <div class="tab-pane" id="activity">
+                                        coming Soon..
+                                    </div>
+                                    <!--tab-pane-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- DETAILS MODAL END -->
+
+    <style>
+        .form-group {
+            clear: both;
+        }
+    </style>

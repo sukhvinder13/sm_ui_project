@@ -1,0 +1,553 @@
+.table1{width:100%}
+.table2{
+    width:100%;
+    margin-top: 10px;
+}
+.padding7{padding:7px;}
+.mtop10{margin-top: 10px;}
+.mtop20{margin-top: 20px;}
+.mtop30{margin-top: 30px;}
+.mtop40{margin-top: 40px;}
+.mtop50{margin-top: 50px;}
+.mtop60{margin-top: 60px;}
+.mtop70{margin-top: 70px;}
+.mleft150{margin-left: 150px;}
+#map_canvas{
+    width: 100%;
+    height: 500px;
+    border: 1px solid black;
+
+}
+.selectui-Routing{
+  height: 34px;
+  font-size: 14px;
+  max-width: 243px;
+}
+@media (min-width: 992px){
+#cls1{
+      margin-left: 650px;
+    margin-top: 12px;
+    position: absolute;
+    z-index: 999;
+  }
+}
+  .cls2{
+    margin-top:-15px;
+  }
+#schooldirectorytd {
+width:297px;
+}
+#schooldirectorytd1{
+  width:10%;
+}
+#schooldirectorytd2{
+  width:135px;
+}
+#schooldirectorytd3{
+  width:400px;
+}
+#schooldirectorytd4{
+  width:105px;
+}
+#schooldirectorya{
+    margin:10px 50px;
+}
+#schooldirectorytd5{
+  width:297px;
+}
+#schooldirectorytd6{
+  width:10%;
+}
+#schooldirectorytd7{
+  width:135px;
+}
+#schooldirectorytd8{
+  width:400px;
+}
+.loader1 {
+        /* border: 16px solid #f3f3f3; */
+        /* border-top: 16px solid #3498db; */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 2s linear infinite;
+        margin: 0 auto;
+        border-top: 16px solid blue;
+        border-right: 16px solid green;
+        border-bottom: 16px solid red;
+        border-left: 16px solid pink;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+#mediaupload1{
+  text-align: center;
+}
+#mediaupload2{
+    height:300px;
+    width:70%;
+}
+#mediaupload3{
+  width: 100%;
+  margin: 10px 25px auto;
+}
+#mediaupload4{
+  width:90%;height:350px;left:0;
+}
+#mediaupload5{
+  width: 100%; margin: 10px 25px auto;
+}
+#mediaupload6{
+  width: 100%; margin: 10px 25px auto;
+}
+#videoDiv {
+            border: 0px double;
+            border-radius: 5%;
+        }
+
+#console{
+  text-transform:uppercase;
+}
+#console1{
+  margin-top:-10px;
+}
+.console2{
+  width:750px; height:200px; overflow:auto;
+}
+#console3{
+  text-transform:uppercase; display:block; font-family:Arial Narrow
+}
+#console4{
+  width:175px;margin-left:-175px; display:block; font-family:Arial Narrow
+}
+#attendance{
+  height:467px;
+}
+
+#console5{
+  position:relative;height:0;padding-bottom:56.25%
+}
+#fees{
+  height:200px;
+}
+#console6{
+  margin-left: -9px;margin-top: -9px;position: relative;height: 0;padding-bottom: 56.25%;
+  width: 100%;
+}
+.fo1{
+  position: relative; z-index: 999;
+}
+#pmessage{
+  height:200px;width:100%;overflow:auto;
+}
+#console7{
+width:175px;margin-left:-175px; cursor:pointer
+}
+#ptimetable{
+  height:200px;
+}
+#console8{
+  text-transform:uppercase; cursor:pointer
+}
+#console9{
+  width:175px;margin-left:-175px;
+}
+#paddphoto{
+  height:200px;
+}
+#console10{
+height:198px;width:100%;
+}
+#pvideo{
+  height:200px;
+}
+#console11{
+  position:relative;height:0;padding-bottom:56.25%
+}
+#console12{
+  position:absolute;margin:-10px;width:104%;height:199px;left:0
+}
+#pfacebook{
+  width:100%; height:200px; overflow:auto;
+}
+#message{
+   height:200px; overflow:auto;
+}
+#console13{
+  text-transform:uppercase;
+}
+#console14{
+  width:175px;margin-left:-175px; cursor:pointer
+}
+#birthday{
+  width:100%; height:200px; overflow:auto;
+}
+#console15{
+  margin:-10px;border-right: 0;
+}
+#console16{
+  background-color:#2C3E50;color:white;
+}
+#console17{
+  background-color:#2C3E50;color:white;
+}
+#console18{
+  background-color:#2C3E50;color:white;
+}
+#absentStudents{
+  width:100%; height:200px; overflow:auto;
+}
+#console19{
+  margin:-10px;padding:100%;
+}
+#consolemsg19{
+  margin:-10px;padding:100%;
+}
+.consoletable1{
+  margin-left: -9px;margin-top: -9px;width: 106%;
+}
+.consolenotif{
+ margin-left: -9px;margin-top: -9px;width: 106%; 
+}
+.consoleAssign{    margin-top: -9px;margin-left: -9px;width: 658px;
+}
+#messagetable{
+  margin-top:-9px;margin-left: -9px;
+}
+#console20{
+  text-align:center;background-color:#ACB5C3;color:white;
+}
+#console21{
+  text-align:center;color:white;
+}
+#console22{
+text-align:center;color:white;
+}
+#console23{
+  text-align:center;
+}
+#console24{
+  text-align:center;
+}
+#console25{
+  text-align:center;
+}
+#console26{
+  text-transform:uppercase;display:block; font-family:Arial Narrow
+}
+#console27{
+  width:175px;margin-left:-175px;display:block; font-family:Arial Narrow
+}
+#teachersleave{
+  width:100%; height:200px; overflow:auto;
+}
+#console28{
+margin:-10px;overflow:auto;width: 100%;
+}
+.font-size12{
+  font-size: 12px;
+}
+.td-width90{
+  width: 93px
+}
+#timetable{
+  height:200px;
+}
+#finance{
+  height:200px;width:100%; overflow: auto;
+}
+#leave{
+  height:200px;
+}
+#console29{
+  text-transform:uppercase; cursor:pointer
+}
+#console30{
+  width:175px;margin-left:-175px;
+}
+#addphoto{
+  height:200px;
+}
+#console31{
+height:200px;widows:100%;
+}
+
+  .consolemsg{
+    margin-left: -9px;
+    margin-top: -9px;
+  }
+  .consoleexam1{
+        margin-left: -9px;
+    margin-top: -9px;
+  }
+#video{
+  height:200px;
+}
+#console32{
+position:relative;height:0;padding-bottom:56.25%
+}
+#console33{
+  position:absolute;margin:-10px;width:105%;height:199px;left:0
+}
+.console34{
+  width:100%; height:200px; overflow:auto;
+}
+.console35{
+  width:100%; height:200px; overflow:auto;
+}
+.console36{
+  width:100%; height:200px; overflow:auto;
+}
+.console37{
+   height:200px; overflow:auto;
+}
+
+#facebook{
+  width:100%; height:200px; overflow:auto;
+}
+.libbtn2{
+    margin-left: 766px;
+    position: absolute;
+    z-index: 999;
+    margin-top: -15px;
+}
+.libbtn{
+   margin-left: 154px;
+    position: absolute;
+    z-index: 999;
+    margin-top: -15px;
+}
+.transport1{
+  margin-left: 158px;
+    margin-top: -15px;
+    position: absolute;
+    z-index: 999;
+}
+.transport2{
+      margin-left: 759px;
+    margin-top: -15px;
+    z-index: 999;
+    position: absolute;
+}
+#message1{
+height: auto;
+}
+#message2{
+  margin-top:-10px;
+}
+#message3{
+  margin-top: -10px;
+}
+#message4{
+  margin-top: -8px;
+}
+#message5{
+  height: auto; overflow-y:scroll
+}
+#message6{
+  height: auto; overflow-y:scroll
+}
+#assignment1{
+  margin-top:-13px;
+}
+#assignment2{
+  margin-right: 5px;
+}
+.assignment3{
+  margin-left:-180px;margin-top:-45px;
+}
+#classtimetable1{
+  width:25%;
+}
+#classtimetable2{
+  width:25%;
+}
+ .scgfig2{
+   text-align:center;vertical-align: middle;
+ }
+#schfig{
+      margin: 1em 5px;
+
+}
+.dirAlign1{
+  margin-left: -230px;position: relative;z-index: 999;
+}
+.dirAlign2{
+  margin-top: -30px;margin-left: 145px;position: relative;z-index: 999;
+}
+#directions {
+    width: 38%;
+    float: right;
+}
+#right-panel {
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+
+      #right-panel select, #right-panel input {
+        font-size: 15px;
+      }
+
+      #right-panel select {
+        width: 100%;
+      }
+
+      #right-panel i {
+        font-size: 12px;
+      }
+      #map {
+        float: left;
+        width: 70%;
+        height: 600px !important;
+      }
+     .mapping #map {
+        float: left;
+        width: 100%;
+        height: 600px !important;
+      }
+      #right-panel {
+        margin: 20px;
+        border-width: 2px;
+        width: 20%;
+        height: 400px;
+        float: left;
+        text-align: left;
+        padding-top: 0;
+      }
+      #directions-panel {
+        margin-top: 10px;
+        background-color: #FFEE77;
+        padding: 10px;
+        overflow: scroll;
+        height: 174px;
+      }
+      #right-panel #gmap{
+        height: 340px !important;
+      }
+      .width100{
+        width:100%;
+        margin-bottom: 10px !important;
+      }
+      .dir{
+        border: 1px solid lightgray;
+        padding: 10px;
+      }
+/*#ble .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th {
+    border: none !important;
+    border-bottom: 1px solid #000 !important;
+    border-top: 1px solid #000 !important;
+    text-align: center;
+}
+#bles .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+    border: none !important;
+    text-align: center;
+    border-bottom: none !important;
+}*/
+.gridm{
+        border: 1px solid lightgray;
+        text-align: center;
+        padding: 12px;
+        margin-top: 5px;
+        background-color: #26a69a !important;
+        color: white;
+      }
+      .portlet-bodyscroll{
+        height:200px;
+        overflow:auto;
+      }
+      @media (min-width: 992px){
+      .enquiry1{
+        position: absolute;
+        margin-left: 150px;
+        margin-top: -15px;
+        z-index: 999;
+      }
+    }
+      @media (min-width: 992px){
+      .enquiry2{
+        position: absolute;
+        margin-left: 799px;
+        margin-top: -15px;
+        z-index: 999;
+      }
+    }
+    /* @media screen and (max-width: 640px)
+    {
+     .enquiry1{
+        position: absolute;
+        margin-left: 150px;
+        margin-top: -15px;
+        z-index: 999;
+      }
+      .enquiry2{
+        position: absolute;
+        margin-left: 765px;
+        margin-top: -15px;
+        z-index: 999;
+      }
+    } */
+    @media screen and (min-width: 992px){
+      .noticeb1{
+        margin-left: 170px;
+        position: absolute;
+        z-index: 999;
+        margin-top: -14px;
+      }
+    }
+      @media screen and (min-width: 992px){
+      .noticeb2{
+        position: absolute;
+        margin-left: 760px;
+        margin-top: -14px;
+        z-index: 999;
+      }
+    }
+      @media screen and (min-width: 992px){
+      .addcomplaint1{
+      margin-left: 155px;
+      margin-top: -15px;
+      position: absolute;
+      z-index: 999;
+      }
+    }
+    @media screen and (min-width: 1000px){
+   .leaveapp1{
+     position: absolute;
+    z-index: 999;
+    margin-left: 153px;
+    margin-top: -15px;
+      }
+      .leaveapp2{
+     position: absolute;
+    z-index: 999;
+    margin-left: 766px;
+    margin-top: -15px;
+      }
+    }
+      @media screen and (min-width: 700px){
+        .leaveapp1{
+          /* position: absolute; */
+         z-index: 999;
+         /* margin-left: 153px; */
+         margin-top: -15px;
+           }
+           .leaveapp2{
+          /* position: absolute; */
+         z-index: 999;
+         /* margin-left: 766px; */
+         margin-top: -15px;
+           }
+      }
+
+      .feespace{
+        height: 23px;
+         }

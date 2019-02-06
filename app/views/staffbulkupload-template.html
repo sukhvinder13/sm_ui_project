@@ -1,0 +1,103 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Bluk uploads
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <span class="caption-subject font-green bold uppercase">BULK UPLOAD</span>
+                                </div>
+                            </div>
+                            <label for="form_control_1"></label>
+                            <select class="selectui-Routing" data-ng-model="myvar" name="classId" class="form-control input-sm" ng-change="BulkuploadCtrl.ChangeView(myvar)"
+                                style="margin-left-width:200px;">
+
+                            <option value="">Select User Type</option>
+                            <option value="enrollstudent">Enroll Student</option>
+                            <option value="enrollmultiplestudent">Enroll Multiple Student</option>
+                            <option value="enrollstaff">Enroll Staff</option>
+                            <option value="enrollmultiplestaff">Enroll Multiple Staff</option>
+                            <option value="enrollaccountant">Enroll Accountant</option>
+                          
+                        </select>
+                            <div class="portlet-body form">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Important Notes</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <ul>
+                                            <li>
+                                                The maximum file size for uploads is <strong>5 MB</strong>.
+                                            </li>
+                                            <li>
+                                                Only <strong>CSV</strong> format files are allowed to upload.
+                                            </li>
+                                            <li>
+                                                To Download the Sample <a href="/download/bulkstaff.csv" target="_blank"
+                                                    tabindex="1" class="btn btn-success">Download Sample </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <form class="form-bordered form-horizontal" name="fileuploadform" data-ng-submit="BulkuploadCtrl.uploadFiles1()" novalidate>
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                <div class="input-group input-large">
+                                                    <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                                        <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                        <span class="fileinput-filename"></span>
+                                                    </div>
+                                                    <span class="input-group-addon btn default btn-file">
+                                                        <span class="fileinput-new"> Select file </span>
+                                                    <span class="fileinput-exists"> Change </span>
+                                                    <input type="hidden" value="" name="..."><input tabindex="2" type="file"
+                                                        name="file" data-ng-model="BulkuploadCtrl.myUpload1" id="myFile1"  required>
+                                                    </span>
+                                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="btn-group">
+                                                <button class="btn green" tabindex="3" type="submit" data-ng-disabled="!first">
+                                                    Submit
+                                                    <i class="fa fa-upload"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div data-ng-repeat="staffs in lists">
+                            {{staffs.firstName }}+'Created Successfully'
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->

@@ -1,0 +1,470 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Marks
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-list-alt font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">Marks</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <select data-ng-model="MarksCtrl.formFields.classId" name="classId" data-ng-change="MarksCtrl.selectClass()" class="form-control input-sm">
+                                                    <option value="">Class-Section</option>
+                                                    <!-- <option ng-repeat="class in MarksCtrl.classList" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option> -->
+                                                    <option ng-if="userRole !=='Staff'" ng-repeat="class in MarksCtrl.classList | unique:'id'" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option>
+                                                    <option ng-if="userRole =='Staff'" ng-repeat="class in MarksCtrl.classesList | orderBy:'class.sequenceNumber' | unique:'id'" value="{{class.class.id}}">{{class.class.className}} {{class.class.sectionName}}</option>    
+                                                </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select ng-show="MarksCtrl.studentList" data-ng-change="MarksCtrl.studentChanged();MarksCtrl.showStudentData();" data-ng-model="MarksCtrl.formFields.studentId"
+                                                name="subjectId" class="form-control input-sm">
+                                                    <option value="">Student</option>
+                                                    <option  ng-repeat="stud in  MarksCtrl.studentList"value="{{stud.id}}">{{stud.firstName}} {{stud.lastName}}</option>
+                                                </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select ng-show="MarksCtrl.formFields.studentId" data-ng-model="MarksCtrl.formFields.examId" name="examId" class="form-control input-sm"
+                                                data-ng-change="MarksCtrl.showStudentData();">
+                                                    <option value="">Exam</option>
+                                                    <option ng-repeat="exam in MarksCtrl.examList" value="{{exam.id}}">{{exam.examName}}</option>
+                                                    <option ng-if="MarksCtrl.showFinal" value="Final">Final Exam</option>
+                                                </select>
+                                        </div>
+                                        <div class="col-md-2" ng-if="MarksCtrl.formFields.examId">
+                                                <select ng-model="MarksCtrl.formFields.formateType" class="form-control input-sm" data-ng-change="MarksCtrl.showStudentData();">
+                                                    <option value="">Format Type</option>
+                                                    <option value="lower">Lower</option>
+                                                    <option value="upper">Upper</option>
+                                                </select>
+                                            </div>
+
+                                        <div class="btn-group" ng-show="MarksCtrl.formFields.examId">
+                                            <input media="print" data-ng-click="MarksCtrl.printreceiptHistory();" type="button" value="Print" class="btn green">
+                                            <button ng-click="MarksCtrl.pdf();" type="button" class="btn green" style="margin-left: 10px;">PDF </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- INNER CONTENT GOES HERE-->
+                                <!--<form name="marksform" novalidate role="form" data-ng-submit="MarksCtrl.marksAction(marksform.$invalid)">-->
+                                <div class="row" id="pdff">
+                                    <div class="col-md-12 col-sm-12">
+
+                                        <div class="row" id="s" style="display:none;">
+                                            <div class="col-md-12 col-sm-12">
+                                                <img src="{{MarksCtrl.schoolLogo}}" style="margin-left: 32%;text-align:center;height: 100px;">
+                                                <h1 style="text-align:center;"> STUDENT REPORT</h1>
+
+                                                <div class="col-md-6 col-sm-6 text-left">
+                                                    <label>Student's Name:  <b> {{MarksCtrl.studDetails[0].firstName}} {{MarksCtrl.studDetails[0].lastName}} </b></label>
+                                                    <br>
+                                                    <label>Class - Section :{{MarksCtrl.classDetails[0].className}} {{MarksCtrl.classDetails[0].sectionName}} </label>
+                                                    <br><span> Roll Number :{{MarksCtrl.studDetails[0].rollNo}}</span>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12" style="margin-top:1rem" ng-if="MarksCtrl.showStudentTable" id="marks_datatable1">
+                                                <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="marks_datatable"
+                                                    style="width:100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-ng-repeat="head in  MarksCtrl.headers track by $index">
+                                                                {{head}}
+                                                            </th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr data-ng-repeat="details in  MarksCtrl.studentMarksData.subjects">
+                                                            <td>
+                                                                {{details.subjectName}}
+                                                            </td>
+                                                            <td ng-if="details.avgfas !== undefined">
+                                                                {{details.avgfas | setDecimal:2}}
+                                                            </td>
+                                                            <td ng-if="details.avgfa1 !== undefined">
+                                                                {{details.avgfa1 | setDecimal:2}}
+                                                            </td>
+                                                            <td ng-if="details.avgfa2 !== undefined">
+                                                                {{details.avgfa2 | setDecimal:2}}
+                                                            </td>
+                                                            <td ng-repeat="marks in details.assesments" ng-if="MarksCtrl.Showdata&& marks.status">
+                                                                <span ng-hide="marks.marks === 0 || marks.marks === null">{{marks.marks | setDecimal:2 || "Not Updated"}}</span>
+                                                                <span ng-show="marks.marks === 0">0</span>
+                                                                <span ng-show="marks.marks === null || (marks.marks == undefined&&marks.maxMarks)">Not uploaded</span>
+                                                                <!-- {{marks.marks || "Not Updated"}} -->
+                                                            </td>
+                                                            <td ng-if="MarksCtrl.studentMarksData['totalGrade'] == undefined">
+                                                                {{details.averageMarks | setDecimal:2}}
+                                                            </td>
+                                                            <td ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName!=='SA1'&& MarksCtrl.tempExamName!=='SA2'&& MarksCtrl.tempExamName!=='SA3'">
+                                                                {{details.averageMarks | setDecimal:2}}
+                                                            </td>
+                                                            <td ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName=='SA1'" ng-hide=" MarksCtrl.tempExamName=='SA2' ||  MarksCtrl.tempExamName=='SA3'">
+                                                                {{details.averageMarks | setDecimal:2}}
+                                                            </td>
+                                                            <td ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName=='SA2'" ng-hide=" MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA3'">
+                                                                {{details.averageMarks | setDecimal:2}}
+                                                            </td>
+                                                            <td ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName=='SA3'" ng-hide=" MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA2'">
+                                                                {{details.averageMarks | setDecimal:2}}
+                                                            </td>
+                                                            <td><b>{{details.grades}}</b> </td>
+                                                            <td><b>{{details.gradePoint}}</b></td>
+                                                        </tr>
+                                                        <tr ng-if="MarksCtrl.tempExamName!=='SA1' &&MarksCtrl.tempExamName!=='SA2'&& MarksCtrl.tempExamName!=='SA3'||MarksCtrl.formFields.examId == 'Final'">
+                                                            <td><b>Grand Total / Total Grade</b></td>
+                                                            <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td>
+                                                            <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="($index < MarksCtrl.headers.length - 4)&&(MarksCtrl.formFields.examId!=='Final')"></td>
+                                                                <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="($index < MarksCtrl.headers.length - 4)&&(MarksCtrl.formFields.examId!=='Final')"></td> -->
+                                                            <td>{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                            <td><b>{{MarksCtrl.studentMarksData['totalGrade']}}</b></td>
+                                                            <td><b>{{MarksCtrl.studentMarksData['totalGradePoint']}}</b></td>
+                                                        </tr>
+
+                                                        <tr ng-if="MarksCtrl.tempExamName=='SA1'&&MarksCtrl.formFields.examId !== 'Final'" ng-hide="MarksCtrl.tempExamName=='SA2' ||  MarksCtrl.tempExamName=='SA3'">
+                                                            <td><b>Grand Total / Total Grade / GPA</b></td>
+                                                            <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td> -->
+                                                            <td> {{MarksCtrl.studentMarksData['totalOfAllFas'] | setDecimal:2}}</td>
+                                                            <td>{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                            <td>{{MarksCtrl.studentMarksData['totalOfAll']|number:2}}</td>
+                                                            <td>{{MarksCtrl.studentMarksData['totalGrade']}}</td>
+                                                            <td>{{MarksCtrl.studentMarksData['totalOfGPA']}}</td>
+                                                        </tr>
+                                                        <tr ng-if="MarksCtrl.tempExamName=='SA2'&&MarksCtrl.formFields.examId !== 'Final'" ng-hide="MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA3'">
+                                                            <td><b>Grand Total / Total Grade / GPA2</b></td>
+                                                            <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td> -->
+                                                            <td> {{MarksCtrl.studentMarksData['totalOfAllFas'] | setDecimal:2}}</td>
+                                                            <td>{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                            <td>{{MarksCtrl.studentMarksData['totalOfAll']|number:2}}</td>
+                                                            <td>{{MarksCtrl.studentMarksData['totalGrade']}}</td>
+                                                            <td>{{MarksCtrl.studentMarksData['totalOfGPA']}}</td>
+                                                        </tr>
+                                                        <tr ng-if="MarksCtrl.tempExamName=='SA3'&&MarksCtrl.formFields.examId !== 'Final'" ng-hide="MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA2'">
+                                                            <td><b>Grand Total / Total Grade / GPA3</b></td>
+                                                            <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td> -->
+                                                            <td>{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                            <td>{{MarksCtrl.studentMarksData['totalGrade']}}</td>
+                                                            <td>{{MarksCtrl.studentMarksData['totalOfGPA']}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- pdf -->
+                                    <div id="pdf2" style="display:none">
+                                    <div id="pdfs2" class="col-md-12 col-sm-12">
+                                        <img src="{{MarksCtrl.marksTmp}}" alt="Norway" style="width:100%;opacity: 1;margin-left: -15px;">
+                                        <div class="row">
+                                            <div class="row" style="margin-top:-108%">
+                                                <div class="col-md-12 col-sm-12">
+                                                    <h1 style="text-align:center;">{{MarksCtrl.tempMarks}}</h1>
+                                                    <!-- <h1 style="text-align:center;"> STUDENT REPORT</h1> -->
+                                                    <div class="col-md-1 col-sm-1"></div>
+                                                    <div class="col-md-6 col-sm-6 text-left">
+                                                        <label>Student Name : {{MarksCtrl.studDetails[0].firstName}} {{MarksCtrl.studDetails[0].lastName}}</label>
+                                                        <br>
+                                                        <label>Father Name : {{MarksCtrl.studDetails[0].fatherName}}</label>
+                                                        <br>
+                                                        <label>Class - Section :{{MarksCtrl.classDetails[0].className}} {{MarksCtrl.classDetails[0].sectionName}} </label>
+                                                        <br>
+                                                        <!-- <span ng-if="MarksCtrl.DatrickShowRoll">Roll Number : {{MarksCtrl.studDetails[0].rollNo}}</span> -->
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12" style="margin-top:1rem;width: 78%;margin-left: 8%; display:n" ng-if="MarksCtrl.showStudentTable">
+                                                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="marks_datatable"
+                                                        style="width:100%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th data-ng-repeat="head in  MarksCtrl.headers track by $index">
+                                                                    {{head}}
+                                                                </th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr data-ng-repeat="details in  MarksCtrl.studentMarksData.subjects">
+                                                                <td>
+                                                                    {{details.subjectName}}
+                                                                </td>
+                                                                <td ng-if="details.avgfas !== undefined" style="text-align: center">
+                                                                    {{details.avgfas | setDecimal:2}}
+                                                                </td>
+                                                                <td ng-if="details.avgfa1 !== undefined" style="text-align: center">
+                                                                    {{details.avgfa1 | setDecimal:2}}
+                                                                </td>
+                                                                <td ng-if="details.avgfa2 !== undefined" style="text-align: center">
+                                                                    {{details.avgfa2 | setDecimal:2}}
+                                                                </td>
+                                                                <td style="text-align: center" ng-repeat="marks in details.assesments" ng-if="MarksCtrl.Showdata&& marks.status">
+                                                                    <span ng-hide="marks.marks === 0 || marks.marks === null">{{marks.marks | setDecimal:2 || "-"}}</span>
+                                                                    <span ng-show="marks.marks === 0">0</span>
+                                                                    <span ng-show="marks.marks === null || (marks.marks == undefined&&marks.maxMarks)">-</span>
+                                                                    <!-- {{marks.marks || "Not Updated"}} -->
+                                                                </td>
+                                                                <td style="text-align: center" ng-if="MarksCtrl.studentMarksData['totalGrade'] == undefined">
+                                                                    {{details.averageMarks | setDecimal:2}}
+                                                                </td>
+                                                                <td style="text-align: center" ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName!=='SA1'&& MarksCtrl.tempExamName!=='SA2'&& MarksCtrl.tempExamName!=='SA3'">
+                                                                    {{details.averageMarks | setDecimal:2}}
+                                                                </td>
+                                                                <td style="text-align: center" ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName=='SA1'" ng-hide=" MarksCtrl.tempExamName=='SA2' ||  MarksCtrl.tempExamName=='SA3'">
+                                                                    {{details.averageMarks | setDecimal:2}}
+                                                                </td>
+                                                                <td style="text-align: center" ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName=='SA2'" ng-hide=" MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA3'">
+                                                                    {{details.averageMarks | setDecimal:2}}
+                                                                </td>
+                                                                <td style="text-align: center" ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName=='SA3'" ng-hide=" MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA2'">
+                                                                    {{details.averageMarks | setDecimal:2}}
+                                                                </td>
+                                                                <td style="text-align: center"><b>{{details.grades}}</b> </td>
+                                                                <td style="text-align: center"><b>{{details.gradePoint}}</b></td>
+                                                            </tr>
+                                                            <tr ng-if="MarksCtrl.tempExamName!=='SA1' &&MarksCtrl.tempExamName!=='SA2'&& MarksCtrl.tempExamName!=='SA3'||MarksCtrl.formFields.examId == 'Final'">
+                                                                <td><b>Grand Total / Total Grade</b></td>
+                                                                <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td>
+                                                                <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="($index < MarksCtrl.headers.length - 4)&&(MarksCtrl.formFields.examId!=='Final')"></td>
+                                                                    <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="($index < MarksCtrl.headers.length - 4)&&(MarksCtrl.formFields.examId!=='Final')"></td> -->
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                                <td style="text-align: center"><b>{{MarksCtrl.studentMarksData['totalGrade']}}</b></td>
+                                                                <td style="text-align: center"><b>{{MarksCtrl.studentMarksData['totalGradePoint']}}</b></td>
+                                                            </tr>
+    
+                                                            <tr ng-if="MarksCtrl.tempExamName=='SA1'&&MarksCtrl.formFields.examId !== 'Final'" ng-hide="MarksCtrl.tempExamName=='SA2' ||  MarksCtrl.tempExamName=='SA3'">
+                                                                <td><b>Grand Total / Total Grade / GPA</b></td>
+                                                                <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td> -->
+                                                                <td style="text-align: center"> {{MarksCtrl.studentMarksData['totalOfAllFas'] | setDecimal:2}}</td>
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAll']|number:2}}</td>
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalGrade']}}</td>
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfGPA']}}</td>
+                                                            </tr>
+                                                            <tr ng-if="MarksCtrl.tempExamName=='SA2'&&MarksCtrl.formFields.examId !== 'Final'" ng-hide="MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA3'">
+                                                                <td><b>Grand Total / Total Grade / GPA2</b></td>
+                                                                <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td> -->
+                                                                <td style="text-align: center"> {{MarksCtrl.studentMarksData['totalOfAllFas'] | setDecimal:2}}</td>
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAll']|number:2}}</td>
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalGrade']}}</td>
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfGPA']}}</td>
+                                                            </tr>
+                                                            <tr ng-if="MarksCtrl.tempExamName=='SA3'&&MarksCtrl.formFields.examId !== 'Final'" ng-hide="MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA2'">
+                                                                <td><b>Grand Total / Total Grade / GPA3</b></td>
+                                                                <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td> -->
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalGrade']}}</td>
+                                                                <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfGPA']}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- print -->
+                            <div class="" style="display:none">
+                                <div id="printTable">
+                                    <div class="col-xs-12">
+                                        <img src="{{MarksCtrl.marksTmp}}" alt="Norway" style="width:100%;opacity: 0.5;">
+                                        <div class="bottom-l" style="margin-top:-110%">
+                                            <div class="row" style="margin-left:60px; margin-right:60px">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                                    <div class="row" id="showTopDetailsContent" style="display:none;">
+                                                        <div class="col-md-12 col-sm-10 col-xs-10">
+                                                            <!-- <img src="{{MarksCtrl.schoolLogo}}"> -->
+
+                                                            <!-- Exam name -->
+                                                            <h1 style="text-align:center;">{{MarksCtrl.tempMarks}}</h1>
+
+                                                            <div class="col-md-6 col-sm-6  text-left">
+                                                                <label>Student Name : {{MarksCtrl.studDetails[0].firstName}} {{MarksCtrl.studDetails[0].lastName}}</label>
+                                                                <!--<label ng-show="MarksCtrl.schoolName === 'Dhatrak Public School'">Student's Name :  <b> {{MarksCtrl.studDetails[0].firstName}} {{MarksCtrl.studDetails[0].lastName}} </b></label>-->
+                                                                <br>
+                                                                <label>Father Name : {{MarksCtrl.studDetails[0].fatherName}}</label>
+                                                                <br>
+                                                                <label>Class - Section :{{MarksCtrl.classDetails[0].className}} {{MarksCtrl.classDetails[0].sectionName}} </label>
+                                                                <br>
+                                                                <label><span ng-if="MarksCtrl.DatrickShowRoll">Roll Number : {{MarksCtrl.studDetails[0].rollNo}}</span></label>
+                                                            </div>
+                                                            <!-- <div class="col-md-6 col-sm-4">
+
+                                                        </div> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-sm-12" style="margin-top:1rem" ng-if="MarksCtrl.showStudentTable">
+                                                            <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="marks_datatable"
+                                                                style="width:100%;">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th data-ng-repeat="head in  MarksCtrl.headers track by $index">
+                                                                            {{head}}
+                                                                        </th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr data-ng-repeat="details in  MarksCtrl.studentMarksData.subjects">
+                                                                        <td>
+                                                                            {{details.subjectName}}
+                                                                        </td>
+                                                                        <td ng-if="details.avgfas !== undefined" style="text-align: center">
+                                                                            {{details.avgfas | setDecimal:2}}
+                                                                        </td>
+                                                                        <td ng-if="details.avgfa1 !== undefined" style="text-align: center">
+                                                                            {{details.avgfa1 | setDecimal:2}}
+                                                                        </td>
+                                                                        <td ng-if="details.avgfa2 !== undefined" style="text-align: center">
+                                                                            {{details.avgfa2 | setDecimal:2}}
+                                                                        </td>
+                                                                        <td ng-repeat="marks in details.assesments" ng-if="MarksCtrl.Showdata&& marks.status" style="text-align: center">
+                                                                            <span ng-if="!(marks.marks === null)">{{marks.marks | setDecimal:2 || "-"}}</span>
+                                                                            <!-- <span ng-if="marks.marks === 0">0</span> -->
+                                                                            <span ng-if="marks.marks === null || (marks.marks == undefined&&marks.maxMarks)">-</span>
+                                                                            <!-- {{marks.marks || "Not Updated"}} -->
+                                                                        </td>
+                                                                        <td ng-if="MarksCtrl.studentMarksData['totalGrade'] == undefined" style="text-align: center">
+                                                                            {{details.averageMarks | setDecimal:2}}
+                                                                        </td>
+                                                                        <td style="text-align: center" ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName!=='SA1'&& MarksCtrl.tempExamName!=='SA2'&& MarksCtrl.tempExamName!=='SA3'">
+                                                                            {{details.averageMarks | setDecimal:2}}
+                                                                        </td>
+                                                                        <td style="text-align: center" ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName=='SA1'" ng-hide=" MarksCtrl.tempExamName=='SA2' ||  MarksCtrl.tempExamName=='SA3'">
+                                                                            {{details.averageMarks | setDecimal:2}}
+                                                                        </td>
+                                                                        <td style="text-align: center" ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName=='SA2'" ng-hide=" MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA3'">
+                                                                            {{details.averageMarks | setDecimal:2}}
+                                                                        </td>
+                                                                        <td style="text-align: center" ng-if="MarksCtrl.studentMarksData['totalGrade'] != undefined  && MarksCtrl.tempExamName=='SA3'" ng-hide=" MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA2'">
+                                                                            {{details.averageMarks | setDecimal:2}}
+                                                                        </td>
+                                                                        <td style="text-align: center"><b>{{details.grades}}</b> </td>
+                                                                        <td style="text-align: center"><b>{{details.gradePoint}}</b></td>
+                                                                    </tr>
+                                                                    <tr ng-if="MarksCtrl.tempExamName!=='SA1' &&MarksCtrl.tempExamName!=='SA2'&& MarksCtrl.tempExamName!=='SA3'||MarksCtrl.formFields.examId == 'Final'">
+                                                                        <td><b>Grand Total / Total Grade</b></td>
+                                                                        <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td>
+                                                                        <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="($index < MarksCtrl.headers.length - 4)&&(MarksCtrl.formFields.examId!=='Final')"></td>
+                                                                            <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="($index < MarksCtrl.headers.length - 4)&&(MarksCtrl.formFields.examId!=='Final')"></td> -->
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                                        <td style="text-align: center"><b>{{MarksCtrl.studentMarksData['totalGrade']}}</b></td>
+                                                                        <td style="text-align: center"><b>{{MarksCtrl.studentMarksData['totalGradePoint']}}</b></td>
+                                                                    </tr>
+            
+                                                                    <tr ng-if="MarksCtrl.tempExamName=='SA1'&&MarksCtrl.formFields.examId !== 'Final'" ng-hide="MarksCtrl.tempExamName=='SA2' ||  MarksCtrl.tempExamName=='SA3'">
+                                                                        <td><b>Grand Total / Total Grade / GPA</b></td>
+                                                                        <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td> -->
+                                                                        <td style="text-align: center"> {{MarksCtrl.studentMarksData['totalOfAllFas'] | setDecimal:2}}</td>
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAll']|number:2}}</td>
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalGrade']}}</td>
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfGPA']}}</td>
+                                                                    </tr>
+                                                                    <tr ng-if="MarksCtrl.tempExamName=='SA2'&&MarksCtrl.formFields.examId !== 'Final'" ng-hide="MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA3'">
+                                                                        <td><b>Grand Total / Total Grade / GPA2</b></td>
+                                                                        <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td> -->
+                                                                        <td style="text-align: center"> {{MarksCtrl.studentMarksData['totalOfAllFas'] | setDecimal:2}}</td>
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAll']|number:2}}</td>
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalGrade']}}</td>
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfGPA']}}</td>
+                                                                    </tr>
+                                                                    <tr ng-if="MarksCtrl.tempExamName=='SA3'&&MarksCtrl.formFields.examId !== 'Final'" ng-hide="MarksCtrl.tempExamName=='SA1' ||  MarksCtrl.tempExamName=='SA2'">
+                                                                        <td><b>Grand Total / Total Grade / GPA3</b></td>
+                                                                        <!-- <td data-ng-repeat="head in  MarksCtrl.headers track by $index" ng-if="$index < MarksCtrl.headers.length - 4"></td> -->
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfAllSubjects']|number:2}}</td>
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalGrade']}}</td>
+                                                                        <td style="text-align: center">{{MarksCtrl.studentMarksData['totalOfGPA']}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><br><br>
+                                            <!-- <div style="margin-left:60px; margin-right:60px">
+                                                <p>Remarks: <br>_______________________________________________________________________________<br><br>_______________________________________________________________________________</p>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT INNER -->
+    </div>
+</div>
+<!-- END PAGE CONTENT -->
+</div>
+
+<style>
+    .sumComponent {
+        position: absolute;
+        right: -3px;
+        top: 44%;
+        background: white;
+        border: 1px solid orange;
+        border-radius: 69px;
+        padding: 7px;
+    }
+
+    @media print {
+        .no-print,
+        .no-print * {
+            display: none !important;
+        }
+    }
+</style>
+<style>
+    .contai {
+        position: relative;
+        text-align: center;
+        color: #000000;
+    }
+    /* .contai img {
+            opacity: 0.5;
+        } */
+
+    .bottom-l {
+        position: absolute;
+        margin-top: -20px;
+        /* bottom: 8px;
+            left: 16px; */
+    }
+</style>

@@ -1,0 +1,193 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Transport Management <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Bus
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-bus font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">BUS</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar" style="position: absolute;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="btn-group transport1">
+                                                <button data-toggle="modal" data-target="#edit-transport" data-ng-click="TransportCtrl.editmode = false;TransportCtrl.setFloatLabel();TransportCtrl.detailsMode = false;"
+                                                    class="btn green">
+                                                    Add New Bus
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="btn-group pull-right transport2">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                       <a href="javascript:void(0)" data-ng-click="TransportCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="TransportCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tableToExport" style="margin-top: -28px;">
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid"  border="1px solid black" datatable="ng" id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Vehicle Number
+                                                </th>
+                                                <th>
+                                                    Bus Type
+                                                </th>
+                                                <th>
+                                                    Capacity
+                                                </th>
+                                                <th class="text-center">
+                                                    More Details
+                                                </th>
+                                                <th class="text-center">
+                                                    Edit
+                                                </th>
+                                                <th class="text-center">
+                                                    Delete
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="transport in TransportCtrl.transportList">
+                                                <td>{{transport.busNo}}</td>
+                                                <td>{{transport.busType}}</td>
+                                                <td>{{transport.busCapacity}}</td>
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0)" data-ng-click="TransportCtrl.moreDetails($index);">
+                                                        <i class="fa fa-file-text-o"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="" href="javascript:void(0);" data-ng-click="TransportCtrl.editTransport($index)">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="" href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="TransportCtrl.confirmCallbackMethod($index)"
+                                                        ng-bootbox-confirm-action-cancel="TransportCtrl.confirmCallbackCancel($index)">
+                                                        <i class="fa fa-remove"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-transport" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="TransportCtrl.closeModal()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">Transport Management</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container" data-ng-if="!TransportCtrl.detailsMode">
+                    <form name="transportform" novalidate role="form" data-ng-submit="TransportCtrl.transportAction(transportform.$invalid)">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="busNo" data-ng-model="TransportCtrl.formFields.busNo" maxlength="50"
+                                required />
+                            <label for="form_control_1">Vehicle Number</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <select data-ng-model="TransportCtrl.formFields.busType" name="busType" class="form-control input-sm" required>
+                                <option value="">Bus Type</option>
+                                <option>Mini Bus</option>
+                                <option>Van</option>
+                                <option>Cab</option>
+                                <option>Bus</option>
+                                <option>Jeep</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="busCapacity" data-ng-model="TransportCtrl.formFields.busCapacity"
+                                maxlength="50" required />
+                            <label for="form_control_1">Capacity</label>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="reset" class="btn default">Reset</button>
+                            <button type="submit" class="btn green" data-ng-disabled="transportform.$invalid"><i class="fa fa-check"></i> Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-container" data-ng-if="TransportCtrl.detailsMode">
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Bus Number:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{TransportCtrl.viewValue.busNo}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Bus Type:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{TransportCtrl.viewValue.busType}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            No of Persons:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{TransportCtrl.viewValue.busCapacity}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EDIT MODAL END-->

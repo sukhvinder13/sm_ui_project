@@ -1,0 +1,884 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Messages
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-comments font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">MESSAGES</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="col-md-6">
+                                    <div class="inbox-sidebar">
+                                        <a data-title="Compose" class="btn red" data-ng-click="MessagesCtrl.openAction(2)" id="allmessages">
+                                            <i class="fa fa-edit"></i> App Messages
+                                        </a>
+                                        <a data-title="Compose" class="btn red" data-ng-click="MessagesCtrl.openAction(6)" id="allSms" ng-show="MessagesCtrl.role=='Admin'||MessagesCtrl.role=='Accountant'">
+                                            <i class="fa fa-edit"></i> SMS
+                                        </a>
+                                        <a data-title="Compose" class="btn red" id="compose" data-ng-click="MessagesCtrl.openAction(1);MessagesCtrl.preDefine();">
+                                            <i class="fa fa-edit"></i> Compose
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="portlet-body">
+                                <!-- TABULAR CONTENT GOES HERE-->
+                                <div class="page-content-inner">
+                                    <div class="inbox">
+                                        <div class="row">
+
+                                            <div class="col-md-12" style="height: auto;">
+                                                <div class="inbox-body" ng-show="!MessagesCtrl.showcompose && !MessagesCtrl.showsentmessages && !MessagesCtrl.messagedetails && !MessagesCtrl.messagecomments">
+                                                    <div class="inbox-header">
+                                                        <!--<h1 class="pull-left" style="margin-top:-10px;">Inbox</h1>
+                                                        -->
+                                                        <h1 class="pull-left" id="message2">All Messages</h1>
+                                                    </div>
+                                                    <hr style="margin-top: -10px;">
+                                                    <div class="inbox-content">
+                                                        <div class="portlet light ">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div>
+                                                                        <div class="container app" style="width: 100%;height: 500px;">
+                                                                            <div class="row app-one">
+                                                                                <div class="col-sm-4 side">
+                                                                                    <div class="side-one">
+                                                                                        <!-- Heading -->
+                                                                                        <div class="row heading">
+                                                                                            <div class="col-sm-3 col-xs-3 heading-avatar">
+                                                                                                <div class="heading-avatar-icon">
+                                                                                                    <span class="name-meta">Messages</span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
+                                                                                            </div>
+                                                                                            <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- Heading End -->
+
+                                                                                        <!-- SearchBox -->
+                                                                                        <div class="row searchBox">
+                                                                                            <div class="col-sm-12 searchBox-inner">
+                                                                                                <div class="form-group has-feedback">
+                                                                                                    <input id="searchText" type="text" class="form-control" name="searchText" ng-model="MessagesCtrl.searchbar" placeholder="Search">
+                                                                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="margin-top: 3%"></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <!-- Search Box End -->
+                                                                                        <!-- sideBar -->
+                                                                                        <div class="row sideBar">
+                                                                                            <div data-ng-repeat="message in MessagesCtrl.ShowMessageList2 |orderBy:orderByCustom2:'true'| filter:MessagesCtrl.searchbar">
+                                                                                                <div class="row sideBar-body nav_down" ng-if="message.sMReciver" ng-click="MessagesCtrl.selectedChat(message);MessagesCtrl.chatSheet(message);MessagesCtrl.clear();MessagesCtrl.scroll();MessagesCtrl.viewCatMsg = true;"
+                                                                                                    ng-init="MessagesCtrl.checkToday(message)">
+                                                                                                    <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                                                                                                        <div class="avatar-icon">
+                                                                                                            <!-- <img src="http://shurl.esy.es/y"> -->
+                                                                                                            <img class="todo-userpic" src="../images/Message.png" width="27px" height="27px">
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-9 col-xs-9 sideBar-main">
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-sm-8 col-xs-8 sideBar-name">
+                                                                                                                <span class="name-meta">
+                                                                                                                    <span ng-hide="MessagesCtrl.loginId == message.senderId">{{message.sMUser.firstName}}
+                                                                                                                        {{message.sMUser.lastName}}</span>
+                                                                                                                <span ng-hide="MessagesCtrl.loginId == message.reciverId">{{message.sMReciver.firstName}}
+                                                                                                                        {{message.sMReciver.lastName}}</span>
+
+                                                                                                                <!-- {{message.sMReciver.firstName}} {{message.sMReciver.lastName}} -->
+                                                                                                                </span>
+                                                                                                            </div>
+                                                                                                            <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                                                                                                                <span class="pull-right badge" ng-hide="message.counts=='0'">{{message.counts}}</span>
+                                                                                                                <br>
+                                                                                                                <span class="time-meta pull-right">
+                                                                                                                    <!-- <span>{{message.changeTime | date:'hh:mm a'}}</span>                                                                                                                -->
+                                                                                                                <span ng-if="!message.changeTime1">{{message.changeTime
+                                                                                                                        |
+                                                                                                                        date:'dd-MM-yyyy'}}</span>
+                                                                                                                <span>{{message.changeTime1
+                                                                                                                        |
+                                                                                                                        date:'dd-MM-yyyy'}}</span>
+                                                                                                                </span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- Sidebar End -->
+                                                                                    </div>
+                                                                                    <div class="side-two">
+
+                                                                                        <!-- Heading -->
+                                                                                        <div class="row newMessage-heading">
+                                                                                            <div class="row newMessage-main">
+                                                                                                <div class="col-sm-2 col-xs-2 newMessage-back">
+                                                                                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                                                                                </div>
+                                                                                                <div class="col-sm-10 col-xs-10 newMessage-title">
+                                                                                                    New Chat
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- Heading End -->
+
+                                                                                        <!-- ComposeBox -->
+                                                                                        <div class="row composeBox">
+                                                                                            <div class="col-sm-12 composeBox-inner">
+                                                                                                <div class="form-group has-feedback">
+                                                                                                    <input id="composeText" type="text" class="form-control" name="searchText" placeholder="Search People">
+                                                                                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- ComposeBox End -->
+
+                                                                                        <!-- sideBar -->
+                                                                                        <div class="row compose-sideBar">
+                                                                                            <div class="row sideBar-body">
+                                                                                                <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                                                                                                    <div class="avatar-icon">
+                                                                                                        <img src="http://shurl.esy.es/y">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-sm-9 col-xs-9 sideBar-main">
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-sm-8 col-xs-8 sideBar-name">
+                                                                                                            <span class="name-meta">Ankit Jain
+                                                                                                            </span>
+                                                                                                        </div>
+                                                                                                        <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                                                                                                            <span class="time-meta pull-right">18:18
+                                                                                                            </span>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="row sideBar-body">
+                                                                                                <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                                                                                                    <div class="avatar-icon">
+                                                                                                        <img src="http://shurl.esy.es/y">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-sm-9 col-xs-9 sideBar-main">
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-sm-8 col-xs-8 sideBar-name">
+                                                                                                            <span class="name-meta">Ankit Jain
+                                                                                                            </span>
+                                                                                                        </div>
+                                                                                                        <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                                                                                                            <span class="time-meta pull-right">18:18
+                                                                                                            </span>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- Sidebar End -->
+                                                                                </div>
+                                                                                <!-- New Message Sidebar End -->
+                                                                                <div class="col-sm-8 conversation">
+                                                                                    <!-- Heading -->
+                                                                                    <div class="row heading">
+                                                                                        <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+                                                                                            <div class="heading-avatar-icon">
+                                                                                                <!-- <img src="http://shurl.esy.es/y"> -->
+                                                                                                <img class="todo-userpic" src="../images/Message.png" width="27px" height="27px">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-sm-8 col-xs-7 heading-name">
+                                                                                            <div class="heading-name-meta">
+                                                                                                <span ng-hide="MessagesCtrl.loginId == MessagesCtrl.response[0].senderId">{{MessagesCtrl.response[0].sMUser.firstName}}
+                                                                                                    {{MessagesCtrl.response[0].sMUser.lastName}}</span>
+                                                                                                <span ng-hide="MessagesCtrl.loginId == MessagesCtrl.response[0].reciverId">{{MessagesCtrl.response[0].sMReciver.firstName}}
+                                                                                                    {{MessagesCtrl.response[0].sMReciver.lastName}}</span>
+                                                                                            </div>
+                                                                                            <!-- <span class="heading-online">Online</span> -->
+                                                                                        </div>
+                                                                                        <div class="col-sm-1 col-xs-1  heading-dot pull-right">
+                                                                                            <!-- <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i> -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- Heading End -->
+
+                                                                                    <!-- Message Box -->
+                                                                                    <div class="row message" id="conversation">
+                                                                                        <div class="row message-body" ng-show="MessagesCtrl.viewCatMsg">
+
+                                                                                            <div class="col-sm-12 message-main-receiver" ng-hide="MessagesCtrl.loginId == MessagesCtrl.response[0].senderId">
+                                                                                                <div class="receiver">
+                                                                                                    <div class="message-text">
+                                                                                                        <span ng-hide="MessagesCtrl.response[0].messagesubject == ''">
+                                                                                                            <b style="font-size: 24px;">{{MessagesCtrl.response[0].messagesubject}}</b>
+                                                                                                        </span>
+                                                                                                        <br>{{MessagesCtrl.response[0].message}}
+                                                                                                    </div>
+                                                                                                    <!-- <span class="message-time pull-right">Sun</span> -->
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-sm-12 message-main-sender" ng-hide="MessagesCtrl.loginId == MessagesCtrl.response[0].reciverId">
+                                                                                                <div class="sender">
+                                                                                                    <div class="message-text">
+                                                                                                        <span ng-hide="MessagesCtrl.response[0].messagesubject == ''">
+                                                                                                            <b style="font-size: 24px;">{{MessagesCtrl.response[0].messagesubject}}</b>
+                                                                                                        </span>
+                                                                                                        <br>{{MessagesCtrl.response[0].message}}
+                                                                                                    </div>
+                                                                                                    <!-- <span class="message-time pull-right">Sun</span> -->
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="row message-body" ng-repeat="commit in MessagesCtrl.response[0].comments">
+                                                                                            <div ng-init="MessagesCtrl.chatRead(commit)">
+                                                                                                <!-- {{commit}} -->
+                                                                                            </div>
+                                                                                            <!-- <div ng-init="(MessagesCtrl.chatRead(commit)&&(commit.createdBy == MessagesCtrl.loginId)&&(commit.status == '')">{{commit}}</div> -->
+                                                                                            <div class="col-sm-12 message-main-receiver" ng-if="commit.createdBy !== MessagesCtrl.loginId">
+                                                                                                <div class="receiver">
+                                                                                                    <div class="message-text">
+                                                                                                        <span ng-hide="commit.commentMesssageSubject == ''">
+                                                                                                            <b style="font-size: 24px;">{{commit.commentMesssageSubject}}</b>
+                                                                                                        </span>
+                                                                                                        <br> {{commit.commentMesssage}}
+                                                                                                    </div>
+                                                                                                    <span class="message-time pull-right">
+                                                                                                        {{commit.updatedTime|date:'short'}}
+                                                                                                    </span>
+                                                                                                    <!-- <span class="message-time pull-right"> -->
+                                                                                                    <!-- {{commit.status}} -->
+                                                                                                    <!-- </span> -->
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-sm-12 message-main-sender" ng-if="commit.createdBy == MessagesCtrl.loginId">
+                                                                                                <div class="sender">
+                                                                                                    <div class="message-text">
+                                                                                                        <span ng-hide="commit.commentMesssageSubject == ''">
+                                                                                                            <b style="font-size: 24px;">{{commit.commentMesssageSubject}}</b>
+                                                                                                        </span>
+                                                                                                        <br> {{commit.commentMesssage}}
+                                                                                                    </div>
+                                                                                                    <span class="message-time pull-right">
+                                                                                                        {{commit.updatedTime|date:'short'}}
+                                                                                                        <br>
+                                                                                                        <!-- </span>                                                                                                    -->
+                                                                                                    <!-- <span class="message-time pull-right"> -->
+                                                                                                    <!-- status: {{commit.status}}<br> -->
+                                                                                                    <span ng-if="commit.readOn">read on: {{commit.readOn|date:'short'}}</span>
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- Message Box End -->
+
+                                                                                    <!-- Reply Box -->
+                                                                                    <div class="row reply">
+                                                                                        <form name="myForm">
+                                                                                            <div class="col-sm-1 col-xs-1 reply-emojis">
+                                                                                                <!-- <i class="fa fa-smile-o fa-2x"></i> -->
+                                                                                            </div>
+                                                                                            <div class="col-sm-9 col-xs-9 reply-main">
+                                                                                                <textarea class="form-control" rows="1" ng-model="MessagesCtrl.formFields.replyAction" id="comment" required></textarea>
+                                                                                            </div>
+                                                                                            <div class="col-sm-1 col-xs-1 reply-recording">
+                                                                                                <!-- <i class="fa fa-microphone fa-2x" aria-hidden="true"></i> -->
+                                                                                            </div>
+                                                                                            <div class="col-sm-1 col-xs-1 reply-send" ng-show="MessagesCtrl.viewCatMsg" ng-click="MessagesCtrl.replyAction(MessagesCtrl.response[0].id, myForm.$invalid);MessagesCtrl.scroll();">
+                                                                                                <i class="fa fa-send fa-2x reply-sendi" aria-hidden="true"></i>
+                                                                                            </div>
+                                                                                            <div class="col-sm-1 col-xs-1 reply-send" ng-hide="MessagesCtrl.viewCatMsg">
+                                                                                                <i class="fa fa-send fa-2x reply-sendi" aria-hidden="true"></i>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                    <!-- Reply Box End -->
+                                                                                </div>
+                                                                                <!-- Conversation End -->
+                                                                            </div>
+                                                                            <!-- App One End -->
+                                                                        </div>
+
+                                                                        <!-- App End -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- <div>{{MessagesCtrl.ShowMessageList1}}</div> -->
+                                                            <!-- {{MessagesCtrl.ShowMessageList1}} -->
+                                                            <!--<img class="todo-userpic" src="../images/Message.png" width="27px" height="27px">-->
+                                                            <table class="table table-hover table-striped table-bordered" style="display:none">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <!-- <th>index</th> -->
+                                                                        <th>Status</th>
+                                                                        <th>Date
+                                                                        </th>
+                                                                        <th>admin1</th>
+                                                                        <th>
+                                                                            From/To
+                                                                        </th>
+                                                                        <th>Subject</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr data-ng-repeat="message in MessagesCtrl.ShowMessageList1 |orderBy:orderByCustom:'true'">
+                                                                        <!-- <td>{{$index+1}}## {{message.id}}</td> -->
+                                                                        <td>
+                                                                            <!-- {{message.comments.length}} -->
+                                                                            <!-- {{message.status}} -->
+                                                                            <span>
+                                                                                <i ng-show="message.status === 'send'||message.comments.length>'0'"
+                                                                                    class="fa fa-arrow-up" style="color:green"></i>
+                                                                            </span>
+                                                                            <span ng-show="message.status === 'recived'||message.comments.length>'0'">
+                                                                                <i class="fa fa-arrow-down" style="color:red"></i>
+                                                                            </span>
+                                                                        </td>
+                                                                        <td>{{message.msgDate}}</td>
+                                                                        <!-- <td ng-hide="message.senderId === MessagesCtrl.loginId">{{message.sMUser.firstName}} {{message.sMUser.lastName}}</td>
+                                                                        <td ng-hide="message.reciverId === MessagesCtrl.loginId">{{message.sMReciver.firstName}} {{message.sMReciver.lastName}}</td> -->
+                                                                        <td>{{message.sMUser.firstName}} {{message.sMUser.lastName}}</td>
+                                                                        <td>{{message.sMReciver.firstName}} {{message.sMReciver.lastName}}</td>
+                                                                        <td>
+                                                                            <a href="javascript:void(0)" data-ng-click="MessagesCtrl.openAction(5);MessagesCtrl.showDetails(message)">{{message.messagesubject}}</a>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                            <table class="table table-hover table-striped table-bordered" style="display:none">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <!--<th></th>-->
+                                                                        <th>
+                                                                            SUBJECT
+                                                                        </th>
+                                                                        <th>
+                                                                            FROM
+                                                                        </th>
+                                                                        <th>Received Date</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr data-ng-repeat="inbox in MessagesCtrl.ShowMessageList |orderBy:'reverse':'msgDate'">
+                                                                        <!--<td>{{$index+1}}</td>-->
+                                                                        <td>
+                                                                            <a href="javascript:void(0)" data-ng-click="MessagesCtrl.openAction(5);MessagesCtrl.showDetail1($index)">{{inbox[0].messagesubject}}</a>
+                                                                        </td>
+                                                                        <td>{{inbox[0].sMUser.firstName}} {{inbox[0].sMUser.lastName}}</td>
+                                                                        <td>{{inbox[0].msgDate}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <!--<th></th>-->
+                                                                        <th>
+                                                                            SUBJECT
+                                                                        </th>
+                                                                        <th>
+                                                                            TO
+                                                                        </th>
+                                                                        <th>Sent Date</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr data-ng-repeat="message in MessagesCtrl.messageList |orderBy:reverse:'msgDate'">
+                                                                        <!--<td>{{$index+1}}</td>-->
+                                                                        <td>
+                                                                            <a href="javascript:void(0)" data-ng-click="MessagesCtrl.openAction(4);MessagesCtrl.showDetail($index)">{{message.messagesubject}}</a>
+                                                                        </td>
+                                                                        <td>{{message.sMUser.firstName}} {{message.sMUser.lastName}}</td>
+                                                                        <td>{{message.msgDate}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="inbox" ng-show=" MessagesCtrl.showcompose && !MessagesCtrl.showsentmessages && !MessagesCtrl.messagedetails && !MessagesCtrl.messagecomments">
+                                                    <form name="messageform" novalidate role="form">
+                                                        <div class="col-md-5">
+                                                            <div js-tree="MessagesCtrl.treeConfig" tree="MessagesCtrl.treeInstance" data-ng-model="treeData" tree-events="check_node:getSelectedCategories;uncheck_node:getSelectedCategories"></div>
+                                                        </div>
+                                                        <!-- <div class="col-md-5" ng-show="userRole=='Admin'">
+                                                            <div js-tree="MessagesCtrl.treeConfig" tree="MessagesCtrl.treeInstance1" data-ng-model="MessagesCtrl.treeData1" tree-events="check_node:getSelectedCategories1;uncheck_node:getSelectedCategories1"></div>
+
+                                                        </div>
+                                                        <div class="col-md-5" ng-show="userRole=='Accountant'">
+
+                                                            <div js-tree="MessagesCtrl.treeConfig" tree="MessagesCtrl.treeInstance2" data-ng-model="MessagesCtrl.treeData2" tree-events="check_node:getSelectedCategories2;uncheck_node:getSelectedCategories2"></div>
+                                                        </div> -->
+                                                        <div class="col-md-7">
+                                                            <div class="inbox-body">
+                                                                <div class="inbox-header">
+                                                                    <h1 class="pull-left">New Message</h1>
+                                                                    <span class="pull-right">
+                                                                        <!-- <select ng-model="MessagesCtrl.selectPreDefine" ng-change="MessagesCtrl.selectDefined(MessagesCtrl.selectPreDefine);" ng-show="userRole == 'Admin'||userRole == 'Accountant'">
+                                                                                <option value="">Select for Pre defined</option>
+                                                                                <option ng-repeat="item in MessagesCtrl.defined" value="{{item.codeNo}}">{{item.code}}</option>
+                                                                        </select> -->
+                                                                    </span>
+                                                                </div>
+                                                                <div class="inbox-content">
+                                                                    <div class="inbox-form-group">
+                                                                        <div class="controls">
+                                                                            <input type="text" class="form-control" data-ng-model="MessagesCtrl.formFields.messagesubject" placeholder="Subject Here">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="inbox-form-group">
+                                                                        <textarea class="inbox-editor inbox-wysihtml5 form-control" name="message" rows="12" placeholder="Message Here" data-ng-model="MessagesCtrl.formFields.message"
+                                                                            required style="resize:none"></textarea>
+                                                                    </div>
+                                                                    <div class="inbox-compose-btn">
+                                                                        <button type="submit" data-ng-click="MessagesCtrl.messageAction(messageform.$invalid)" class="btn green" data-ng-disabled="messageform.$invalid">
+                                                                            <i class="fa fa-check"></i> App Messages </button>
+                                                                        <button type="submit" ng-show="userRole == 'Admin'||userRole == 'Accountant'" data-ng-click="MessagesCtrl.sms();" class="btn green"
+                                                                            data-ng-disabled="messageform.$invalid">
+                                                                            <i class="fa fa-check"></i> SMS</button>
+                                                                        <button type="reset" class="btn default inbox-discard-btn">Discard</button>
+                                                                        <button type="button" ng-show="userRole == 'Admin'||userRole == 'Accountant'" class="btn btn-info" data-toggle="modal" data-target="#myModalPreDefined"
+                                                                            ng-click="MessagesCtrl.preDefine();">Pre Defined messages</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="inbox-body" ng-show=" MessagesCtrl.showsentmessages && !MessagesCtrl.showcompose && !MessagesCtrl.messagedetails && !MessagesCtrl.messagecomments">
+                                                    <div class="inbox-header">
+                                                        <h1 class="pull-left" style="margin-top: -8px;">Sent Items</h1>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="inbox-content">
+                                                        <div class="portlet-body">
+                                                            <table class="table table-hover table-striped table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <!--<th></th>-->
+                                                                        <th>
+                                                                            SUBJECT
+                                                                        </th>
+                                                                        <th>
+                                                                            Sent TO
+                                                                        </th>
+                                                                        <th>Date</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr data-ng-repeat="message in MessagesCtrl.messageList |orderBy:'+':true">
+                                                                        <!--<td>{{$index+1}}</td>-->
+                                                                        <td>
+                                                                            <a href="javascript:void(0)" data-ng-click="MessagesCtrl.openAction(4);MessagesCtrl.showDetail($index)">{{message.messagesubject}}</a>
+                                                                        </td>
+                                                                        <td>{{message.sMUser.firstName}} {{message.sMUser.lastName}}</td>
+                                                                        <td>{{message.msgDate}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="inbox-body" ng-show="MessagesCtrl.showsentmessages && MessagesCtrl.showcompose && MessagesCtrl.messagedetails && MessagesCtrl.messagecomments">
+                                                    <div class="inbox-header">
+                                                        <h1 class="pull-left" style="margin-top: -8px;">SMS Details</h1>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="inbox-content">
+                                                        <div class="portlet-body">
+                                                            <table class="table table-hover table-striped table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <!--<th></th>-->
+                                                                        <th>
+                                                                            Data
+                                                                        </th>
+                                                                        <th>
+                                                                            Count
+                                                                        </th>
+                                                                        <!-- <th>Date</th> -->
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-click="MessagesCtrl.closeToggle();">
+                                                                        <td>
+                                                                            <a class="btn btn-link" ng-init="MessagesCtrl.tott=false" style="padding:0px!important;color:#26a69a">
+                                                                                <span class="glyphicon glyphicon-plus-sign" ng-if="!MessagesCtrl.tott"></span>
+                                                                                <span class="glyphicon glyphicon-minus-sign" ng-if="MessagesCtrl.tott"></span>
+                                                                            </a>Assigned
+                                                                            Pack</td>
+                                                                        <td>{{MessagesCtrl.countBal[0].assignedSmsCount}}</td>
+                                                                    </tr>
+                                                                    <tr ng-if="MessagesCtrl.tott">
+                                                                        <td colspan="2">
+                                                                            <table class="table table-hover table-striped table-bordered" class="text-center">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Date</th>
+                                                                                        <th>Count</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr ng-repeat="add in MessagesCtrl.countBal[0].RechargeHtistory">
+                                                                                        <td>{{add.date}}</td>
+                                                                                        <td>{{add.count}}</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr ng-click="MessagesCtrl.closeToggle1();">
+                                                                        <!--<td>{{$index+1}}</td>-->
+                                                                        <td>
+                                                                            <a class="btn btn-link" ng-init="MessagesCtrl.tott1=false" style="padding:0px!important;color:#26a69a">
+                                                                                <span class="glyphicon glyphicon-plus-sign" ng-if="!MessagesCtrl.tott1"></span>
+                                                                                <span class="glyphicon glyphicon-minus-sign" ng-if="MessagesCtrl.tott1"></span>
+                                                                            </a>Utilized
+                                                                            till date ({{MessagesCtrl.todayDate|date:'dd-MM-yyyy'}})
+                                                                            <today>
+                                                                        </td>
+                                                                        <td>{{MessagesCtrl.smsRepots.length}}</td>
+                                                                        <!-- <td>{{message.msgDate}}</td> -->
+                                                                    </tr>
+                                                                    <tr ng-if="MessagesCtrl.tott1">
+                                                                        <td colspan="2">
+                                                                            <table class="table table-hover table-striped table-bordered">
+                                                                                <thead class="text-center">
+                                                                                    <tr>
+                                                                                        <th>General Msg</th>
+                                                                                        <th>{{MessagesCtrl.smsGenRepots.length}}</th>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th>Fee Receipts</th>
+                                                                                        <th>{{MessagesCtrl.smsFeeReceipt.length}}</th>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th>Attendance</th>
+                                                                                        <th>{{MessagesCtrl.smsAttendReport.length}}</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Available SMS</td>
+                                                                        <td>
+                                                                            {{MessagesCtrl.countBal[0].assignedSmsCount - MessagesCtrl.smsRepots.length}}
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <br>
+                                                            <br>
+                                                            <select class="selectui-Routing" ng-model="MessagesCtrl.smsReportsearch">
+                                                                <option value="">Select To Apply Filter</option>
+                                                                <option value="feeReceipt">Fee Receipt</option>
+                                                                <option value="AttendanceSms">Attendance Sms</option>
+                                                                <option value="generalSms">General Sms</option>
+                                                            </select>
+                                                            <br>
+                                                            <table class="table table-hover table-striped table-bordered" border="1px solid black" ng-hide="MessagesCtrl.smsReportsearch ==''">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="width:100px">Date</th>
+                                                                        <th>Type</th>
+                                                                        <th>Role</th>
+                                                                        <th>Name</th>
+                                                                        <th>Mobile</th>
+                                                                        <th>description</th>
+                                                                        <th>View more</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-if="MessagesCtrl.smsReportsearch" ng-repeat="report in MessagesCtrl.smsRepots| filter:MessagesCtrl.smsReportsearch">
+                                                                        <td>
+                                                                            <!-- {{$index}} -->
+                                                                            {{report.date}}</td>
+                                                                        <td>{{report.smstype| uppercase}}</td>
+                                                                        <td>{{report.smsUser.type}}</td>
+                                                                        <td>{{report.smsUser.firstName}} {{report.smsUser.lastName}}</td>
+                                                                        <td>{{report.smsUser.contact}}</td>
+                                                                        <td>{{report.message| limitTo: 25}}
+                                                                            <span ng-show="report.message.length>25">.....</span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="MessagesCtrl.viewSmsDetails(report);">view content</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!-- <tr ng-show="MessagesCtrl.smsReportsearch ==''">
+                                                                        <td colspan="10000">please select to Apply</td>
+                                                                    </tr> -->
+                                                                </tbody>
+                                                            </table>
+                                                            <!--  view model start -->
+                                                            <div id="myModal" class="modal fade" role="dialog">
+                                                                <div class="modal-dialog">
+
+                                                                    <!-- Modal content-->
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                            <h4 class="modal-title">{{MessagesCtrl.viewSmsDetailss.smstype|uppercase}}</h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>{{MessagesCtrl.viewSmsDetailss.smsUser.firstName}}
+                                                                                {{MessagesCtrl.viewSmsDetailss.smsUser.lastName}}
+                                                                                ({{MessagesCtrl.viewSmsDetailss.smsUser.type}})
+                                                                            </p>
+                                                                            <p>{{MessagesCtrl.viewSmsDetailss.message}}</p>
+                                                                        </div>
+                                                                        <!-- <div class="modal-footer">
+                                                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        </div> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--  view model end  -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="inbox-body" style="height: auto; overflow-y:scroll" ng-show="MessagesCtrl.messagedetails && !MessagesCtrl.showsentmessages && !MessagesCtrl.showcompose && !MessagesCtrl.messagecomments">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <ul class="media-list">
+                                                                <li class="media">
+                                                                    <a class="pull-left" href="javascript:void(0);">
+                                                                        <img class="todo-userpic" src="../images/Message.png" width="27px" height="27px">
+                                                                    </a>
+                                                                    <div class="media-body todo-comment">
+                                                                        <p class="todo-comment-head">
+                                                                            <span class="todo-comment-username">{{MessagesCtrl.messageDetail.sMUser.firstName}}
+                                                                                {{MessagesCtrl.messageDetail.sMUser.lastName}}</span>
+                                                                        </p>
+                                                                        <p class="todo-comment-head">
+                                                                            <span class="todo-comment-username">{{MessagesCtrl.messageDetail.messagesubject}}</span>
+                                                                        </p>
+                                                                        <p class="todo-text-color">
+                                                                            {{MessagesCtrl.messageDetail.message}}
+                                                                        </p>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="c-comment-list">
+                                                                <div class="media" data-ng-repeat="sentreply in MessagesCtrl.messageDetail.comments track by $index">
+                                                                    <div class="media-left">
+                                                                        <a href="javascript:void(0);">
+                                                                            <img class="todo-userpic" src="../images/Message.png" width="27px" height="27px">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="media-body">
+                                                                        <p href="javascript:void(0);">{{sentreply.createdUserfName}} {{sentreply.createdUserLName}}
+                                                                            on
+                                                                            <span class="c-date">{{sentreply.updatedTime | date: "MMM-dd-yyyy
+                                                                                hh:mm:ss"}}</span>
+                                                                        </p>
+                                                                        <p class="todo-text-color">{{sentreply.commentMesssage}}</p>
+
+                                                                    </div>
+                                                                </div>
+                                                                <h3 class="sbold blog-comments-title">Reply</h3>
+                                                                <form name="sentcommentform" novalidate role="form" data-ng-submit="MessagesCtrl.sentcommentAction(sentcommentform.$invalid)">
+                                                                    <div class="form-group">
+                                                                        <textarea class="inbox-editor inbox-wysihtml5 form-control" name="comment" rows="5" placeholder="Reply Or Comment Here" data-ng-model=" MessagesCtrl.formFields.commentMesssage"
+                                                                            required></textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <button type="submit" class="btn green" data-ng-disabled="sentcommentform.$invalid">
+                                                                            <i class="fa fa-check"></i> Submit</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="inbox-body" style="height: auto; overflow-y:scroll" ng-show="MessagesCtrl.messagecomments && !MessagesCtrl.showcompose && !MessagesCtrl.showsentmessages && !MessagesCtrl.messagedetails">
+                                                    <div class="inbox-content">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <ul class="media-list">
+                                                                    <li class="media">
+                                                                        <a class="pull-left" href="javascript:void(0);">
+                                                                            <img class="todo-userpic" src="../images/Message.png" width="27px" height="27px">
+                                                                        </a>
+                                                                        <div class="media-body todo-comment">
+                                                                            <p class="todo-comment-head">
+                                                                                <span class="todo-comment-username">{{MessagesCtrl.messageDetail.sMUser.firstName}}</span>
+                                                                            </p>
+                                                                            <p class="todo-comment-head">
+                                                                                <span class="todo-comment-username">{{MessagesCtrl.messageDetail.messagesubject}}</span>
+                                                                            </p>
+                                                                            <p class="todo-text-color">
+                                                                                {{MessagesCtrl.messageDetail[0].message}}
+                                                                            </p>
+                                                                            <div class="blog-comments">
+                                                                                <div class="c-comment-list">
+                                                                                    <div class="media" data-ng-repeat="reply in MessagesCtrl.messageDetail.comments track by $index">
+                                                                                        <div class="media-left">
+                                                                                            <a href="javascript:void(0);">
+                                                                                                <img class="todo-userpic" src="../images/Message.png" width="27px" height="27px"> </a>
+                                                                                        </div>
+                                                                                        <div class="media-body">
+                                                                                            <p href="javascript:void(0);">{{reply.createdUserfName}}--{{reply.createdUserLName}}
+                                                                                                on
+                                                                                                <span class="c-date">{{reply.updatedTime | date:
+                                                                                                    "MMM-dd-yyyy hh:mm:ss"}}</span>
+                                                                                            </p>
+                                                                                            <div style="background-color:black; color:white; height:30px" ng-hide="reply.commentMesssageSubject ===''">{{reply.commentMesssageSubject}}</div>
+                                                                                            <p class="todo-text-color">
+                                                                                                <span ng-hide="reply.commentMesssageSubject ===''">
+                                                                                                    <b>Sub: {{reply.commentMesssageSubject}}</b>
+                                                                                                    <br>
+                                                                                                </span>{{reply.commentMesssage}}-------------</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <h3 class="sbold blog-comments-title">Reply</h3>
+                                                                            <form name="commentform" novalidate role="form" data-ng-submit="MessagesCtrl.commentAction1(commentform.$invalid)">
+                                                                                <div class="form-group">
+                                                                                    <textarea class="inbox-editor inbox-wysihtml5 form-control" name="comment" rows="5" placeholder="Reply Or Comment Here" data-ng-model="MessagesCtrl.formFields.commentMesssage"
+                                                                                        required></textarea>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <button type="submit" class="btn green" data-ng-disabled="commentform.$invalid">
+                                                                                        <i class="fa fa-check"></i> Submit</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                        <!-- <a class="pull-left" href="javascript:void(0);">
+                                                                            <img class="todo-userpic" src="../images/Message.png" width="27px" height="27px">
+                                                                        </a>
+                                                                        <div class="media-body todo-comment">
+                                                                            <p class="todo-comment-head">
+                                                                                <span class="todo-comment-username">{{MessagesCtrl.messageDetail[0].sMUser.firstName}}</span>
+                                                                            </p>
+                                                                            <p class="todo-comment-head">
+                                                                                <span class="todo-comment-username">{{MessagesCtrl.messageDetail[0].messagesubject}}</span>
+                                                                            </p>
+                                                                            <p class="todo-text-color">
+                                                                                {{MessagesCtrl.messageDetail[0].message}}
+                                                                            </p>
+                                                                            <div class="blog-comments">
+                                                                                <div class="c-comment-list">
+                                                                                    <div class="media" data-ng-repeat="reply in MessagesCtrl.messageDetail[0].comments track by $index">
+                                                                                        <div class="media-left">
+                                                                                            <a href="javascript:void(0);">
+                                                                                                <img class="todo-userpic" src="../images/Message.png" width="27px" height="27px">                                                                                                </a>
+                                                                                        </div>
+                                                                                        <div class="media-body">
+                                                                                            <p href="javascript:void(0);">{{reply.createdUserfName}}--{{reply.createdUserLName}}
+                                                                                                on
+                                                                                                <span class="c-date">{{reply.updatedTime | date: "MMM-dd-yyyy hh:mm:ss"}}</span></p>
+                                                                                            <p class="todo-text-color">{{reply.commentMesssage}}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <h3 class="sbold blog-comments-title">Reply</h3>
+                                                                            <form name="commentform" novalidate role="form" data-ng-submit="MessagesCtrl.commentAction(commentform.$invalid)">
+                                                                                <div class="form-group">
+                                                                                    <textarea class="inbox-editor inbox-wysihtml5 form-control" name="comment" rows="5" placeholder="Reply Or Comment Here" data-ng-model=" MessagesCtrl.formFields.commentMesssage"
+                                                                                        required></textarea>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <button type="submit" class="btn green" data-ng-disabled="commentform.$invalid"><i class="fa fa-check"></i> Submit</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div> -->
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE CONTENT INNER -->
+</div>
+<!-- END PAGE CONTENT -->
+<!-- END PAGE CONTAINER -->
+
+<div id="myModalPreDefined" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Pre-defined messages</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th>subject</th>
+                            <th>body</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr>
+                            <td><textarea>The <b>color</b> is black.</textarea></td>
+                        </tr> -->
+                        <tr ng-repeat="list in MessagesCtrl.defined" data-dismiss="modal">
+                            <td ng-click="MessagesCtrl.preDefineBind($index)">{{list.messagesubject}}</td>
+                            <td ng-click="MessagesCtrl.preDefineBind($index)">{{list.message}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .check:hover {
+        background-color: lightgoldenrodyellow;
+    }
+
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+    }
+</style>

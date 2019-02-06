@@ -1,0 +1,90 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Assignments
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-file-text font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">ATTENDANCE</span>
+                                </div>
+                                <div class="col-md-10" ng-show="AttendanceCtrl.roleView" style="margin-top: 5px;">
+                                    <div class="btn-group pull-right">
+                                        <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            Tools
+                                            <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li>
+                                                <a data-ng-click="AttendanceCtrl.printData()">Print</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" data-ng-click="AttendanceCtrl.pdf();AttendanceCtrl.showForPdf=false;">
+                                                    Save as PDF </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" data-ng-click="AttendanceCtrl.exportToExcel('#showPdf')">
+                                                    Export to Excel </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div ng-show="userRole == 'Staff'" ui-calendar="AttendanceCtrl.calendarConfig.calendar"
+                                    style="width:800px;" class="calendar1" calendar="schoolCalendar" ng-model="AttendanceCtrl.eventSources"></div>
+                                <!--<div ng-show="userRole == 'Student'" ui-calendar="uiConfig.calendar" style="width:800px;" class="span8 calendar" ng-model="eventSources"></div>-->
+                                <div class="table-toolbar">
+                                </div>
+                                <div class="col-md-3" ng-show="userRole == 'Staff'" style="float:right;margin-top:-420px;">
+                                    <table class="table table-bordered table-striped table-condensed flip-content">
+                                        <tr>
+                                            <th>Total days </th>
+                                            <th>Present </th>
+                                            <th>Absent </th>
+                                            <!--<th ng-repeat="y in AttendanceCtrl.monthDays() track by $index">{{$index+1}} </th>-->
+                                        </tr>
+                                        <tr>
+                                            <td> {{AttendanceCtrl.workingDays - AttendanceCtrl.HoliDays}}</td>
+                                            <td> {{AttendanceCtrl.StaffPresentDays}}</td>
+                                            <td> {{AttendanceCtrl.workingDays - AttendanceCtrl.HoliDays - AttendanceCtrl.StaffPresentDays}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<script>
+    (function () {
+        $('.calendarctrl').datetimepicker({
+            format: 'DD-MM-YYYY',
+            minDate: new Date()
+        });
+    })();
+</script>

@@ -1,0 +1,197 @@
+<div class="page-container">
+      <!-- BEGIN PAGE CONTAINER -->
+      <div class="page-content">
+            <!-- BEGIN PAGE CONTENT -->
+            <div class="container">
+                  <ul class="page-breadcrumb breadcrumb">
+                        <!-- BEGIN PAGE BREADCRUMB -->
+                        <li>
+                              <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Lesson Planner
+                        </li>
+                  </ul>
+                  <!-- END PAGE BREADCRUMB -->
+                  <div class="page-content-inner">
+                        <!-- BEGIN PAGE CONTENT INNER -->
+                        <div class="row">
+                              <div class="col-md-12">
+                                    <div class="portlet light portlet-fit ">
+                                          <!-- BEGIN EXAMPLE TABLE PORTLET-FIT-->
+                                          <div class="portlet-title">
+                                                <div class="caption">
+                                                      <i class="fa fa-calendar font-green"></i>
+                                                      <span class="caption-subject font-green bold uppercase">Lesson Planner</span>
+                                                </div>
+                                          </div>
+                                          <div class="portlet-body">
+                                                <!-- BEGIN PORTLET-BODY-->
+                                                <div class="table-toolbar">
+                                                      <div class="row">
+                                                            <div class="col-lg-12 col-md-12">
+                                                                  <h1 ng-show="userRole == 'Student'">Coming Soon....</h1>
+                                                                  <div class="btn-group" ng-show="userRole !== 'Student'">
+                                                                        <div class="form-group">
+                                                                              <select class="form-control" data-ng-change="lessonPlnrCtrl.selectedClass()" name="lessonClassId" data-ng-model="lessonPlnrCtrl.formFields.showClassId"
+                                                                                    required>
+                                                                                    <option value="">Select Class</option>
+                                                                                    <option ng-repeat="class in lessonPlnrCtrl.classList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                                                                                    </select>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                              <select class="form-control" name="lessonSubjId" data-ng-keypress="lessonPlnrCtrl.checkclass(lessonPlnrCtrl.formFields.showClassId)"
+                                                                                    data-ng-click="lessonPlnrCtrl.checkclass(lessonPlnrCtrl.formFields.showClassId)"
+                                                                                    data-ng-change="lessonPlnrCtrl.selectedSubject(lessonPlnrCtrl.formFields.showsubjectId,lessonPlnrCtrl.formFields.showClassId)"
+                                                                                    data-ng-model="lessonPlnrCtrl.formFields.showsubjectId"
+                                                                                    required>
+                                                                                    <option value="">Select Subject</option>
+                                                                                    <option ng-repeat="subject in lessonPlnrCtrl.subjectList" value="{{subject.id}}">{{subject.subjectName}}</option>
+                                                                                    </select>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="row">
+                                                      <!-- TABULAR CONTENT GOES HERE-->
+                                                      <div class="col-lg-4 col-md-4 col-sm-12">
+                                                            <form name="scheduleform" novalidate ng-show="userRole !== 'Student'">
+                                                                  <div class="form-group ">
+                                                                        <h4>
+                                                                              <u>Summary</u>
+                                                                        </h4>
+                                                                        <table class="table-bordered table1">
+                                                                              <tr>
+                                                                                    <td class="padding7">Teacher</td>
+                                                                                    <td ng-repeat="subject in lessonPlnrCtrl.staffList" class="padding7">{{subject.staff.firstName}} {{subject.staff.lastName}}</td>
+                                                                              </tr>
+                                                                        </table>
+                                                                  </div>
+                                                                  <div class="form-group ">
+                                                                        <h4>
+                                                                              <u>Index</u>
+                                                                        </h4>
+                                                                        <button data-toggle="modal" data-ng-click="lessonPlnrCtrl.editmode = false;lessonPlnrCtrl.setFloatLabel();lessonPlnrCtrl.check(lessonPlnrCtrl.formFields.showClassId,lessonPlnrCtrl.formFields.showsubjectId)"
+                                                                              class="btn green">
+                                                                              Add Chapter
+                                                                              <i class="fa fa-plus"></i>
+                                                                              </button>
+                                                                              <br>
+                                                                              <table class="table-bordered table2" data-ng-repeat="chapter in lessonPlnrCtrl.chapterList">
+                                                                                    <tr>
+                                                                                          <td class="padding7">
+                                                                                                <ul>
+                                                                                                      <li>
+                                                                                                            <b>Chapter:</b>{{chapter.chapterName}}
+                                                                                                      </li>
+                                                                                                      <ul>
+                                                                                                            <li data-ng-repeat="topic in chapter.subtopicName">
+                                                                                                                  <a data-ng-click="lessonPlnrCtrl.Topic(topic)">{{topic.subtopicName}}</a>
+                                                                                                            </li>
+                                                                                                      </ul>
+                                                                                                      <a class="pull-right" data-toggle="modal" data-ng-click="lessonPlnrCtrl.editNotice($index)">edit</a>
+                                                                                                </ul>
+                                                                                          </td>
+                                                                                    </tr>
+                                                                              </table>
+                                                                  </div>
+                                                            </form>
+                                                      </div>
+                                                      <div class="col-lg-8 col-md-8 col-sm-12">
+                                                            <div class="col-lg-12"><span class="caption-subject font-green bold uppercase"><h4>{{lessonPlnrCtrl.topicData.subtopicName}}</h4></span>
+                                                                  <div class="col-lg-8">
+                                                                        <div style="border:1px solid #d3d3d3">
+                                                                              <h4>
+                                                                                    <u class="caption-subject font-green bold uppercase">PDF CONTENT :</u>
+                                                                              </h4>
+                                                                              <div class="" onloadstart="">
+                                                                                    <object data="{{pdfContent}}" type="application/pdf" />
+                                                                                    <h4>
+                                                                                          <u>Click the link to download your
+                                                                                                PDF
+                                                                                          </u>
+                                                                                    </h4>
+                                                                                    <a ng-href="{{pdfContent}}" style="word-wrap:break-word; padding:1px">{{pdfContent}}</a>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                                  <div class="col-lg-4">
+                                                                        <div style="border:1px solid #d3d3d3">
+                                                                              <h4>
+                                                                                    <u class="caption-subject font-green bold uppercase">
+                                                                                          Youtube Video:</u>
+                                                                              </h4>
+                                                                              <iframe ng-src="{{trustSrc(iframe.src)}}" frameborder="0" style="width:90%;height:180px;left:0" allowfullscreen></iframe>
+                                                                        </div>
+                                                                        <div class="mtop20" style="border:1px solid #d3d3d3" >
+                                                                              <h4>
+                                                                                    <u class="caption-subject font-green bold uppercase">Assignments:</u>
+                                                                              </h4>{{lessonPlnrCtrl.topicData.Assignments}}</div>
+                                                                        <div id="divVideo" class="videoDiv"></div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <!-- TABULAR CONTENT ENDS HERE-->
+                                          </div>
+                                          <!-- END PORTLET-BODY-->
+                                    </div>
+                                    <!-- END EXAMPLE TABLE PORTLET-FIT-->
+                              </div>
+                        </div>
+                  </div>
+                  <!-- END PAGE CONTENT INNER -->
+            </div>
+      </div>
+      <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<div id="add-chapter" class="modal fade bs-modal-lg" data-keyboard="false" data-backdrop="static">
+      <!-- EDIT MODAL -->
+      <div class="modal-dialog modal-lg" data-ng-if="!lessonPlnrCtrl.detailsMode">
+            <div class="modal-content">
+                  <div class="modal-header">
+                        <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="lessonPlnrCtrl.closeModal()"><span class="icon-close"></span></a>
+                        <h4 class="modal-title font-green">Add Chapter & Sub-Topics</h4>
+                  </div>
+                  <div class="modal-body">
+                        <div class="row profile">
+                              <div class="col-md-12">
+                                    <div class="row">
+                                          <div class="col-md-12 profile-info">
+                                                <form name="chapterform" novalidate role="form" data-ng-submit="lessonPlnrCtrl.chapterAction(chapterform.$invalid)">
+                                                      <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                            <input type="text" class="form-control input-sm" data-ng-model="lessonPlnrCtrl.chapterName" placeholder="Chapter">
+                                                            <h4>Add Sub-Topics</h4>
+                                                            <div class="form-group mtop30" ng-repeat="stopics in   lessonPlnrCtrl.oneTimePay">
+                                                                  <input type="text" class="form-control input-sm" data-ng-model="stopics.subtopicName" placeholder="Sub-Topics">
+                                                                  <h4 class="mtop20">
+                                                                        <u>Please select the Sub-Topic PDF:</u>
+                                                                  </h4>
+                                                                  <input type="file" class="mtop10" id="topicPDF" ng-model="stopics.topicPDF">
+                                                                  <div class="btn-group">
+                                                                        <input type="button" class="btn green mtop10" data-ng-click="lessonPlnrCtrl.uploadPDF($index)" value="Submit PDF">
+                                                                  </div>
+                                                                  <input type="text" class="mtop20 form-control input-sm" data-ng-model="stopics.Iframe" placeholder="Enter Your Iframed Youtube Link">
+                                                                  <textarea class="mtop20" rows="5" cols="100" placeholder="assignments" data-ng-model="stopics.Assignments"></textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                  <input type="button" class="btn btn-danger pull-right" data-ng-click="lessonPlnrCtrl.delOneTimeRow()" value="Remove">
+                                                                  <input type="button" class="btn btn-primary addnew pull-right" data-ng-click="lessonPlnrCtrl.addOneTimeRow ()" value="Add New">
+                                                            </div>
+                                                      </div>
+                                                      <div class="form-group">
+                                                            <button type="reset" class="btn default">Reset</button>
+                                                            <button type="submit" class="btn green"><i class="fa fa-check"></i> Submit</button>
+                                                      </div>
+                                                </form>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>
+<!-- EDIT MODAL END-->

@@ -1,0 +1,20 @@
+<!-- BEGIN HEADER -->
+<div class="page-header identity-home-header">
+  <div class="header-container">
+    <span ng-if="HeaderCtrl.schoolLogo" width="95" alt="logo">
+        <img ng-src="{{HeaderCtrl.schoolLogo}}" alt="School Logo" />
+    </span>
+    <span ng-if="HeaderCtrl.schoolLogo != ''" width="95" alt="logo">
+        <img ng-src="/images/company.png" alt="School Logo" />
+    </span>
+    <span style="margin-top: 2%;margin-right: 100px;float: right;width: 100px;">
+        <button class="btn btn-primary btn-lg rgbtn" style="border-radius:5px !important" data-ng-click="identityCtrl.logout()" data-toggle="modal"
+        data-target="#logout"><i><b>Logout</b></i></button>
+    </span>
+  </div>
+  
+
+
+  </div>
+    <!-- END HEADER TOP -->
+   

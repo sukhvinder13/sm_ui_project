@@ -1,0 +1,152 @@
+<div class="page-container">
+      <div class="page-content">
+            <div class="container">
+                  <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                              <a ui-sref="home.console">Home</a>
+                              <i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Transport Management
+                              <i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Bus Service
+                        </li>
+                  </ul>
+                  <div class="page-content-inner">
+                        <div class="row">
+                              <div class="col-lg-12 col-md-12">
+                                    <div class="portlet light portlet-fit ">
+                                          <div class="portlet-title">
+                                                <div class="caption">
+                                                      <i class="fa fa-subway font-green"></i>
+                                                      <span class="caption-subject font-green bold uppercase">BUS
+                                                            SERVICE</span>
+                                                </div>
+                                          </div>
+                                          <button class="btn green" data-toggle="modal" style="margin-left: 958px;"
+                                                ng-show="BusserviceCtrl.roleEdit">
+                                                <a ui-sref="home.addRoutes({servicesId:'addServices'})"><b style="color:white;">ADD
+                                                            SERVICE</b></a><i class="fa fa-road" style="width: 20px;color: black;"
+                                                      aria-hidden="true"></i></button>
+                                          <div class="portlet-body">
+
+                                                <div class="table-toolbar">
+                                                      <div class="row">
+
+                                                            <div class="col-lg-12 col-md-12">
+                                                                  <table class="table table-striped table-hover table-bordered sm_editable_grid"
+                                                                        id="serviceid">
+                                                                        <thead>
+                                                                              <tr>
+                                                                                    <th style="text-align:center;">Service
+                                                                                          No</th>
+                                                                                    <th style="text-align:center;">Vehicle
+                                                                                          No</th>
+                                                                                    <th style="text-align:center;">Service
+                                                                                          Name</th>
+
+                                                                                    <!-- <th style="text-align:center;">Start Time</th>{{route.pickUpTime}} -->
+
+
+                                                                                    <!-- <th style="text-align:center;"><i class="fa fa-edit"></i></th> -->
+                                                                                    <th style="text-align:center;"
+                                                                                          ng-show="BusserviceCtrl.roledelete">Delete</th>
+                                                                                    <th style="text-align:center;width: 10%;">View
+                                                                                          map</th>
+                                                                              </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                              <tr data-ng-repeat="route in BusserviceCtrl.getRoutesPointList">{{BusserviceCtrl.getRoutesPointLis}}
+                                                                                    <!-- <td>{{route.id}}</td> -->
+                                                                                    <td style="text-align:center;"
+                                                                                          ng-show="userRole == 'Admin'"><a
+                                                                                                ui-sref="home.addRoutes({servicesId:route.id,map:1})">{{route.serviceNo}}</a>
+                                                                                    </td>
+                                                                                    <td style="text-align:center;"
+                                                                                          ng-show="userRole != 'Admin'">{{route.serviceNo}}
+                                                                                    </td>
+                                                                                    <td style="text-align:center;">{{route.busNo}}</td>
+                                                                                    <td style="text-align:center;">{{route.serviceName}}</td>
+
+
+                                                                                    <!-- <td> -->
+                                                                                    <!-- {{route.routePoints[0].pickUpTime}} -->
+                                                                                    <!-- <table >
+                                                                                                <tr data-ng-repeat="routes in route.routePoints">
+                                                                                                      <td>{{routes.name}}</td>
+                                                                                                      <td>:{{routes.pickUpTime | date:'hh:mm'}}</td>
+                                                                                                </tr>
+                                                                                          </table> -->
+                                                                                    <!-- </td> -->
+
+                                                                                    <!-- <td style="text-align:center;"> <a class="" href="javascript:void(0);" ng-click="BussetCtrl.editbuslist()">
+                                                                                    <i class="fa fa-edit"></i>
+                                                                                  </a></td> -->
+                                                                                    <td style="text-align:center;"
+                                                                                          ng-show="BusserviceCtrl.roledelete"><a
+                                                                                                href="javascript:void(0);"
+                                                                                                ng-bootbox-confirm="Are you sure you want to delete this record ?"
+                                                                                                ng-bootbox-confirm-action="BusserviceCtrl.confirmCallbackMethod(route.id)"
+                                                                                                ng-bootbox-confirm-action-cancel="BusserviceCtrl.confirmCallbackCancel($index)">
+                                                                                                <i class="fa fa-trash"></i>
+                                                                                          </a></td>
+                                                                                    <td style="text-align:center;"><a
+                                                                                                ui-sref="home.addRoutes({servicesId:route.id,map:2})"><i
+                                                                                                      class="fa fa-eye"
+                                                                                                      aria-hidden="true"></i></a></td>
+
+                                                                              </tr>
+                                                                        </tbody>
+                                                                  </table>
+                                                            </div>
+
+                                                      </div>
+
+                                                </div>
+
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>
+<style>
+      div.ex1 {
+            /* background-color: lightblue; */
+            width: 485px;
+            height: 328px;
+            overflow: scroll;
+            overflow-x: hidden;
+      }
+
+      /* li:hover {
+      background-color: slategrey;
+} */
+</style>
+<style>
+      /* width */
+      ::-webkit-scrollbar {
+            width: 7px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+            background-color: slategray;
+            border-radius: 10px;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+            background: slategrey;
+      }
+</style>

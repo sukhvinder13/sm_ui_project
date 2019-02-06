@@ -1,0 +1,78 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Messages
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-comments font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">MESSAGES</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <!-- TABULAR CONTENT GOES HERE-->
+                                <div class="page-content-inner">
+                                    <div class="inbox">
+                                        <div class="row">
+                                            <form name="messageform" novalidate role="form" data-ng-submit=" MessagesCtrl.messageAction(messageform.$invalid)">
+                                                <div class="col-md-5">
+                                                    <div js-tree="MessagesCtrl.treeConfig" tree="MessagesCtrl.treeInstance" data-ng-model="MessagesCtrl.treeData" tree-events="check_node:getSelectedCategories;uncheck_node:getSelectedCategories"></div>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="inbox-body">
+                                                        <div class="inbox-header">
+                                                            <h1 class="pull-left">New Message</h1>
+                                                        </div>
+                                                        <div class="inbox-content">
+                                                            <div class="inbox-compose-btn">
+                                                                <button type="submit" class="btn green" data-ng-disabled="messageform.$invalid"><i class="fa fa-check"></i> Submit</button>
+                                                                <button type="submit" class="btn default inbox-discard-btn" ui-sref="home.messages">Discard</button>
+                                                            </div>
+                                                            <div class="inbox-form-group">
+                                                                <!--<label class="control-label">Subject:</label>-->
+                                                                <div class="controls">
+                                                                    <input type="text" class="form-control" data-ng-model=" MessagesCtrl.formFields.messagesubject" placeholder="Subject Here">
+                                                                </div>
+                                                            </div>
+                                                            <div class="inbox-form-group">
+                                                                <textarea class="inbox-editor inbox-wysihtml5 form-control" name="message" rows="12" placeholder="Message Here" data-ng-model=" MessagesCtrl.formFields.message"
+                                                                    required /></textarea>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT INNER -->
+    </div>
+</div>
+<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->

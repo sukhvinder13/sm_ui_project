@@ -1,0 +1,307 @@
+<div class="identitylogin">
+  <div class="tile-left">
+    <div id="wrap">
+      <div class="main">
+        <div class="wrapper">
+          <div id="logo_wrapper" class="standard_logo_wrapper mb24">
+            <h1 style="height: 100%; display: table-cell; vertical-align: bottom;">
+              <img id="logo" class="standard_logo" src="../images/company.png" alt="Study Monitor" border="0" name="logo">
+            </h1>
+          </div>
+          <div class="content rds rds1">
+            <div class="alert alert-danger" data-ng-show="identityLoginCtrl.showError" style="text-align: center;margin-bottom: 10px;">
+              <button class="close" ng-click="identityLoginCtrl.showError = false"></button>
+              <span>
+                {{identityLoginCtrl.errorMessage}}
+              </span>
+            </div>
+            <!--LOGIN FORM-->
+            <form name="loginForm" ng-submit="identityLoginCtrl.authenticateUser(loginForm.$invalid)" novalidate ng-show="identityLoginCtrl.showModel=='LOGIN'">
+              <div class="form-group">
+                <label for="username">Phone No/Email address</label>
+                <input type="string" class="form-control rds" data-ng-model="identityLoginCtrl.loginfields.username" name="username" required
+                  aria-describedby="emailHelp" placeholder="Enter phone no/email" ng-change="identityLoginCtrl.showError=false">
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control rds" autocomplete="off" data-ng-model="identityLoginCtrl.loginfields.password"
+                  required="true" name="password" placeholder="Password" ng-change="identityLoginCtrl.showError=false">
+              </div>
+
+              <button type="submit" class="btn The btn-block btn-primary rds" data-ng-disabled="loginForm.$invalid">Login</button>
+              <div>
+                <label class="rememberme check">
+                  <input type="checkbox" name="remember" value="checked" id="remember_me" data-ng-click="identityLoginCtrl.Remember();" /> Remember </label>
+                <a id="forget-password" class="forget-password" href="javascript:;" ng-click="identityLoginCtrl.showModel='FORGET';identityLoginCtrl.showError = false">Forgot Password?</a>
+              </div>
+            </form>
+            <!--END LOGIN FORM-->
+            <!-- FORGET FORM-->
+            <form class="login-form" name="forgotForm" ng-submit="identityLoginCtrl.forgetmyPassword(forgotForm.$invalid)" novalidate
+              ng-show="identityLoginCtrl.showModel=='FORGET'" autocomplete="off">
+              <h3>Forget Password ?</h3>
+              <p>
+                Enter your e-mail address below to reset your password.
+              </p>
+              <div class="form-group">
+                <label for="username">Phone No/Email address</label>
+                <input type="string" class="form-control rds" data-ng-model="identityLoginCtrl.loginfields.username" name="username" required
+                  aria-describedby="emailHelp" placeholder="Enter phone no/email">
+              </div>
+
+              <div class="form-actions">
+                <button type="button" id="back-btn" class="btn btn-default" ng-click="identityLoginCtrl.showModel='LOGIN';identityLoginCtrl.showError = false">Back</button>
+                <button type="submit" class="btn btn-primary uppercase pull-right" data-ng-disabled="forgotForm.$invalid">Submit</button>
+              </div>
+            </form>
+
+
+            <!--END FORGET FORM-->
+            <!--SIGNUP FORM-->
+            <form name="signupForm" ng-submit="identityLoginCtrl.signup(signupForm.$invalid)" novalidate ng-show="identityLoginCtrl.showModel=='SIGNUP'">
+              <div class="form-group">
+                <label for="susername">Email address</label>
+                <input type="string" class="form-control rds" data-ng-model="identityLoginCtrl.userdata.email" name="s_phone" required aria-describedby="emailHelp"
+                  placeholder="Enter Email">
+                <label for="validateuser">Phone Number</label>
+                <input type="number" class="form-control rds" data-ng-model="identityLoginCtrl.userdata.phone" name="s_email" required aria-describedby="emailHelp"
+                  placeholder="Enter Phone number">
+
+                <label for="s_password">Password</label>
+                <input type="password" class="form-control rds" autocomplete="off" data-ng-model="identityLoginCtrl.userdata.password" required="true"
+                  name="s_password" placeholder="Password">
+
+                <label for="s_cpassword">Confirm Password</label>
+                <input type="password" class="form-control rds" autocomplete="off" data-ng-model="identityLoginCtrl.cpassword" required="true"
+                  name="s_cpassword" placeholder="Confirm Password">
+
+
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-default" ng-click="identityLoginCtrl.showModel='LOGIN';identityLoginCtrl.showError = false">Back</button>
+                <button type="submit" class="btn btn-primary uppercase pull-right" data-ng-disabled="signupForm.$invalid">Submit</button>
+              </div>
+
+            </form>
+            <!--END SIGNUP FORM-->
+
+            <!-- VALIDATE USER FORM-->
+            <form name="validateUserForm" ng-submit="identityLoginCtrl.validateUser(validateUserForm.$invalid)" novalidate ng-show="identityLoginCtrl.showModel=='VALIDATE_USER'"
+              autocomplete="on">
+              <div class="form-group">
+                <label for="validateuser">Enter PhoneNumber</label>
+                <!-- <input type="string" class="form-control rds" data-ng-model="identityLoginCtrl.loginfields.username" name="validateuser"
+                  required aria-describedby="emailHelp" placeholder="Enter phone no"> -->
+
+                <input type="number" name="validateuser" placeholder="Phone No" class="form-control rds" id="phone" data-ng-model="identityLoginCtrl.loginfields.username"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  maxlength="15" minlength="10" pattern="^([0|\+[0-9]{1,5})?([1-9][0-9]{9})$" required aria-describedby="emailHelp"
+                />
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-default" ng-click="identityLoginCtrl.showModel='LOGIN';identityLoginCtrl.showError = false">Back</button>
+                <button type="submit" class="btn btn-primary uppercase pull-right" data-ng-disabled="validateUserForm.$invalid">Submit</button>
+              </div>
+
+            </form>
+            <!--END VALIDATE USER FORM-->
+
+            <!--RESET FORM-->
+            <form name="resetForm" ng-submit="identityLoginCtrl.resetPassword(resetForm.$invalid)" novalidate ng-show="identityLoginCtrl.showModel=='RESET'"
+              autocomplete="on">
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control rds" autocomplete="off" data-ng-model="identityLoginCtrl.password" required="true"
+                  name="password" placeholder="Password">
+
+                <label for="cpassword">Confirm Password</label>
+                <input type="password" class="form-control rds" autocomplete="off" data-ng-model="identityLoginCtrl.cpassword" required="true"
+                  name="cpassword" placeholder="Confirm Password">
+
+              </div>
+
+
+              <button type="submit" class="btn The btn-block btn-primary rds" data-ng-disabled="resetForm.$invalid && identityLoginCtrl.password!=identityLoginCtrl.cpassword">Submit</button>
+
+            </form>
+            <!--END RESET FORM-->
+
+            <!-- OTP FORM-->
+            <form name="otpForm" ng-submit="identityLoginCtrl.otpValidate(otpForm.$invalid)" novalidate ng-show="identityLoginCtrl.showModel=='OTP'"
+              autocomplete="on">
+              <div class="form-group">
+                <label for="otp">Please Enter OTP</label>
+                <input type="number" class="form-control rds" data-ng-model="identityLoginCtrl.otp" name="otp" required aria-describedby="emailHelp"
+                  placeholder="Enter OTP">
+              </div>
+
+
+              <button type="submit" class="btn The btn-block btn-primary rds" data-ng-disabled="otpForm.$invalid">Submit</button>
+
+              <div>
+                <label class="rememberme check">
+                  <a id="resetOTP" class="forget-password" ng-click="identityLoginCtrl.rensedOTP()">Resend OTP</a>
+              </div>
+            </form>
+            <!--END OTP FORM-->
+
+            <!-- SIGNUP OTP FORM-->
+            <form name="signupOtpForm" ng-submit="identityLoginCtrl.signupOtpValidate(signupOtpForm.$invalid)" novalidate ng-show="identityLoginCtrl.showModel=='SIGNUP_OTP'"
+              autocomplete="on">
+              <div class="form-group">
+                <label for="otp">Please Enter OTP</label>
+                <input type="number" class="form-control rds" data-ng-model="identityLoginCtrl.otp" name="otp" required aria-describedby="emailHelp"
+                  placeholder="Enter OTP">
+              </div>
+
+
+              <button type="submit" class="btn The btn-block btn-primary rds" data-ng-disabled="signupOtpForm.$invalid">Submit</button>
+
+              <div>
+                <label class="rememberme check">
+                  <a id="resetOTP" class="forget-password" ng-click="identityLoginCtrl.rensedOTPSignUp()">Resend OTP</a>
+              </div>
+            </form>
+            <!--SIGNUP OTP FORM-->
+
+
+          </div>
+          <!-- Register-->
+          <div class="register" style="display: block;" ng-show="identityLoginCtrl.showModel=='LOGIN'">
+            <p class="di mr16">Not a Registered?</p>
+            <a href="#" class="btn btn-primary btn-lg rgbtn" role="button" aria-disabled="true" ng-click="identityLoginCtrl.showModel='VALIDATE_USER';identityLoginCtrl.showError = false;identityLoginCtrl.checkNumberRegistration();">Register</a>
+          </div>
+          <!-- Register-->
+          <div class="register" style="display: block;" ng-show="identityLoginCtrl.showModel!='LOGIN'">
+            <p class="di mr16">Already Registered?</p>
+            <a href="#" class="btn btn-primary btn-lg rgbtn" role="button" aria-disabled="true" ng-click="identityLoginCtrl.showModel='LOGIN';identityLoginCtrl.showError = false">Login</a>
+          </div>
+          <!--END Register-->
+          <!--Footer-->
+          <div class="" style="margin-top:110px;">
+            <div class="footer">
+              <div class="col-md-12">
+                <div>
+                  <p>
+                    <strong>Study Monitor</strong> &copy; 2016. All Rights Reserved.
+                    <br> Powered By:
+                    <a href="http://studymonitor.net" title="Study Monitor" target="_blank">
+                      <strong>Study Monitor</strong>
+                    </a>
+                  </p>
+
+                </div>
+
+
+              </div>
+              <div class="col-md-12 footer-block">
+                <br/>
+                <ul class="social-icons">
+                  <li>
+                    <a href="https://www.facebook.com/studymonitor" target="_blank" data-original-title="facebook" class="facebook"></a>
+                  </li>
+                  <li>
+                    <a href="https://www.youtube.com/" target="_blank" data-original-title="youtube" class="youtube"></a>
+                  </li>
+                  <li>
+                    <a href="https://www.twitter.com/" target="_blank" data-original-title="twitter" class="twitter"></a>
+                  </li>
+                  <li>
+                    <a href="https://www.linkedin.com/" target="_blank" data-original-title="linkedin" class="linkedin"></a>
+                  </li>
+                  <li>
+                    <a href="javascript:;" data-original-title="googleplus" class="googleplus"></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div>
+            <nav mfb-menu position="bl"  bgcolor='#3F51B5' effect="zoomin" label="Support"  active-icon="ion-headphone" resting-icon="ion-ios-telephone"
+                toggling-method="hover" menu-state="menuState">
+                <button mfb-button bgcolor='#3F51B5' icon="ion-ios-telephone"  label="040-48559553 , 6304 742 949"></button>
+                <button mfb-button bgcolor='#3F51B5' icon="ion-email" onClick="window.open('mailto:support@studymonitor.net?Subject=Complantent');" label="support@studymonitor.net"></button>
+                <button mfb-button bgcolor='#3F51B5' icon="ion-social-skype" label="live:studymonitor"></button>
+            </nav>
+         
+            </div>
+          <!--END Footer-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--RIGHT SECTION-->
+  <div class="tile-right">
+    <div class="slider">
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+          <div class="item active" style="height:auto">
+            <img src="images/lslide3.jpg">
+          </div>
+          <div class="item" style="height:auto">
+            <img src="images/lslide1.jpg">
+          </div>
+          <div class="item" style="height:auto">
+            <img src="images/lslide2.jpg">
+          </div>
+          <div class="item" style="height:auto">
+            <img src="images/lslide4.jpg">
+          </div>
+          <div class="item" style="height:auto">
+            <img src="images/lslide5.jpg">
+          </div>
+          <div class="item" style="height:auto">
+            <img src="images/lslide6.jpg">
+          </div>
+          <div class="item" style="height:auto">
+            <img src="images/lslide7.jpg">
+          </div>
+          <div class="item" style="height:auto">
+            <img src="images/lslide8.jpg">
+          </div>
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!--END RIGHT SECTION-->
+</div>
+<SCRIPT type="text/javascript"> window.history.forward(); function noBack() { window.history.forward(); }
+</SCRIPT>
+<style>
+  .identitylogin {
+    background-color: #ffffff
+  }
+
+  body {
+    overflow: hidden;
+  }
+
+  .item>img {
+    height: 100%;
+    width: 100%;
+  }
+
+  .rds1 {
+    background-color: #f4f6f9;
+  }
+</style>

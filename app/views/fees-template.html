@@ -1,0 +1,426 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+  <!-- BEGIN PAGE CONTENT -->
+  <div class="page-content">
+    <div class="container">
+      <!-- BEGIN PAGE BREADCRUMB -->
+      <ul class="page-breadcrumb breadcrumb">
+        <li>
+          <a ui-sref="home.console">Home</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          Fee Setup
+        </li>
+      </ul>
+      <!-- END PAGE BREADCRUMB -->
+      <!-- BEGIN PAGE CONTENT INNER -->
+      <div class="page-content-inner">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit ">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="fa fa-file-text font-green"></i>
+                  <span class="caption-subject font-green bold uppercase">Fees</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="table-toolbar" style="position: absolute;">
+                  <div class="row" style="margin-left: 149px;">
+                    <div class="col-md-4" style="width: 164px;position: absolute;margin-top: -24px;z-index: 999;">
+                      <div class="form-group form-md-line-input form-md-floating-label has-info" ng-hide="userRole=='Student'">
+                        <select data-ng-model="FeesCtrl.classId" data-ng-change="FeesCtrl.chooseClass(FeesCtrl.classId)" name="classId" class="form-control input-sm">
+                          <option value="">ALL</option>
+                          <option ng-repeat="class in FeesCtrl.classList | orderBy:'name'" value="{{class.id}}">{{class.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4" style="position: absolute;margin-left:485px;margin-top: -10px;z-index: 999;">
+                      <div class="btn-group" ng-show="FeesCtrl.FeeCategoryroleView">
+                        <button data-toggle="modal" data-target="#edit-fees" data-ng-click="FeesCtrl.viewClass();FeesCtrl.isNew=true;"
+                          class="btn green" onclick="clearformfields();" title="Create new fee" tabindex="1">
+                          Add New Fee
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4" style="position: absolute;margin-left: 615px;margin-top: -10px;z-index: 999;">
+                      <div class="btn-group">
+                        <button class="btn green btn-outline dropdown-toggle" tabindex="12" title="export print pdf" data-toggle="dropdown" aria-expanded="false">
+                          Tools
+                          <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                          <li>
+                            <a href="javascript:void(0)" data-ng-click="FeesCtrl.printData()">Print</a>
+                          </li>
+                          <li>
+                            <a href="javascript:;"> Save as PDF </a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" data-ng-click="FeesCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-sm-12">
+                    <!-- <div class="form-group form-md-line-input form-md-floating-label has-info" ng-hide="userRole=='Student'">
+                      <select data-ng-model="FeesCtrl.classId" data-ng-change="FeesCtrl.chooseClass(FeesCtrl.classId)" name="classId" class="form-control input-sm">
+                        <option value="">CLASS</option>
+                        <option ng-repeat="class in FeesCtrl.classList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+
+                        </select>
+                    </div> -->
+                  </div>
+                  <div class="col-md-12 col-sm-12">
+                    <div id="tableToExport" style="margin-top: -22px;">
+                      <table datatable="ng" class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" datatable="ng"
+                        id="printTable">
+                        <thead>
+                          <tr>
+                            <th>
+                              Fee Name
+                            </th>
+                            <th>
+                              Class Name
+                            </th>
+                            <th>Category Name</th>
+                            <th>
+                              Fee Type
+                            </th>
+                            <th>
+                              Payment Mode
+                            </th>
+                            <!--<th class="text-center">
+                              More Details
+                            </th>-->
+                            <th class="text-center" ng-show="FeesCtrl.FeeCategoryroleView">
+                              Edit
+                            </th>
+                            <th class="text-center">
+                              Delete
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr data-ng-repeat="fees in FeesCtrl.feesList">
+                            <td>{{fees.feetype}}</td>
+                            <td>{{fees.className.replace('-undefined','')}}</td>
+                            <td>{{fees.category}}</td>
+                            <td>
+                              <span class="capitalize2">{{fees.mandatory}}</span>
+                            </td>
+                            <td>
+                              <span class="capitalize2">
+                                <div ng-repeat="feeMode in fees.mode">
+                                  {{feeMode}}
+                                </div>
+                              </span>
+                            </td>
+                            <!--<td class="text-center">
+                              <a href="javascript:void(0)" data-ng-click="FeesCtrl.moreDetails($index);">
+                                <i class="fa fa-file-text-o"></i>
+                              </a>
+                            </td>-->
+
+                            <td class="text-center" ng-show="FeesCtrl.FeeCategoryroleView">
+                              <a href="javascript:void(0);" data-ng-click="FeesCtrl.editFee(fees.id)">
+                                <i class="fa fa-edit"></i>
+                              </a>
+                            </td>
+                            </td>
+                            <td class="text-center">
+                              <a class="" href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="FeesCtrl.confirmCallbackMethod(fees.id)"
+                                ng-bootbox-confirm-action-cancel="FeesCtrl.confirmCallbackCancel($index)">
+                                <i class="fa fa-remove"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+          </div>
+        </div>
+      </div>
+      <!-- END PAGE CONTENT INNER -->
+    </div>
+  </div>
+  <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- print table -->
+<div ng-hide="true">
+  <table datatable="ng" class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" datatable="ng"
+    id="feesprintTable">
+    <thead>
+      <tr>
+        <th>
+          Fee Name
+        </th>
+        <th>
+          Class Name
+        </th>
+        <th>Category Name</th>
+        <th>
+          Fee Type
+        </th>
+        <th>
+          Payment Mode
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr data-ng-repeat="fees in FeesCtrl.feesList">
+        <td>{{fees.feetype}}</td>
+        <td>{{fees.class.className}}-{{fees.class.sectionName}}</td>
+        <td>{{fees.feeCategories.categoryName}}</td>
+        <td>
+          <span class="capitalize2">{{fees.mandatory}}</span>
+        </td>
+        <td>
+          <span class="capitalize2">
+            <div ng-repeat="feeMode in fees.mode">
+              {{feeMode}}
+            </div>
+          </span>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- ends here -->
+<!-- EDIT MODAL -->
+<div id="edit-fees" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content" style="margin-left:-135px;">
+      <div class="modal-header">
+        <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click=" FeesCtrl.closeModal()">
+          <span class="icon-close"></span>
+        </a>
+        <h4 class="modal-title font-green">FEE MANAGEMENT</h4>
+      </div>
+      <div class="modal-body form">
+        <div class="form-container" data-ng-if="!FeesCtrl.detailsMode">
+          <form name="feesform" novalidate role="form" data-ng-submit="FeesCtrl.feeAction(feesform.$invalid)">
+            <div class="form-group form-md-line-input form-md-floating-label has-info">
+              <input type="text" class="form-control input-sm edited" name="feetype" data-ng-model="FeesCtrl.feeSetupModel.feetype" maxlength="50"
+              />
+              <label for="form_control_1">Fee Name</label>
+            </div>
+            <div class="form-group form-md-line-input form-md-floating-label has-info">
+              <select data-ng-model="FeesCtrl.feeSetupModel.classId" name="classId" class="form-control input-sm">
+                <option value="" selected="true">Class Name</option>
+                <option ng-repeat="class in FeesCtrl.classList" value="{{class.id}}">{{class.name}} {{class.sectionName}}
+                </option>
+              </select>
+            </div>
+            <!--Fee Category List-->
+            <div class="form-group form-md-line-input form-md-floating-label has-info">
+              <select data-ng-model="FeesCtrl.feeSetupModel.feeCategoriesId" name="categoryName" class="form-control input-sm">
+                <option value="" selected="selected"> Select Fee Category</option>
+                <option ng-repeat="category in FeesCtrl.categoryList" value="{{category.id}}">{{category.categoryName}}
+                </option>
+              </select>
+            </div>
+            <!--End-->
+            <div class="form-group form-md-line-input form-md-floating-label has-info">
+              <label>Fee Type :</label>
+              <br>
+              <select data-ng-model="FeesCtrl.feeSetupModel.mandatory" class="form-control input-sm">
+                <option value="" selected="selected">Select one</option>
+                <option value="Mandatory">Mandatory</option>
+                <option value="Optional">Optional</option>
+                <option value="Admfee">Admission fee</option>
+              </select>
+              <!--<input type="checkbox" data-ng-model="FeesCtrl.formFields.mandatory" value="false">Mandatory/Optional</input>-->
+            </div>
+            <div class="form-group form-md-line-input form-md-floating-label has-info" ng-hide="feehide">
+              <label>Payment Mode :</label>
+              <br>
+              <select data-ng-model="FeesCtrl.feeSetupModel.recursive" class="form-control input-sm">
+                <!--required>-->
+                <option value="" selected="selected">Select one</option>
+                <option value="One time">One time</option>
+                <option value="Recursive">Recursive</option>
+              </select>
+              <!--<input type="checkbox" data-ng-model="FeesCtrl.formFields.mandatory" value="false">Mandatory/Optional</input>-->
+            </div>
+            <div ng-show="FeesCtrl.isNew">
+              <div class="form-group form-md-radios" ng-show="FeesCtrl.feeSetupModel.recursive == 'Recursive' ">
+                <label>Occurance :</label>
+                <br>
+                <span ng-show="FeesCtrl.enableFeedata.Monthly">
+                  <input type="checkbox" value="Monthly" ng-model="FeesCtrl.isMonthlyChecked">Monthly</input>
+                </span>
+                <span ng-show="FeesCtrl.enableFeedata.Term">
+                <input type="checkbox" value="Term" ng-model="FeesCtrl.isTermChecked">Term Wise</input>
+              </span>
+              <span ng-show="FeesCtrl.enableFeedata.Yearly">
+                  <input type="checkbox" value="Yearly" ng-model="FeesCtrl.isYearlyChecked">Yearly</input>
+                </span>
+              </div>
+
+              <div class="portlet light" id="feeItems" ng-show="FeesCtrl.feeSetupModel.recursive == 'One time'">
+                <div class="portlet-title">
+                  <div class="caption font-green-sharp">
+                    <span class="caption-subject bold uppercase"> Calendar for One time</span>
+                  </div>
+                </div>
+                <div class="portlet-body">
+                  <div class="col-md-3 col-sm-12">
+                    <input type="text" class="form-control input-sm" name="description" data-ng-model="FeesCtrl.item.oneTime.description" placeholder="Description"
+                      maxlength="50" />
+                  </div>
+                  <div class="col-md-3 col-sm-12">
+                    <input type="text" class="form-control input-sm" name="amount" data-ng-model="FeesCtrl.item.oneTime.amount" placeholder="Amount"
+                      maxlength="50" />
+                  </div>
+                  <div class="col-md-4 col-sm-12">
+                    <input type="date" class="form-control input-sm" name="date" data-ng-model=" FeesCtrl.item.oneTime.date" placeholder="Due Date"
+                      maxlength="50" />
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="portlet light" id="feeItems" ng-show="FeesCtrl.isMonthlyChecked == true && FeesCtrl.feeSetupModel.recursive == 'Recursive'">
+                <div class="portlet-title">
+                  <div class="caption font-green-sharp">
+                    <span class="caption-subject bold uppercase"> Calendar for Month wise</span>
+                  </div>
+                </div>
+                <div class="portlet-body">
+                  <div class="row" ng-repeat="item in FeesCtrl.item.Monthly" ng-if="item.mode == 'Monthly'" style="padding-top: 10px;">
+                    <div class="col-md-3 col-sm-12">
+                      <input type="text" class="form-control input-sm" name="description" data-ng-model="item.description" placeholder="Description"
+                        maxlength="50" />
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                      <input type="text" class="form-control input-sm" name="amount" data-ng-model="item.amount" placeholder="Amount" maxlength="50"
+                      />
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="date" class="form-control input-sm" name="date" data-ng-model=" item.date" placeholder="Due Date" maxlength="50"
+                      />
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                      <a class="" href="javascript:void(0);" data-ng-click="FeesCtrl.addRow('Monthly')">
+                        <i class="fa fa-plus"></i>
+                      </a>
+                      <a class="" href="javascript:void(0);" data-ng-click="FeesCtrl.deleteRow($index,'Monthly')">
+                        <i class="fa fa-remove"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="portlet light" id="feeItems" ng-show="FeesCtrl.isTermChecked && FeesCtrl.feeSetupModel.recursive == 'Recursive'">
+                <div class="portlet-title">
+                  <div class="caption font-green-sharp">
+                    <span class="caption-subject bold uppercase"> Calendar for Term wise</span>
+                  </div>
+                </div>
+                <div class="portlet-body">
+                  <div class="row" ng-repeat="item in FeesCtrl.item.Term" ng-if="item.mode == 'Term'" style="padding-top: 10px;">
+                    <div class="col-md-3 col-sm-12">
+                      <input type="text" class="form-control input-sm" name="description" data-ng-model="item.description" placeholder="Description"
+                        maxlength="50" />
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                      <input type="text" class="form-control input-sm" name="amount" data-ng-model="item.amount" placeholder="Amount" maxlength="50"
+                      />
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="date" class="form-control input-sm" name="date" data-ng-model=" item.date" placeholder="Due Date" maxlength="50"
+                      />
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                      <a class="" href="javascript:void(0);" data-ng-click="FeesCtrl.addRow('Term')">
+                        <i class="fa fa-plus"></i>
+                      </a>
+                      <a class="" href="javascript:void(0);" data-ng-click="FeesCtrl.deleteRow($index,'Term')">
+                        <i class="fa fa-remove"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="portlet light" id="feeItems" ng-show="FeesCtrl.isYearlyChecked && FeesCtrl.feeSetupModel.recursive == 'Recursive'">
+                <div class="portlet-title">
+                  <div class="caption font-green-sharp">
+                    <span class="caption-subject bold uppercase"> Calendar for Year wise</span>
+                  </div>
+                </div>
+                <div class="portlet-body">
+                  <div class="row" ng-repeat="item in FeesCtrl.item.Yearly" ng-if="item.mode == 'Yearly'" style="padding-top: 10px;">
+                    <div class="col-md-3 col-sm-12">
+                      <input type="text" class="form-control input-sm" name="description" data-ng-model="item.description" placeholder="Description"
+                        maxlength="50" />
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                      <input type="text" class="form-control input-sm" name="amount" data-ng-model="item.amount" placeholder="Amount" maxlength="50"
+                      />
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <input type="date" class="form-control input-sm" name="date" data-ng-model=" item.date" placeholder="Due Date" maxlength="50"
+                      />
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                      <a class="" href="javascript:void(0);" data-ng-click="FeesCtrl.addRow('Yearly')">
+                        <i class="fa fa-plus"></i>
+                      </a>
+                      <a class="" href="javascript:void(0);" data-ng-click="FeesCtrl.deleteRow($index,'Yearly')">
+                        <i class="fa fa-remove"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="reset" class="btn default">Reset</button>
+              <button type="submit" class="btn green" ng-disabled="!first">
+                <i class="fa fa-check"></i>
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- EDIT MODAL END-->
+<script>
+  (function () {
+    setTimeout(function () {
+      $('#assignmentdate1').datetimepicker({
+        format: 'DD-MM-YYYY',
+        minDate: new Date()
+      });
+      $('#assignmentdate2').datetimepicker({
+        format: 'DD-MM-YYYY',
+        minDate: new Date()
+      });
+    }, 500);
+  })();
+</script>
+<style>
+  .capitalize2 {
+    text-transform: capitalize;
+  }
+</style>

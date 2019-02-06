@@ -1,0 +1,189 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Leave Application
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-bullhorn font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">Leave application</span>
+                                </div>
+                                <div class="btn-group pull-right" ng-show="userRole=='Staff'">
+                                    <a ui-sref="home.leaveapprove"><button data-toggle="modal" class="btn green">
+                                        Leave Approval
+                                        <i class="fa fa-plus"></i>
+                                        </button></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar" style="position: absolute;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="btn-group leaveapp1" ng-show="LeaveCtrl.roleEdit">
+                                                <button data-toggle="modal" data-target="#edit-leave" data-ng-click="LeaveCtrl.editmode = false;LeaveCtrl.setFloatLabel();LeaveCtrl.detailsMode = false;"
+                                                    class="btn green">
+                                                    Add Leave
+                                                    <i class="fa fa-plus"></i>
+                                                    </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" ng-show="LeaveCtrl.roleEdit">
+                                            <div class="btn-group pull-right leaveapp2">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                       <a href="javascript:void(0)"  data-ng-click="LeaveCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="LeaveCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tableToExport" ng-show=" userRole !== 'Admin'" style="margin-top: -29px;">
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid table-scrollable" border="1px solid black"  datatable="ng" id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th ng-hide="true">Sr No</th>
+                                                <th>
+                                                    Reported To
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    From Date
+                                                </th>
+                                                <th>
+                                                    To Date
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <!--<th class="text-center">
+                                                    Edit
+                                                </th>-->
+                                                <!--<th class="text-center">
+                                                    Delete
+                                                </th>-->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="leave in LeaveCtrl.LeaveList | orderBy: sortComment: true">
+                                                <td ng-hide="true">{{$index+1}}</td>
+                                                <td>{{leave.submitter.firstName}} {{leave.submitter.lastName}}</td>
+                                                <td>{{leave.description}}</td>
+                                                <td>{{leave.date1 | date:'dd-MM-yyyy'}}</td>
+                                                <td>{{leave.date2| date:'dd-MM-yyyy'}}</td>
+                                                <td>{{leave.status}}</td>
+                                                <!--<td class="text-center">
+                                                    <a href="javascript:void(0);" data-ng-click="LeaveCtrl.editNotice($index)">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>-->
+                                                <!--<td class="text-center">
+                                                    <a href="javascript:void(0);" ng-show="leave.status !== 'Approved'" ng-bootbox-confirm="Are you sure you want to delete this record ?"
+                                                        ng-bootbox-confirm-action="LeaveCtrl.confirmCallbackMethod($index)" ng-bootbox-confirm-action-cancel="LeaveCtrl.confirmCallbackCancel($index)">
+                                                        <i class="fa fa-remove"></i>
+                                                        </a>
+                                                </td>-->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-leave" class="modal right fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="LeaveCtrl.closeModal()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">Leave Application</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container" data-ng-if="!LeaveCtrl.detailsMode">
+                    <form name="leaveform" novalidate role="form" data-ng-submit="LeaveCtrl.leaveAction(leaveform.$invalid)">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="description" data-ng-model="LeaveCtrl.formFields.description" maxlength="50"
+                                required />
+                            <label for="form_control_1">DESCRIPTION</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="date" class="form-control input-sm calendarctrl" ng-click=" LeaveCtrl.ValidateEndDate()" id="leavedate1" name="date1" data-ng-model="LeaveCtrl.formFields.date1"
+                                maxlength="10" required />
+                            <label for="form_control_1" style="top:0px">FROM DATE</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="date" class="form-control input-sm calendarctrl" id="leavedate2" ng-click=" LeaveCtrl.ValidateEndDate()" name="date2" data-ng-model="LeaveCtrl.formFields.date2"
+                                maxlength="10" required />
+                            <label for="form_control_1" style="top:0px">TO DATE</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <select data-ng-model="LeaveCtrl.formFields.reporterId" name="reporterId" class="form-control input-sm" required>
+                                <option value="" ng-if="userRole !== 'Student'">Reporting To</option>
+                                 <option value="" ng-if="userRole == 'Student'">Class Teacher</option>
+                                <option ng-repeat="report in LeaveCtrl.adminList" value="{{report.id}}">{{report.firstName}} {{report.lastName}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="reset" class="btn default">Reset</button>
+                            <button type="submit" class="btn green" data-ng-disabled="leaveform.$invalid"><i class="fa fa-check"></i> Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EDIT MODAL END-->
+<!-- <script>
+    (function () {
+        setTimeout(function () {
+            $('#leavedate1').datetimepicker({
+                format: 'DD-MM-YYYY',
+                minDate: new Date()
+            });
+
+            $('#leavedate2').datetimepicker({
+                format: 'DD-MM-YYYY',
+                minDate: new Date()
+            });
+        }, 500);
+    })();
+
+</script> -->

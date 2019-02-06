@@ -1,0 +1,461 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content" style="background-color:white;">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Role Creation
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <!-- <div class="col-md-8"> -->
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <!-- <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-book font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase" ng-show="userrole==Admin">Role Creation</span>
+                                </div>
+                            </div> -->
+                            <div class="portlet-body">
+                       <div class="col-md-12">
+                                <button type="button" class="btn green" data-ng-click="RolecreationCtrl.back()">Back to settings</button>
+                                <select ng-model="RolecreationCtrl.searchTab" ng-change="RolecreationCtrl.grabData(RolecreationCtrl.searchTab)">
+                                    <option value="">Select Options</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Staff">Staff</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Accountant">Accountant</option>
+                                    <option value="Parent">Parent</option>
+                                </select>
+                                <!-- <h3>ADMIN</h3> -->
+                                </div>
+                                <div class="col-md-6" ng-show="RolecreationCtrl.searchTab=='Admin'">
+                                    <!-- <h3>ADMIN</h3> -->
+                                    <!-- admin -->
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">
+                                                    From Name
+                                                </th>
+                                                <th class="text-center" >
+                                                    View
+                                                </th>
+                                                <th class="text-center" >
+                                                    Edit
+                                                </th>
+                                                <!-- <th class="text-center" >
+                                                        delete
+                                                    </th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="admin in RolecreationCtrl.RoleCreationlistAdmin1 track by $index">
+                                                <td>{{admin.w.name}}</td>
+                                                <td style="text-align: center;"><input type="checkbox" ng-checked="{{admin.w.view}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkViewAdmin(RolecreationCtrl.RoleCreationlistAdmin.id,admin,admin.index)"></td>
+                                                <td style="text-align: center;"><input type="checkbox" ng-checked="{{admin.w.edit}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkEditAdmin(RolecreationCtrl.RoleCreationlistAdmin.id,admin,admin.index)"></td>
+                                                <!-- <td style="text-align: center;"><input type="checkbox" ng-checked="{{admin.w.delete}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkdeleteAdmin(RolecreationCtrl.RoleCreationlistAdmin.id,admin,admin.index)"></td> -->
+                                            </tr>
+                                            
+    
+
+
+
+                                        </tbody>
+                                    </table>
+
+            
+                                </div>
+                                <div class="col-md-6" ng-show="RolecreationCtrl.searchTab=='Admin'">
+                                    <!-- <h3>ADMIN</h3> -->
+                                    <!-- admin -->
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">
+                                                    From Name
+                                                </th>
+                                                <th class="text-center" >
+                                                    View
+                                                </th>
+                                                <th class="text-center" >
+                                                    Edit
+                                                </th>
+                                                <!-- <th class="text-center" >
+                                                        delete
+                                                    </th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="admin in RolecreationCtrl.RoleCreationlistAdmin2 track by $index">
+                                                <td>{{admin.w.name}}</td>
+                                                <td style="text-align: center;"><input type="checkbox" ng-checked="{{admin.w.view}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkViewAdmin(RolecreationCtrl.RoleCreationlistAdmin.id,admin,admin.index)"></td>
+                                                <td style="text-align: center;"><input type="checkbox" ng-checked="{{admin.w.edit}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkEditAdmin(RolecreationCtrl.RoleCreationlistAdmin.id,admin,admin.index)"></td>
+                                                <!-- <td style="text-align: center;"><input type="checkbox" ng-checked="{{admin.w.delete}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkdeleteAdmin(RolecreationCtrl.RoleCreationlistAdmin.id,admin,admin.index)"></td> -->
+                                            </tr>
+                    
+                                            <!-- <tr>
+                                                <td>Rfid</td>
+                                                <td><input type="checkbox" data-ng-model="RolecreationCtrl.viewrfid"
+                                                        data-ng-click="RolecreationCtrl.checkViewAdminrfid(RolecreationCtrl.viewrfid,a)"
+                                                        style="margin-left: 45%;" id="viewmodel"></td>
+                                                <td><input type="checkbox" ng-model="RolecreationCtrl.editrfid"
+                                                        data-ng-click="RolecreationCtrl.checkEditAdminrfid(RolecreationCtrl.editrfid)" style="margin-left: 45%;"></td>
+                                            </tr> -->
+
+
+                                        </tbody>
+                                    </table>
+
+            
+                                </div>
+                                <!-- admin end -->
+                                <!-- student  -->
+
+                                <div class="col-md-6" ng-show="RolecreationCtrl.searchTab=='Student'">
+                                        <!-- <h3>STUDENT</h3> -->
+
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">
+                                                    From Name
+                                                </th>
+                                                <th class="text-center" >
+                                                    View
+                                                </th>
+                                                <th class="text-center"  >
+                                                    Edit
+                                                </th>
+                                                <!-- <th class="text-center"  >
+                                                        delete
+                                                    </th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr ng-repeat="Student in RolecreationCtrl.RoleCreationlistStudent1 track by $index">
+                                                        <td>{{Student.w.name}}</td>
+                                                        <td style="text-align: center;"><input type="checkbox" ng-checked="{{Student.w.view}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkViewStudent(RolecreationCtrl.RoleCreationlistStudent.id,Student,Student.index)"></td>
+                                                        <td style="text-align: center;"><input type="checkbox" ng-checked="{{Student.w.edit}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkEditStudent(RolecreationCtrl.RoleCreationlistStudent.id,Student,Student.index)"></td>
+                                                        <!-- <td style="text-align: center;"><input type="checkbox" ng-checked="{{Student.w.delete}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkdeleteStudent(RolecreationCtrl.RoleCreationlistStudent.id,Student,Student.index)"></td> -->
+                                                    </tr>
+
+       
+
+
+
+                                        </tbody>
+                                    </table>
+
+
+
+                                    <!-- <button type="submit" class="btn green" style="margin-left: 92%;">
+                                        <i class="fa fa-check"></i> Submit</button> -->
+                                </div>
+                                <div class="col-md-6" ng-show="RolecreationCtrl.searchTab=='Student'">
+                                    <!-- <h3>STUDENT</h3> -->
+
+                                <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">
+                                                From Name
+                                            </th>
+                                            <th class="text-center" >
+                                                View
+                                            </th>
+                                            <th class="text-center"  >
+                                                Edit
+                                            </th>
+                                            <!-- <th class="text-center"  >
+                                                    delete
+                                                </th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr ng-repeat="Student in RolecreationCtrl.RoleCreationlistStudent2 track by $index">
+                                                    <td>{{Student.w.name}}</td>
+                                                    <td style="text-align: center;"><input type="checkbox" ng-checked="{{Student.w.view}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkViewStudent(RolecreationCtrl.RoleCreationlistStudent.id,Student,Student.index)"></td>
+                                                    <td style="text-align: center;"><input type="checkbox" ng-checked="{{Student.w.edit}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkEditStudent(RolecreationCtrl.RoleCreationlistStudent.id,Student,Student.index)"></td>
+                                                    <!-- <td style="text-align: center;"><input type="checkbox" ng-checked="{{Student.w.delete}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkdeleteStudent(RolecreationCtrl.RoleCreationlistStudent.id,Student,Student.index)"></td> -->
+                                                </tr>
+
+   
+
+
+
+                                    </tbody>
+                                </table>
+
+
+
+                                <!-- <button type="submit" class="btn green" style="margin-left: 92%;">
+                                    <i class="fa fa-check"></i> Submit</button> -->
+                            </div>
+
+                            </div>
+                            <br>
+                            <!-- <div class="row"> -->
+                                <!-- student end -->
+                                <!-- <div class="col-md-8"> -->
+                                    <!-- accontent start -->
+
+                                    <div class="col-md-6" ng-show="RolecreationCtrl.searchTab=='Accountant'">
+                                            <!-- <h3>ACCOUNTANT</h3> -->
+
+                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">
+                                                        From Name
+                                                    </th>
+                                                    <th class="text-center" >
+                                                        View
+                                                    </th>
+                                                    <th class="text-center" >
+                                                        Edit
+                                                    </th>
+                                                    <!-- <th class="text-center" >
+                                                            delete
+                                                        </th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr ng-repeat="Accountant in RolecreationCtrl.RoleCreationlistAccountant1 track by $index">
+                                                            <td>{{Accountant.w.name}}</td>
+                                                            <td style="text-align: center;"><input type="checkbox" ng-checked="{{Accountant.w.view}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkViewAccountant(RolecreationCtrl.RoleCreationlistAccountant.id,Accountant,Accountant.index)"></td>
+                                                            <td style="text-align: center;"><input type="checkbox" ng-checked="{{Accountant.w.edit}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkEditAccountant(RolecreationCtrl.RoleCreationlistAccountant.id,Accountant,Accountant.index)"></td>
+                                                       
+                                                            <!-- <td style="text-align: center;"><input type="checkbox" ng-checked="{{Accountant.w.delete}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkdeleteAccountant(RolecreationCtrl.RoleCreationlistAccountant.id,Accountant,Accountant.index)"></td>  -->
+                                                        </tr>
+              
+
+
+
+                                            </tbody>
+                                        </table>
+                                        <!-- <button type="submit" class="btn green" style="margin-left: 92%;">
+                                            <i class="fa fa-check"></i> Submit</button> -->
+                                        <!-- accountent end -->
+                                    </div>
+                                    <div class="col-md-6" ng-show="RolecreationCtrl.searchTab=='Accountant'">
+                                        <!-- <h3>ACCOUNTANT</h3> -->
+
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">
+                                                    From Name
+                                                </th>
+                                                <th class="text-center" >
+                                                    View
+                                                </th>
+                                                <th class="text-center" >
+                                                    Edit
+                                                </th>
+                                                <!-- <th class="text-center" >
+                                                        delete
+                                                    </th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr ng-repeat="Accountant in RolecreationCtrl.RoleCreationlistAccountant2 track by $index">
+                                                        <td>{{Accountant.w.name}}</td>
+                                                        <td style="text-align: center;"><input type="checkbox" ng-checked="{{Accountant.w.view}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkViewAccountant(RolecreationCtrl.RoleCreationlistAccountant.id,Accountant,Accountant.index)"></td>
+                                                        <td style="text-align: center;"><input type="checkbox" ng-checked="{{Accountant.w.edit}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkEditAccountant(RolecreationCtrl.RoleCreationlistAccountant.id,Accountant,Accountant.index)"></td>
+                                                   
+                                                        <!-- <td style="text-align: center;"><input type="checkbox" ng-checked="{{Accountant.w.delete}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkdeleteAccountant(RolecreationCtrl.RoleCreationlistAccountant.id,Accountant,Accountant.index)"></td> -->
+                                                     </tr>
+          
+
+
+
+                                        </tbody>
+                                    </table>
+                                    <!-- <button type="submit" class="btn green" style="margin-left: 92%;">
+                                        <i class="fa fa-check"></i> Submit</button> -->
+                                    <!-- accountent end -->
+                                </div>
+                                    <div class="col-md-6" ng-show="RolecreationCtrl.searchTab=='Parent'">
+                                        <!-- parents -->
+                                        <!-- <h3>PARENTS</h3> -->
+
+                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">
+                                                        From Name
+                                                    </th>
+                                                    <th class="text-center" >
+                                                        View
+                                                    </th>
+                                                    <th class="text-center" >
+                                                        Edit
+                                                    </th>
+                                                    <!-- <th class="text-center" >
+                                                           delete
+                                                        </th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr ng-repeat="Parent in RolecreationCtrl.RoleCreationlistParent1 track by $index">
+                                                            <td>{{Parent.w.name}}</td>
+                                                            <td style="text-align: center;"><input type="checkbox" ng-checked="{{Parent.w.view}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkViewParent(RolecreationCtrl.RoleCreationlistParent.id,Parent,Parent.index)" ></td>
+                                                            <td style="text-align: center;"><input type="checkbox" ng-checked="{{Parent.w.edit}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkEditParent(RolecreationCtrl.RoleCreationlistParent.id,Parent,Parent.index)"></td>
+                                                            <!-- <td style="text-align: center;"><input type="checkbox" ng-checked="{{Parent.w.delete}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkdeleteParent(RolecreationCtrl.RoleCreationlistParent.id,Parent,Parent.index)"></td> -->
+                                                        </tr>
+                                              
+
+
+                                            </tbody>
+                                        </table>
+                                        <!-- <button type="submit" class="btn green" style="margin-left: 92%;">
+                                            <i class="fa fa-check"></i> Submit</button> -->
+                                        <!-- parents end                               -->
+                                    </div>
+                                    <div class="col-md-6" ng-show="RolecreationCtrl.searchTab=='Parent'">
+                                        <!-- parents -->
+                                        <!-- <h3>PARENTS</h3> -->
+
+                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">
+                                                        From Name
+                                                    </th>
+                                                    <th class="text-center" >
+                                                        View
+                                                    </th>
+                                                    <th class="text-center" >
+                                                        Edit
+                                                    </th>
+                                                    <!-- <th class="text-center" >
+                                                           delete
+                                                        </th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr ng-repeat="Parent in RolecreationCtrl.RoleCreationlistParent2 track by $index">
+                                                            <td>{{Parent.w.name}}</td>
+                                                            <td style="text-align: center;"><input type="checkbox" ng-checked="{{Parent.w.view}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkViewParent(RolecreationCtrl.RoleCreationlistParent.id,Parent,Parent.index)" ></td>
+                                                            <td style="text-align: center;"><input type="checkbox" ng-checked="{{Parent.w.edit}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkEditParent(RolecreationCtrl.RoleCreationlistParent.id,Parent,Parent.index)"></td>
+                                                            <!-- <td style="text-align: center;"><input type="checkbox" ng-checked="{{Parent.w.delete}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkdeleteParent(RolecreationCtrl.RoleCreationlistParent.id,Parent,Parent.index)"></td> -->
+                                                        </tr>
+                                              
+
+
+                                            </tbody>
+                                        </table>
+                                        <!-- <button type="submit" class="btn green" style="margin-left: 92%;">
+                                            <i class="fa fa-check"></i> Submit</button> -->
+                                        <!-- parents end                               -->
+                                    </div>
+
+                                    <!-- staff -->
+                                    <div class="col-md-6" ng-show="RolecreationCtrl.searchTab=='Staff'">
+                                            <!-- <h3>STAFF</h3> -->
+
+                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">
+                                                        From Name
+                                                    </th>
+                                                    <th class="text-center"  >
+                                                        View
+                                                    </th>
+                                                    <th class="text-center" >
+                                                        Edit
+                                                    </th>
+                                                    <!-- <th class="text-center" >
+                                                            delete
+                                                        </th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr ng-repeat="Staff in RolecreationCtrl.RoleCreationlistStaff1 track by $index">
+                                                            <td >{{Staff.w.name}}</td>
+                                                            <td style="text-align: center;"><input type="checkbox" ng-checked="{{Staff.w.view}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkViewStaff(RolecreationCtrl.RoleCreationlistStaff.id,Staff,Staff.index)" ></td>
+                                                            <td style="text-align: center;"><input type="checkbox" ng-checked="{{Staff.w.edit}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkEditStaff(RolecreationCtrl.RoleCreationlistStaff.id,Staff,Staff.index)"></td>
+                                                            <!-- <td style="text-align: center;"><input type="checkbox" ng-checked="{{Staff.w.delete}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkdeleteStaff(RolecreationCtrl.RoleCreationlistStaff.id,Staff.index)"></td> -->
+                                                        </tr>
+                                               
+
+
+
+                                            </tbody>
+                                        </table>
+                                        <!-- <button type="submit" class="btn green" style="margin-left: 92%;">
+                                            <i class="fa fa-check"></i> Submit</button> -->
+                                        <!-- staff end -->
+                                    </div>
+                                    <div class="col-md-6" ng-show="RolecreationCtrl.searchTab=='Staff'">
+                                        <!-- <h3>STAFF</h3> -->
+
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">
+                                                    From Name
+                                                </th>
+                                                <th class="text-center"  >
+                                                    View
+                                                </th>
+                                                <th class="text-center" >
+                                                    Edit
+                                                </th>
+                                                <!-- <th class="text-center" >
+                                                        delete
+                                                    </th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr ng-repeat="Staff in RolecreationCtrl.RoleCreationlistStaff2 track by $index">
+                                                        <td>{{Staff.w.name}}</td>
+                                                        <td style="text-align: center;"><input type="checkbox" ng-checked="{{Staff.w.view}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkViewStaff(RolecreationCtrl.RoleCreationlistStaff.id,Staff,Staff.index)" ></td>
+                                                        <td style="text-align: center;"><input type="checkbox" ng-checked="{{Staff.w.edit}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkEditStaff(RolecreationCtrl.RoleCreationlistStaff.id,Staff,Staff.index)"></td>
+                                                        <!-- <td style="text-align: center;"><input type="checkbox" ng-checked="{{Staff.w.delete}}" ng-disabled="RolecreationCtrl.shiva !== 'Admin'" data-ng-click="RolecreationCtrl.checkdeleteStaff(RolecreationCtrl.RoleCreationlistStaff.id,Staff,Staff.index)"></td> -->
+                                                    </tr>
+                                           
+
+
+
+                                        </tbody>
+                                    </table>
+                                    <!-- <button type="submit" class="btn green" style="margin-left: 92%;">
+                                        <i class="fa fa-check"></i> Submit</button> -->
+                                    <!-- staff end -->
+                                </div>
+                                
+                            
+                        </div>
+                    <!-- </div> -->
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+
+            </div>
+        </div>
+        <!-- END PAGE CONTENT INNER -->
+    </div>
+</div>
+<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+
+<!-- DETAILS MODAL -->
+
+<style>
+    .form-group {
+        clear: both;
+    }
+</style>

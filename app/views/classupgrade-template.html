@@ -1,0 +1,72 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Class Upgrade
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <!--<i class="fa fa-inbox font-green"></i>-->
+                                    <span class="caption-subject font-green bold uppercase">CLASS UPGRADE</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="portlet-body form">
+                                    <form class="form-bordered form-horizontal" name="classUpgradeform" data-ng-submit="ClassUpgradeCtrl.update()" novalidate>
+                                        <div class="form-group">
+                                            <div class="col-md-5">
+                                                <select ng-model="ClassUpgradeCtrl.fromclassId" name="fromclassId" class="form-control" data-ng-change="ClassUpgradeCtrl.CheckClassCount()"
+                                                    required>
+                                                    <option value="">Class </option>
+                                                    <option ng-repeat="class in ClassUpgradeCtrl.classList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                                                    </select>
+                                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                        <label for="form_control_1">Number of Students :</label>
+                                                        <strong>{{ClassUpgradeCtrl.studentCount}}</strong>
+                                                    </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <select ng-model="ClassUpgradeCtrl.toclassId" name="toclassId" class="form-control" required>
+                                                <option value="">Class </option>
+                                                <option ng-repeat="class in ClassUpgradeCtrl.classList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                                            </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="btn-group">
+                                                    <button class="btn green" type="submit" data-ng-disabled="classUpgradeform.$invalid">
+                                                    Submit
+                                                    <i class="fa fa-upload"></i>
+                                                </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- TABULAR CONTENT GOES HERE-->
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->

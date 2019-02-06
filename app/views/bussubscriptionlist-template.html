@@ -1,0 +1,241 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    <a ui-sref="home.busservice">Bus Service</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Add Routes
+                </li>
+            </ul>
+            
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-truck font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">ADD ROUTE</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <!-- INNER CONTENT GOES HERE-->
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <!--<div class="btn-group">
+                                                <button class="btn green" data-toggle="modal" data-target="#edit-routes">
+                                                    Add New Route
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>-->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="btn-group pull-right">
+                                                
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:;"> Print </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                 
+                                    <div class="col-md-12">
+                                        
+                                                <!-- {{BussubscriptionListCtrl.busserviceList}} -->
+
+                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" id="addRoutes_datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                    Class
+                                                    </th>
+                                                 
+                                                   
+                                                  
+                                                    <th>
+                                                  Student Name
+                                                    </th>
+                                                    <th>
+                                                     Pick Up Point
+                                                     </th>
+                                                     <th>
+                                                    Phone   
+                                                     </th>
+                                                     <th>Action</th>
+                                                   
+                                                </tr>
+                                            </thead>
+                                         
+                                            <tbody>
+                                                <tr>
+                                                        <td>
+                                                            <select ng-model="BussubscriptionListCtrl.busSubscriptionData.classId" class="form-control input-sm" ng-change="BussubscriptionListCtrl.selectClass(BussubscriptionListCtrl.busSubscriptionData.classId)" ng-options="item.id as (item.className+' '+item.sectionName) for item in BussubscriptionListCtrl.schoolList" required></select>
+
+                                                        </td>
+                                                        <td>
+                                                                <select ng-model="BussubscriptionListCtrl.busSubscriptionData.studentId" class="form-control input-sm" ng-change="BussubscriptionListCtrl.selectStudent(BussubscriptionListCtrl.busSubscriptionData.studentId)" ng-options="student.id as (student.firstName+' '+student.lastName) for student in BussubscriptionListCtrl.studentList" required></select>
+                                                            
+                                                        </td>
+                                                        
+                                                       <td> 
+                                                            <select ng-model="BussubscriptionListCtrl.busserviceList.servicesId" class="form-control input-sm" ng-change="BussubscriptionListCtrl.selectPickPoint(BussubscriptionListCtrl.busserviceList.servicesId)" ng-options="services as services.name for services in BussubscriptionListCtrl.busserviceList" required></select>
+
+                                                         </td> 
+                                                         <td></td>
+                                                       <td>
+                                                            <button class="btn green" ng-click="BussubscriptionListCtrl.addToList()" ng-disabled="!BussubscriptionListCtrl.busserviceList.servicesId || !BussubscriptionListCtrl.busSubscriptionData.studentId || !BussubscriptionListCtrl.busSubscriptionData.classId||!BussubscriptionListCtrl.dsblAddButton" >Add</button>
+                                                        </td> 
+                                                </tr>
+                                              
+                                                <tr data-ng-repeat="service in  BussubscriptionListCtrl.busSubscrList" ng-if="BussubscriptionListCtrl.busSubscrList.length>0">
+                                                    <td>
+                                                       {{service.class.className}} {{service.class.sectionName}}
+                                                       
+                                                    
+                                                    </td>
+                                                        
+                                                    <td>
+                                                        {{service.student.firstName}}  {{service.student.lastName}}
+                                                        
+                                                    </td>
+                                                    
+                                                   <td> 
+                                                    {{service.pickupLocation}}   
+                                                    
+                                                </td>  <td> 
+                                                    {{service.student.contact}}   
+                                                    
+                                                </td> 
+                                               
+                                                   <td ><a>
+                                                        <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?"
+                                                ng-bootbox-confirm-action="BussubscriptionListCtrl.confirmCallbackMethod($index,service.id)"
+                                                ng-bootbox-confirm-action-cancel="BussubscriptionListCtrl.confirmCallbackCancel()">
+                                                <i class="fa fa-trash"></i>
+                                          </a>
+                                          <a  ng-click="BussubscriptionListCtrl.addRoutes(service);" data-toggle="modal" style="margin-left: 25px;" data-target="#edit-Compleint2">
+                                                       <i class="fa fa-edit"></i>
+                                                 </a>
+                                                     <!-- <button class="btn green" data-ng-click="BussubscriptionListCtrl.delRec($index,service.id)">Delete</button> -->
+                                                    </td>
+                                                    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- <button class="btn green"  ng-click="BusserviceCtrl.updateRecord()">
+                                          Update
+                                            <i class="fa fa-plus"></i>
+                                        </button> -->
+                                    </div>
+                               </div>
+                               
+                              
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-Compleint2" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+              <div class="modal-content">
+                    <div class="modal-header">
+                          <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="BussubscriptionListCtrl.closeModal1();BussubscriptionListCtrl.detailsMode=false;BussubscriptionListCtrl.clearfields();">
+                                <span class="icon-close"></span>
+                          </a>
+                          <h4 ng-show="!BussubscriptionListCtrl.detailsMode" class="modal-title font-green">Add Route</h4>
+                          <!-- <h4 ng-show="BussubscriptionListCtrl.detailsMode" class="modal-title font-green">More Details</h4> -->
+                    </div>
+                    <div class="modal-body form">
+                          <div class="form-container" data-ng-show="!BussubscriptionListCtrl.detailsMode">
+                                <form name="addcomplent" novalidate role="form" data-ng-submit="BussubscriptionListCtrl.addToList1();">
+                                      <div class="row">
+                                            <div class="col-md-3" ng-hide="userRole=='Staff'">
+                                                  <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                        <label for="form_control_1">Class</label>
+  
+                                                        <select ng-model="BussubscriptionListCtrl.editBusSubscriptionData.classId" class="form-control input-sm" ng-change="BussubscriptionListCtrl.selectClass(BussubscriptionListCtrl.editBusSubscriptionData.classId)" ng-options="item.id as (item.className+' '+item.sectionName) for item in BussubscriptionListCtrl.schoolList" required></select>
+                                                  </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                  <div class="form-group form-md-line-input">
+                                                        <label for="form_control_1">Student name</label>
+  
+  
+                                                        <select ng-model="BussubscriptionListCtrl.editBusSubscriptionData.studentId" class="form-control input-sm" ng-change="BussubscriptionListCtrl.selectStudent(BussubscriptionListCtrl.editBusSubscriptionData.studentId)" ng-options="student.id as (student.firstName+' '+student.lastName) for student in BussubscriptionListCtrl.studentList" required></select>
+  
+  
+                                                  </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                  <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                        <label for="form_control_1">Pick UpPoint</label>
+  
+                                                        <select ng-model="BussubscriptionListCtrl.busserviceList.servicesId" class="form-control input-sm" ng-change="BussubscriptionListCtrl.selectPickPoint(BussubscriptionListCtrl.busserviceList.servicesId)" ng-options="services as services.name for services in BussubscriptionListCtrl.busserviceList" required></select>
+                                                  </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                  <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                        <button type="submit" class="btn green">
+                                                                <i class="fa fa-check"></i> Submit</button>
+                                                  </div>
+                                            </div>
+                                      </div>
+                                     
+                                     
+                                      
+                                            
+  
+                                      <!-- </div> -->
+  
+  
+  
+  
+                                </form>
+                          </div>
+  
+  
+                    </div>
+              </div>
+        </div>
+  </div>
+<!-- EDIT MODAL END-->
+<script>
+    (function () {
+        $('.calendarctrl').datetimepicker({
+            format: 'HH:mm'
+
+        });
+    })();
+
+</script>

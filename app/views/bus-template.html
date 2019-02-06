@@ -1,0 +1,327 @@
+<div class="page-container">
+      <div class="page-content">
+            <div class="container">
+                  <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                              <a ui-sref="home.console">Home</a>
+                              <i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Transport Management
+                              <i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Bus Service
+                        </li>
+                  </ul>
+                  <div class="page-content-inner">
+                        <div class="row">
+
+                              <div class="col-lg-12 col-md-12">
+                                    <div class="portlet light portlet-fit ">
+                                          <div class="portlet-title">
+                                                <div class="caption">
+                                                      <i class="fa fa-subway font-green"></i>
+                                                      <span class="caption-subject font-green bold uppercase">BUS SETUP</span>
+                                                </div>
+                                          </div>
+                                          <div class="pull-right" style="margin-right: 16px;" ng-show="BussetCtrl.roleEdit">
+                                                <button class="btn green" data-toggle="modal" data-target="#edit-Compleint2">
+                                                      Add Bus
+                                                      <i class="fa fa-bus" style="font-size: 16px;color: #ffbf00;"></i>
+                                                </button>
+                                                <!-- <button ui-sref="home.busservice" class="btn green" ng-show="userRole == 'Admin'">Create New Bus Service</button> -->
+                                          </div>
+                                          <div style="display:none;margin-right:500px;" id="backid">
+                                                <button ng-click="BussetCtrl.showTable()" class="btn green" ng-show="userRole !== 'Student'">Go Back</button>
+                                          </div>
+                                          <div class="portlet-body">
+                                                <div class="table-toolbar">
+                                                      <div class="row">
+                                                            <div class="col-lg-12 col-md-12">
+                                                                  <div class="col-md-12 col-lg-12 mapping">
+                                                                        <div id="map" style="display:none;"></div>
+                                                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" id="serviceid">
+                                                                              <thead>
+
+                                                                                    <tr>
+<!-- <th>fdfd</th> -->
+                                                                                          <th>Bus No</th>
+                                                                                          <th>Bus Type</th>
+
+                                                                                          <th>Bus Capacity</th>
+                                                                                          <th>Bus IMEI No</th>
+                                                                                          <!-- <th>PollutionExpiryDate</th> -->
+                                                                                          <th style="text-align:center;" ng-show="BussetCtrl.roleEdit">
+                                                                                                <i class="fa fa-edit"></i>
+                                                                                          </th>
+                                                                                          <th style="text-align:center;" ng-show="BussetCtrl.roledelete">
+                                                                                                      <i class="fa fa-trash"></i>
+                                                                                          </th>
+                                                                                    </tr>
+                                                                              </thead>
+                                                                              <tbody>
+
+                                                                                  
+
+                                                                                    <tr data-ng-repeat="busdata in  BussetCtrl.busdatails">
+                                                                              <!-- <td>{{route.id}}</td> -->
+                                                                                          <td>{{busdata.vehicleNo}}</td>
+                                                                                          <td>{{busdata.busType}}</td>
+
+                                                                                              
+                                                                                          <td>{{busdata.NoOfSeats}}</td>
+                                                                                          <td>{{busdata.IMEINo}}</td>
+                                                                                          <!-- <td>{{busdata.pollutionExpiryDate | date:'dd-MM-yyyy'}}</td> -->
+                                                                                          <td style="text-align:center;" ng-show="BussetCtrl.roleEdit">
+                                                                                                <a class="" href="javascript:void(0);"
+                                                                                                      ng-click="BussetCtrl.editMode='true';BussetCtrl.editbuslist(busdata);" data-toggle="modal" data-target="#edit-Compleint2">
+                                                                                                      <i class="fa fa-edit"></i>
+                                                                                                </a>
+                                                                                          </td>
+                                                                                          <td style="text-align:center;" ng-show="BussetCtrl.roledelete">
+                                                                                                <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?"
+                                                                                                      ng-bootbox-confirm-action="BussetCtrl.confirmCallbackMethod(busdata.id)"
+                                                                                                      ng-bootbox-confirm-action-cancel="BussetCtrl.confirmCallbackCancel($index)">
+                                                                                                      <i class="fa fa-trash"></i>
+                                                                                                </a>
+                                                                                          </td>
+
+                                                                                    </tr>
+                                                                              </tbody>
+                                                                        </table>
+                                                                  </div>
+                                                                
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 mtop20">
+                                                                 
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>
+
+<!-- <div id="add-bus" class="modal right fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="BussetCtrl.closeModal()"><span class="icon-close"></span></a>
+                        <h4 class="modal-title font-green">BUS ROUTES</h4>
+                    </div>
+                    <div class="modal-body form">
+                        <div class="form-container">
+                            <form name="busroutesform" novalidate role="form" data-ng-submit="BussetCtrl.addRoutes(busroutesform.$invalid)">
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                    <input type="text" class="form-control input-sm" name="routelocation" data-ng-model="BussetCtrl.formFields.busNo"
+                                        maxlength="200" vs-google-autocomplete placeholder="" required />
+                                    <label for="form_control_1">Bus Number</label>
+                                </div>
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                    <input type="text" class="form-control input-sm" name="routeduration" data-ng-model="BussetCtrl.formFields.busType"
+                                        maxlength="200" required />
+                                    <label for="form_control_1">Bus Type</label>
+                                </div>
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                    <input type="text" class="form-control input-sm calendarctrl" id="routetime" name="routetime" data-ng-model="BussetCtrl.formFields.busCapacity"
+                                        maxlength="50" required />
+                                    <label for="form_control_1">Bus Capacity</label>
+                                </div>
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                    <input type="text" class="form-control input-sm" name="routefees" data-ng-model="BussetCtrl.formFields.IMEINo" maxlength="50"
+                                        required />
+                                    <label for="form_control_1">IMEI No</label>
+                                </div>
+                                <div class="form-group">
+                                    <button type="reset" class="btn default">Reset</button>
+                                    <button type="submit" class="btn green" data-ng-disabled="busroutesform.$invalid"><i class="fa fa-check"></i> Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+<div id="edit-Compleint2" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                  <div class="modal-header">
+                        <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="BussetCtrl.closeModal1();BussetCtrl.detailsMode=false;BussetCtrl.clearfields();">
+                              <span class="icon-close"></span>
+                        </a>
+                        <h4 ng-show="!BussetCtrl.detailsMode" class="modal-title font-green">ADD BUS </h4>
+                        <!-- <h4 ng-show="BussetCtrl.detailsMode" class="modal-title font-green">More Details</h4> -->
+                  </div>
+                  <div class="modal-body form">
+                        <div class="form-container" data-ng-show="!BussetCtrl.detailsMode">
+                              <form name="addcomplent" novalidate role="form" data-ng-submit="BussetCtrl.addRoutes();">
+                                    <div class="row">
+                                          <div class="col-md-3" ng-hide="userRole=='Staff'">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                      <label for="form_control_1">Bus Number
+                                                                  <span style="color:red">*</span>
+                                                      </label>
+
+                                                      <input type="text" class="form-control input-sm" name="routelocation" data-ng-model="BussetCtrl.formFields.vehicleNo" maxlength="200"
+                                                             placeholder="" required />
+                                                      <!-- <option ng-repeat="x in  BussetCtrl.classList" value="{{x.id}}">{{x.className}} {{x.sectionName}}</option> -->
+                                                     
+                                                </div>
+                                          </div>
+                                          <div class="col-md-3">
+                                                <div class="form-group form-md-line-input">
+                                                      <label for="form_control_1">Bus Capacity
+                                                                  <span style="color:red">*</span>
+                                                      </label>
+
+
+                                                      <input type="text" class="form-control input-sm calendarctrl" id="routetime" name="routetime" data-ng-model="BussetCtrl.formFields.NoOfSeats"/>
+
+
+                                                </div>
+                                          </div>
+                                          <div class="col-md-3">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                      <label for="form_control_1">Bus Type
+                                                                  <span style="color:red">*</span>
+                                                      </label>
+
+                                                      <input type="text" class="form-control input-sm" name="routeduration" data-ng-model="BussetCtrl.formFields.busType" maxlength="200"
+                                                            required />
+                                                </div>
+                                          </div>
+                                          <div class="col-md-3">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                      <label for="form_control_1">IMEI No
+                                                                  <span style="color:red">*</span>
+                                                      </label>
+
+                                                      <input type="text"  class="form-control input-sm" name="routefees" data-ng-model="BussetCtrl.formFields.IMEINo" maxlength="50"
+                                                            required />
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="row">
+                                          <div class="col-md-3" ng-hide="userRole=='Staff'">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                      <label for="form_control_1">PollutionCertNO</label>
+                                                      <!-- <input type="checkbox" name="polluyes" value="pollution" />YES
+                                                      <input type="checkbox" name="polluno" value="pollutionNO" />NO -->
+                                                      <input type="text" class="form-control input-sm" name="routelocation" data-ng-model="BussetCtrl.formFields.pollutionCertificate"
+                                                            maxlength="200"   />
+                                                      <!-- <option ng-repeat="x in  BussetCtrl.classList" value="{{x.id}}">{{x.className}} {{x.sectionName}}</option> -->
+                                                      
+                                                </div>
+                                          </div>
+                                          <div class="col-md-3">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                      <label for="form_control_1">PollutionIssueDate</label>
+
+                                                      <input type="date" style="width: 138px;" class="form-control input-sm" ng-click="BussetCtrl.ValidateEndDate()" id="pollutiondate2"  name="routeduration" data-ng-model="BussetCtrl.formFields.pollutionIssueDate"
+                                                            maxlength="200" />
+                                                </div>
+                                          </div>
+                                          <div class="col-md-3">
+                                                <div class="form-group form-md-line-input">
+                                                      <label for="form_control_1">PollutionExpiryDate</label>
+
+                                                      <input type="date" style="width: 138px;" class="form-control input-sm calendarctrl" ng-click="BussetCtrl.ValidateEndDate()" id="pollutiondate1" name="routetime" data-ng-model="BussetCtrl.formFields.pollutionExpiryDate"
+                                                            maxlength="50" />
+
+                                                </div>
+                                          </div>
+                             
+                                          <div class="col-md-3">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                      <label for="form_control_1">RoadTaxCertNO</label>
+                                                      <!-- <input type="checkbox" name="roadtex" value="roadyes" />YES
+                                                      <input type="checkbox" name="roadtexno" value="roadNO" />NO -->
+                                                      <input type="text" class="form-control input-sm" name="routefees" data-ng-model="BussetCtrl.formFields.roadTax" maxlength="50"
+                                                             />
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="row">
+
+                                          <!-- <div class="col-md-3" ng-hide="userRole=='Staff'">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info"> -->
+                                                      <!-- <label for="form_control_1">No Of Seats</label> -->
+
+                                                      <!-- <input type="text"  class="form-control input-sm" name="routelocation" data-ng-model="BussetCtrl.formFields.NoOfSeats" maxlength="200"
+                                                             placeholder="" required /> -->
+                                                      <!-- <option ng-repeat="x in  BussetCtrl.classList" value="{{x.id}}">{{x.className}} {{x.sectionName}}</option> -->
+                                                      <!-- </select>
+                                                </div>
+                                          </div> -->
+                                          <div class="col-md-3">
+                                                <div class="form-group form-md-line-input">
+                                                      <label for="form_control_1">FCnumber</label>
+                                                      <!-- <input type="checkbox" name="ifceryes" value="ifcer" />YES
+                                                      <input type="checkbox" name="ifcerNO" value="ifcer" />NO -->
+                                                      <input type="text" class="form-control input-sm calendarctrl" id="routetime" name="routetime" data-ng-model="BussetCtrl.formFields.IFCcertificate"
+                                                            maxlength="50"  />
+
+                                                </div>
+                                          </div>
+                                          <div class="col-md-3">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                      <label for="form_control_1">InsuranceCertNO</label>
+                                                      <!-- <input type="checkbox" name="insyes" value="insurence" />YES
+                                                      <input type="checkbox" name="insno" value="inserenceno" />NO -->
+                                                      <input type="text" class="form-control input-sm" name="routeduration" data-ng-model="BussetCtrl.formFields.insuranceCertificate" maxlength="200"
+                                                             />
+                                                </div>
+                                          </div>
+                                          <div class="col-md-3">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                      <label for="form_control_1">InsuranceExpiryDate</label>
+
+                                                      <input type="date" style="width: 138px;" class="form-control input-sm" name="routefees" data-ng-model="BussetCtrl.formFields.insuranceExpiryDate" maxlength="50"
+                                                            required />
+                                                </div>
+                                          </div>
+
+                                    </div>
+                                    <div class="row">
+                                          <div class="col-md-3" ng-hide="userRole=='Staff'">
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                      <!-- <label for="form_control_1">InsuranceNumber</label> -->
+
+                                                      <!-- <input type="text" allow-date class="form-control input-sm" name="routelocation" data-ng-model="BussetCtrl.formFields.insuranceNumber" maxlength="200"
+                                                            vs-google-autocomplete placeholder="" required /> -->
+                                                      <!-- <option ng-repeat="x in  BussetCtrl.classList" value="{{x.id}}">{{x.className}} {{x.sectionName}}</option> -->
+                                                      
+                                                </div>
+                                          </div>
+                                          <div class="col-md-3" style="margin-top: 33px;margin-left: 40px">
+
+
+                                                <button type="reset" class="btn default" ng-hide="true">Reset</button>
+
+                                          </div>
+
+                                          <div class="col-md-3" style="margin-left: 107px;margin-top: -71px;">
+
+                                                <button type="submit" class="btn green" ng-disabled="!BussetCtrl.formFields.vehicleNo || !BussetCtrl.formFields.NoOfSeats || !BussetCtrl.formFields.busType || !BussetCtrl.formFields.IMEINo">
+                                                      <i class="fa fa-check"></i> Submit</button>
+
+                                          </div>
+                                    </div>
+
+
+
+
+                              </form>
+                        </div>
+
+
+
+                  </div>
+            </div>
+      </div>
+</div>

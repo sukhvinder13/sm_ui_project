@@ -1,0 +1,664 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+
+
+
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Compete
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Lesson Planner
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li class="active" ng-hide="userRole=='Student'">
+                    Add Topic
+                </li>
+                <li class="active" ng-show="userRole=='Student'">
+                    View Topic
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit">
+                            <div class="portlet light">
+                                <div class="portlet-title tabbable-line">
+                                    <div class="caption caption-md">
+                                        <i class="icon-globe theme-font hide"></i>
+                                        <span class="caption-subject theme-font bold uppercase" ng-hide="userRole=='Student'">Add Topic</span>
+                                        <span class="caption-subject theme-font bold uppercase" ng-show="userRole=='Student'">View Topic</span>
+                                    </div>
+
+                                    <div class="caption caption-md">
+                                        <i class="icon-globe theme-font hide"></i>
+                                        <span class="caption-subject theme-font bold uppercase" style="margin-left: 175px;">{{AddtopicCtrl.formFields[0].class.className}}{{AddtopicCtrl.formFields[0].class.sectionName}} - {{AddtopicCtrl.formFields[0].subject.subjectName}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-container">
+                                <div class="row">
+                                    <div class="row profile">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12" style="  margin-top: -31px;">
+                                                <div id="tableToExport">
+                                                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    Topic No
+                                                                </th>
+                                                                <th>
+                                                                    Topic Name
+                                                                </th>
+                                                                <th>
+                                                                    No.of Classes
+                                                                </th>
+                                                                <th>
+                                                                    Start Date
+                                                                </th>
+                                                                <th>
+                                                                    End Date
+                                                                </th>
+                                                                <!--<th>Overview</th>-->
+                                                                <th>Home Assignment</th>
+                                                                <!--<th>Objective</th>-->
+                                                                <!--<th>Other Information</th>-->
+                                                                <!--<th>
+                                                                    Documents
+                                                                </th>-->
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody data-ng-repeat="topic in AddtopicCtrl.topicarrayList track by $index">
+                                                            <tr>
+                                                                <td>
+                                                                    <!--<a class="btn btn-link" ng-click="AddtopicCtrl.closeToggle($index) "
+                                                                        style="padding:0px!important;color:#26a69a">-->
+                                                                    {{topic.TopicNo}}
+                                                                    <!--<span class="glyphicon glyphicon-plus-sign" ng-if="!AddtopicCtrl.tott[$index]"></span>
+                                                                                          <span class="glyphicon glyphicon-minus-sign" ng-if="AddtopicCtrl.tott[$index]"></span>
+                                                                                          </a>-->
+                                                                </td>
+                                                                <td ng-hide="userRole=='Student'"><a data-target="#showDiv1" data-ng-click="AddtopicCtrl.ShowStudentTopicData(topic.TopicNo)">{{topic.TopicName}}</a></td>
+                                                                <td ng-show="userRole=='Student'"><a data-target="#showDiv1" data-ng-click="AddtopicCtrl.ShowStudentTopicData(topic.TopicNo)">{{topic.TopicName}}</a></td>
+                                                                <td>{{topic.noOfClasses}}</td>
+                                                                <td>{{topic.PlannedClassToStartDate}}</td>
+                                                                <td>{{topic.PlannedClassToEndDate}}</td>
+                                                                <!--<td>{{topic.Overview}}</td>-->
+                                                                <td>{{topic.AssignmentStatus}}</td>
+                                                                <!--<td>{{topic.objective}}</td>
+                                                                <td>{{topic.otherInfomation}}</td>-->
+
+                                                                <!--<td data-ng-repeat="doc in AddtopicCtrl.topicarrayList[0].docData"><a target="_blank" href="//docs.google.com/gview?url={{doc.documentFile}}&embedded=true">{{doc.documentFile}}<a></td>-->
+
+                                                                <!--<a class="word" target="_blank" href="//docs.google.com/gview?url={{doc.documentFile}}&embedded=true">Open</a>-->
+
+                                                            </tr>
+                                                            <tr ng-if="AddtopicCtrl.tott[$index]">
+                                                                <td></td>
+                                                                <td colspan="10">
+                                                                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Videos</th>
+                                                                                <th>Documents</th>
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody ng-repeat="doc in topic.docData">
+                                                                            <tr ng-repeat="top in topic.videoData">
+                                                                                <td>
+                                                                                    <a target="_blank" href="{{top.Iframe}}"> {{top.Iframe}}</a>
+                                                                                </td>
+                                                                                <td><a target="_blank" href="//docs.google.com/gview?url={{doc.documentFile}}&embedded=true">{{doc.documentFile.substring(64)}}</a></td>
+
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button type="button" ng-hide="userRole=='Student'" class="btn btn-info" data-toggle="collapse" data-target="#showDiv" data-ng-click="AddtopicCtrl.defaultTopicNo();"
+                                                    tabindex="1">Add Topic</button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" style="margin-left:16px;width:97%;">
+                                            <div id="showDiv" class="collapse" ng-hide="userRole=='Student'" style="margin-top: 21px;">
+                                                <div class="row">
+                                                    <form name="chapterform" novalidate role="form">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+
+                                                                <input type="text" class="form-control input-sm edited" id="CID" name="chapterNamee" tabindex="2" data-ng-model="AddtopicCtrl.formFields.chapterName"
+                                                                    maxlength="50" ng-disabled="userRole=='Student'" required>
+                                                                <label for="form_control_1">Chapter Name</label>
+                                                            </div>
+
+
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="text" class="form-control input-sm edited" id="SVCRID" name="ScheduleVirtualClassRoom" tabindex="6" data-ng-model="AddtopicCtrl.formFields.ScheduleVirtualClassRoom"
+                                                                    maxlength="50" ng-disabled="userRole=='Student'">
+                                                                <label for="form_control_1">Schedule
+                                                                                                                        Virtual
+                                                                                                                        Class
+                                                                                                                        Room
+                                                                                                                  </label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="text" allow-date class="form-control input-sm edited" id="TNID" ng-disabled="true" name="TopicNo" tabindex="3"
+                                                                    data-ng-model="AddtopicCtrl.formFields.TopicNo" maxlength="50"
+                                                                    ng-disabled="userRole=='Student'" required />
+                                                                <label for="form_control_1">Topic No
+                                                                                                                  </label>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="date" class="form-control input-sm edited" name="Planned Class To StartDate" maxlength="10" tabindex="7"
+                                                                    id="date1" data-ng-model="AddtopicCtrl.formFields.PlannedClassToStartDate"
+                                                                    ng-disabled="userRole=='Student'" onkeydown="return false"/>
+                                                                <label for="form_control_1">Planned
+                                                                                                                        Class
+                                                                                                                        To
+                                                                                                                        StartDate
+                                                                                                                  </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="text" class="form-control input-sm edited" name="Topic Name" tabindex="4" id="TOPNID" data-ng-model="AddtopicCtrl.formFields.TopicName"
+                                                                    maxlength="50" ng-disabled="userRole=='Student'" required
+                                                                />
+                                                                <label for="form_control_1">Topic Name <span style="color:red;">*</span>
+                                                                                                                  </label>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="date" class="form-control input-sm edited" name="Planned Class To EndDate" maxlength="10" tabindex="8"
+                                                                    id="date2" data-ng-model="AddtopicCtrl.formFields.PlannedClassToEndDate"
+                                                                    ng-disabled="userRole=='Student'"/>
+                                                                <label for="form_control_1">Planned
+                                                                                                                        Class
+                                                                                                                        To
+                                                                                                                        EndDate
+                                                                                                                  </label>
+                                                            </div>
+
+                                                            <!--<div class="pull-right">
+                                                                <button type="submit" class="btn green" ng-hide="userRole=='Student'" data-ng-click="AddtopicCtrl.addTopicModal(AddtopicCtrl.addTopicId)">Submit
+                                                                                                                        <i class="fa fa-check"></i>
+                                                                                                                  </button>
+                                                            </div>-->
+                                                        </div>
+                                                        <div class="col-md-3">
+
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="text" allow-date class="form-control input-sm edited" id="NOCID" name="noOfClasses" tabindex="5" data-ng-model="AddtopicCtrl.formFields.noOfClasses"
+                                                                    maxlength="50" ng-disabled="userRole=='Student'">
+                                                                <label for="form_control_1">No Of Classes
+
+                                                                                                                  </label>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div>
+                                                    <form name="chapterform1" nonvalidate role="form">
+                                                        <div class="row">
+
+                                                            <div class="col-md-12">
+                                                                <div class="caption" style="margin-top:-16px">
+                                                                    <span class="caption-subject font-green bold uppercase">overview</span>
+                                                                    <div class="btn-group pull-right">
+                                                                        <button type="submit" class="btn btn-default" ng-disabled="userRole=='Student'" ng-disabled="userRole=='Student'" ng-click="AddtopicCtrl.formFields.overview = null"
+                                                                            style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                    <textarea class="form-control" rows="5" cols="50" maxlength="500" style="border: 1px solid #e5e5e5; resize:none;overflow: hidden;"
+                                                                        id="OVRID" ng-model="AddtopicCtrl.formFields.overview"
+                                                                        tabindex="9"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12" ng-hide="AddtopicCtrl.formFields.objective=='null'">
+                                                                <div class="caption" style="margin-top:-16px">
+                                                                    <span class="caption-subject font-green bold uppercase">Objective</span>
+                                                                    <div class="btn-group pull-right" style="margin-right:-31px;">
+                                                                        <button type="submit" class="btn btn-default" ng-disabled="userRole=='Student'" ng-click="AddtopicCtrl.formFields.objective = null"
+                                                                            tabindex="11" style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                    <textarea class="form-control" rows="5" cols="50" maxlength="500" style="border: 1px solid   #e5e5e5;width:100%; resize:none;overflow: hidden;"
+                                                                        tabindex="11" id="OBJID" ng-model="AddtopicCtrl.formFields.objective"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="caption" style="margin-top:-16px">
+                                                                    <span class="caption-subject font-green bold uppercase">Home Assignments</span>
+                                                                    <div class="btn-group pull-right">
+                                                                        <button type="submit" class="btn btn-default" ng-disabled="userRole=='Student'" tabindex="10" ng-click="AddtopicCtrl.formFields.homeAssigment = null"
+                                                                            style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                    <textarea class="form-control" rows="10" cols="50" maxlength="968" style="border: 1px solid #e5e5e5; resize:none;overflow: hidden;"
+                                                                        tabindex="10" id="HAID" ng-model="AddtopicCtrl.formFields.homeAssigment"></textarea>
+                                                                </div>
+                                                            </div>
+
+                                                            <br>
+                                                            <br>
+
+                                                        </div>
+
+                                                        <div class="col-md-12" style="margin-left: -17px;">
+                                                            <div class="caption" style="margin-top:-16px">
+                                                                <span class="caption-subject font-green bold uppercase">Other Information</span>
+                                                                <div class="btn-group pull-right" style="margin-right:-31px;">
+                                                                    <button tabindex="12" type="submit" class="btn btn-default" ng-disabled="userRole=='Student'" ng-click="AddtopicCtrl.formFields.otherInfomation = null"
+                                                                        style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <textarea tabindex="12" class="form-control" rows="5" cols="50" maxlength="500" style="border: 1px solid #e5e5e5;width:103%; resize:none;overflow: hidden;"
+                                                                    id="OIID" ng-model="AddtopicCtrl.formFields.otherInfomation"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <div style="margin-top: -16px;">
+                                                                    <span style="margin-left: -13px;" class="caption-subject font-green bold uppercase">Reference Material</span>
+
+                                                                </div>
+                                                                <br><br>
+                                                                <input type="text" class="form-control" name="video" data-ng-change="AddtopicCtrl.enableUpload()" tabindex="13" placeholder="Upload Youtube Video Link"
+                                                                    ng-hide="userRole=='Student'" data-ng-model="AddtopicCtrl.formFields.video"
+                                                                    style="width:332px;margin-top:-20px;margin-left: -17px;"
+                                                                />
+                                                                <input class="btn green" type="button" data-ng-click="AddtopicCtrl.uploadVideo()" data-ng-disabled="AddtopicCtrl.formFields.video==''"
+                                                                    id="upBtn" ng-hide="userRole=='Student'" value="Upload" style="margin-top: -33px;margin-right: 89px;float:right;"
+                                                                />
+                                                                <span style="margin-left: -13px;" class="caption-subject font-green bold uppercase">Videos</span><br>
+                                                                <div ng-repeat="array in videoArray"><a target="_blank" href="{{array.Iframe}}">{{$index+1}}. {{array.Iframe}}</a></div>
+
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="fileinput fileinput-new" data-provides="fileinput" ng-hide="userRole=='Student'" style="margin-top:6px;">
+                                                                    <div class="input-group input-large" style="margin-left:-70px; margin-top: 10px;">
+                                                                        <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput" style="margin-right:1px">
+                                                                            <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                                            <span class="fileinput-filename"></span>
+                                                                        </div>
+                                                                        <span class="input-group-addon btn default btn-file">
+                                                                                                                        <span class="fileinput-new"> Select
+                                                                                                                              file
+                                                                                                                        </span>
+                                                                        <span class="fileinput-exists"> Change
+                                                                                                                        </span>
+
+
+                                                                        <input type="hidden" value="" name="..." placeholder="Upload PPT or Pdf Documents" value="Upload PPT or Pdf Documents" />
+
+                                                                        <input type="file" name="file" data-ng-model="AddtopicCtrl.myUpload2" tabindex="14" title="Upload PPT or Pdf Documents" placeholder="Upload PPT or Pdf Documents"
+                                                                            value="Upload PPT or Pdf Documents" id="topicPDF"
+                                                                        />
+                                                                        </span>
+
+
+                                                                    </div>
+                                                                </div>
+                                                                <input class="btn green" type="button" ng-hide="userRole=='Student'" tabindex="15" data-ng-click="AddtopicCtrl.uploadPPTorPDF($index)"
+                                                                    value="Upload" style="float:right;margin-right: 108px;margin-top: 14px;"
+                                                                /><br>
+                                                                <span style="margin-left: -95px;margin-left: -60px;" class="caption-subject font-green bold uppercase">Documents(PDF or PPT)</span><br>
+                                                                <div ng-repeat="array in documentsArray" style="margin-top: 10px;"><a target="_blank" href="//docs.google.com/gview?url={{array.documentFile}}&embedded=true">{{$index+1}}. {{array.documentFile.substring(64)}}</a></div>
+                                                                <input class="btn green" type="button" ng-hide="userRole=='Student'" tabindex="15" value="Submit" ng-disabled="chapterform.$invalid"
+                                                                    data-ng-click="AddtopicCtrl.addTopicModal(AddtopicCtrl.addTopicId)"
+                                                                    style="margin-top:-55px;float:right;margin-right: -13px;"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <!--<div class="pull-right" style="margin-top:-39px;margin-bottom:13px">
+                                                            <!<input type="button" class="btn green" ng-hide="userRole=='Student'" value="Submit" >-->
+
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                            <!-- Student-->
+                                            <div id="showDiv1" style="display:none">
+                                                <div class="row">
+                                                    <form name="chapterform" novalidate role="form">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+
+                                                                <input type="text" class="form-control input-sm edited" name="chapterNamee" tabindex="5" data-ng-model="AddtopicCtrl.formFields.chapterName"
+                                                                    maxlength="50" ng-disabled="true" required>
+                                                                <label for="form_control_1">Chapter
+                                                                                                                        Name
+                                                                                                                      
+                                                                                                                  </label>
+                                                            </div>
+
+
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="text" class="form-control input-sm edited" name="ScheduleVirtualClassRoom" id="one" tabindex="6" data-ng-model="AddtopicCtrl.formFields.ScheduleVirtualClassRoom"
+                                                                    maxlength="50" ng-disabled="userRole=='Student'">
+                                                                <label for="form_control_1">Schedule
+                                                                                                                        Virtual
+                                                                                                                        Class
+                                                                                                                        Room
+                                                                                                                  </label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="text" allow-date class="form-control input-sm edited" ng-disabled="true" name="TopicNo" tabindex="1" data-ng-model="AddtopicCtrl.formFields.TopicNo"
+                                                                    maxlength="50" ng-disabled="userRole=='Student'" />
+                                                                <label for="form_control_1">Topic No
+                                                                                                                  </label>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="date" class="form-control input-sm edited" name="Planned Class To StartDate" id="two" tabindex="1"
+                                                                    data-ng-model="AddtopicCtrl.formFields.PlannedClassToStartDate"
+                                                                    ng-disabled="userRole=='Student'" />
+                                                                <label for="form_control_1">Planned
+                                                                                                                        Class
+                                                                                                                        To
+                                                                                                                        StartDate
+                                                                                                                  </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="text" class="form-control input-sm edited" name="Topic Name" id="three" tabindex="1" data-ng-model="AddtopicCtrl.formFields.TopicName"
+                                                                    maxlength="50" ng-disabled="userRole=='Student'" required
+                                                                />
+                                                                <label for="form_control_1">Topic Name
+                                                                                                                  </label>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="date" class="form-control input-sm edited" name="Planned Class To EndDate" id="four" tabindex="1"
+                                                                    id="date22" data-ng-model="AddtopicCtrl.formFields.PlannedClassToEndDate"
+                                                                    ng-disabled="userRole=='Student'" />
+                                                                <label for="form_control_1">Planned
+                                                                                                                        Class
+                                                                                                                        To
+                                                                                                                        EndDate
+                                                                                                                  </label>
+                                                            </div>
+
+                                                            <!--<div class="pull-right">
+                                                                <button type="submit" class="btn green" ng-hide="userRole=='Student'" data-ng-click="AddtopicCtrl.addTopicModal(AddtopicCtrl.addTopicId)">Submit
+                                                                                                                        <i class="fa fa-check"></i>
+                                                                                                                  </button>
+                                                            </div>-->
+                                                        </div>
+                                                        <div class="col-md-3">
+
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <input type="text" allow-date class="form-control input-sm edited" name="noOfClasses" tabindex="6" id="five" data-ng-model="AddtopicCtrl.formFields.noOfClasses"
+                                                                    maxlength="50" ng-disabled="userRole=='Student'">
+                                                                <label for="form_control_1">No Of Classes
+
+                                                                                                                  </label>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div>
+                                                    <form name="chapterform1" nonvalidate role="form">
+                                                        <div class="row">
+
+                                                            <div class="col-md-12" ng-hide="AddtopicCtrl.formFields.overview==''||userRole!=='Student'" ng-show="userRole=='Student'">
+                                                                <div class="caption" style="margin-top:-16px">
+                                                                    <span class="caption-subject font-green bold uppercase">overview</span>
+                                                                    <div class="btn-group pull-right">
+                                                                        <button type="submit" ng-hide="userRole=='Student'" class="btn btn-default" ng-click="AddtopicCtrl.formFields.overview = null"
+                                                                            style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                    <textarea class="form-control" rows="5" cols="50" maxlength="500" style="border: 1px solid #e5e5e5; resize:none;overflow: hidden;"
+                                                                        id="six" ng-disabled="userRole=='Student'" ng-model="AddtopicCtrl.formFields.overview"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12" ng-hide="userRole=='Student'">
+                                                                <div class="caption" style="margin-top:-16px">
+                                                                    <span class="caption-subject font-green bold uppercase">overview</span>
+                                                                    <div class="btn-group pull-right">
+                                                                        <button type="submit" ng-hide="userRole=='Student'" class="btn btn-default" ng-click="AddtopicCtrl.formFields.overview = null"
+                                                                            style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                    <textarea class="form-control" rows="5" cols="50" maxlength="500" style="border: 1px solid #e5e5e5; resize:none;overflow: hidden;"
+                                                                        id="six" ng-disabled="userRole=='Student'" ng-model="AddtopicCtrl.formFields.overview"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12" ng-hide="AddtopicCtrl.formFields.objective==''||userRole!=='Student'" ng-show="userRole=='Student'">
+                                                                <div class="caption" style="margin-top:-16px">
+                                                                    <span class="caption-subject font-green bold uppercase">Objective</span>
+                                                                    <div class="btn-group pull-right" style="margin-right:-31px;">
+                                                                        <button type="submit" class="btn btn-default" ng-hide="userRole=='Student'" ng-click="AddtopicCtrl.formFields.objective = null"
+                                                                            style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                    <textarea class="form-control" rows="5" cols="50" maxlength="500" style="border: 1px solid #e5e5e5;width:100%; resize:none;overflow: hidden;"
+                                                                        id="eight" ng-disabled="userRole=='Student'" ng-model="AddtopicCtrl.formFields.objective"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12" ng-hide="userRole=='Student'">
+                                                                <div class="caption" style="margin-top:-16px">
+                                                                    <span class="caption-subject font-green bold uppercase">Objective</span>
+                                                                    <div class="btn-group pull-right" style="margin-right:-31px;">
+                                                                        <button type="submit" class="btn btn-default" ng-hide="userRole=='Student'" ng-click="AddtopicCtrl.formFields.objective = null"
+                                                                            style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                    <textarea class="form-control" rows="5" cols="50" maxlength="500" style="border: 1px solid #e5e5e5;width:100%; resize:none;overflow: hidden;"
+                                                                        id="eight" ng-disabled="userRole=='Student'" ng-model="AddtopicCtrl.formFields.objective"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12" ng-hide="AddtopicCtrl.formFields.homeAssigment==''||userRole!=='Student'" ng-show="userRole=='Student'">
+                                                                <div class="caption" style="margin-top:-16px">
+                                                                    <span class="caption-subject font-green bold uppercase">Home Assignments</span>
+                                                                    <div class="btn-group pull-right">
+                                                                        <button type="submit" class="btn btn-default" ng-hide="userRole=='Student'" ng-click="AddtopicCtrl.formFields.homeAssigment = null"
+                                                                            style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                    <textarea class="form-control" rows="10" cols="50" maxlength="968" style="border: 1px solid #e5e5e5; resize:none;overflow: hidden;"
+                                                                        id="seven" ng-disabled="userRole=='Student'" ng-model="AddtopicCtrl.formFields.homeAssigment"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12" ng-hide="userRole=='Student'">
+                                                                <div class="caption" style="margin-top:-16px">
+                                                                    <span class="caption-subject font-green bold uppercase">Home Assignments</span>
+                                                                    <div class="btn-group pull-right">
+                                                                        <button type="submit" class="btn btn-default" ng-hide="userRole=='Student'" ng-click="AddtopicCtrl.formFields.homeAssigment = null"
+                                                                            style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                    <textarea class="form-control" rows="10" cols="50" maxlength="968" style="border: 1px solid #e5e5e5; resize:none;overflow: hidden;"
+                                                                        id="seven" ng-disabled="userRole=='Student'" ng-model="AddtopicCtrl.formFields.homeAssigment"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                            <br>
+
+                                                        </div>
+
+                                                        <div class="col-md-12" style="margin-left: -17px;" ng-hide="AddtopicCtrl.formFields.otherInfomation==''||userRole!=='Student'"
+                                                            ng-show="userRole=='Student'">
+                                                            <div class="caption" style="margin-top:-16px">
+                                                                <span class="caption-subject font-green bold uppercase">Other Information</span>
+                                                                <div class="btn-group pull-right" style="margin-right:-31px;">
+                                                                    <button type="submit" class="btn btn-default" ng-hide="userRole=='Student'" ng-click="AddtopicCtrl.formFields.otherInfomation = null"
+                                                                        style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <textarea class="form-control" rows="5" cols="50" maxlength="500" style="border: 1px solid #e5e5e5;width:103%; resize:none;overflow: hidden;"
+                                                                    id="nine" ng-disabled="userRole=='Student'" ng-model="AddtopicCtrl.formFields.otherInfomation"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12" style="margin-left: -17px;" ng-hide="userRole=='Student'">
+                                                            <div class="caption" style="margin-top:-16px">
+                                                                <span class="caption-subject font-green bold uppercase">Other Information</span>
+                                                                <div class="btn-group pull-right" style="margin-right:-31px;">
+                                                                    <button type="submit" class="btn btn-default" ng-hide="userRole=='Student'" ng-click="AddtopicCtrl.formFields.otherInfomation = null"
+                                                                        style="background-color: transparent; border: 0px;">
+                                                                                                                        <i class="fa fa-times info" style="color: blue;"></i>
+                                                                                                                  </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                                <textarea class="form-control" rows="5" cols="50" maxlength="500" style="border: 1px solid #e5e5e5;width:103%; resize:none;overflow: hidden;"
+                                                                    id="nine" ng-disabled="userRole=='Student'" ng-model="AddtopicCtrl.formFields.otherInfomation"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div style="margin-top: -16px;">
+                                                                <span style="margin-left: -13px;" class="caption-subject font-green bold uppercase">Reference Material</span>
+
+                                                            </div>
+                                                            <br><br>
+                                                            <div class="col-md-6">
+                                                                <input type="text" class="form-control" name="video" data-ng-change="AddtopicCtrl.enableUpload()" id="ten" placeholder="Upload Youtube Video Link"
+                                                                    ng-hide="userRole=='Student'" data-ng-model="AddtopicCtrl.formFields.video"
+                                                                    style="width:332px;margin-top:-20px;margin-left: -17px;"
+                                                                />
+
+                                                                <input class="btn green" type="button" data-ng-click="AddtopicCtrl.uploadVideo();arr=true" data-ng-disabled="AddtopicCtrl.formFields.video==''"
+                                                                    id="upBtn" ng-hide="userRole=='Student'" value="Upload" style="margin-top: -33px;margin-right: 100px;float:right;"
+                                                                />
+                                                                <span style="margin-left: -13px;" class="caption-subject font-green bold uppercase">Videos</span><br>
+                                                                <div ng-repeat="array in AddtopicCtrl.videoArray" ng-hide="arr" style="margin-top: 10px;"><a target="_blank" href="{{array.Iframe}}">{{$index+1}}. {{array.Iframe}}</a></div>
+                                                                <div ng-repeat="array in videoArray" ng-show="arr" style="margin-top: 10px;"><a target="_blank" href="{{array.Iframe}}">{{$index+1}}. {{array.Iframe}}</a></div>
+
+
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="fileinput fileinput-new" data-provides="fileinput" ng-hide="userRole=='Student'" style="margin-top:-20px;">
+                                                                    <div class="input-group input-large" style="margin-left:-103px;">
+                                                                        <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput" style="margin-right:1px">
+                                                                            <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                                            <span class="fileinput-filename"></span>
+                                                                        </div>
+                                                                        <span class="input-group-addon btn default btn-file">
+                                                                                                                        <span class="fileinput-new"> Select
+                                                                                                                              file
+                                                                                                                        </span>
+                                                                        <span class="fileinput-exists"> Change
+                                                                                                                        </span>
+
+
+                                                                        <input type="hidden" value="" name="..." placeholder="Upload PPT or Pdf Documents" value="Upload PPT or Pdf Documents" />
+
+                                                                        <input type="file" name="file" data-ng-model="AddtopicCtrl.myUpload2" tabindex="22" title="Upload PPT or Pdf Documents" placeholder="Upload PPT or Pdf Documents"
+                                                                            value="Upload PPT or Pdf Documents" id="topicPDF1"
+                                                                        />
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <input class="btn green" type="button" ng-hide="userRole=='Student'" data-ng-click="AddtopicCtrl.uploadPPTorPDF1($index);arr1=true"
+                                                                    value="Upload" style="margin-top:-20px;float:right;margin-right: 146px;"
+                                                                /><br>
+
+                                                                <span style="margin-left: -95px;margin-left: -60px;" class="caption-subject font-green bold uppercase">Documents</span><br>
+                                                                <div ng-repeat="array in AddtopicCtrl.docArray" ng-hide="arr1" style="margin-top: 10px;"><a target="_blank" href="//docs.google.com/gview?url={{array.documentFile}}&embedded=true">{{$index+1}}. {{array.documentFile.substring(64)}}</a></div>
+                                                                <div ng-repeat="array in documentsArray" ng-show="arr1" style="margin-top: 10px;"><a target="_blank" href="//docs.google.com/gview?url={{array.documentFile}}&embedded=true">{{$index+1}}. {{array.documentFile.substring(64)}}</a></div>
+                                                                <input class="btn green" type="button" ng-hide="userRole=='Student'" value="Submit" ng-disabled="chapterform1.$invalid" data-ng-click="AddtopicCtrl.EditTopicModal(AddtopicCtrl.addTopicId,AddtopicCtrl.formFields.TopicNo)"
+                                                                    style="margin-top:-38px;float:right;margin-right: -13px;"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT INNER -->
+    </div>
+</div>
+<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<script>
+    // (function () {
+    //     setTimeout(function () {
+    //         $('#date1').datetimepicker({
+    //             format: 'DD-MM-YYYY'
+
+    //         });
+    //         $('#date2').datetimepicker({
+    //             format: 'DD-MM-YYYY'
+
+    //         });
+    //         $('#two').datetimepicker({
+    //             format: 'DD-MM-YYYY'
+
+    //         });
+    //         $('#four').datetimepicker({
+    //             format: 'DD-MM-YYYY'
+
+    //         });
+    //     }, 500);
+    // })();
+
+</script>

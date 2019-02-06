@@ -1,0 +1,553 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    view Marks
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-list-alt font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">Marks</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <select data-ng-model="MarksCtrl.formFields.classId" name="classId" data-ng-change="MarksCtrl.selectClass();MarksCtrl.reset();"
+                                                class="form-control input-sm">
+                                                <option value="">Class-Section</option>
+                                                <!-- <option ng-repeat="class in MarksCtrl.classList" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option> -->
+                                                <option ng-if="userRole !=='Staff'" ng-repeat="class in MarksCtrl.classList" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option>
+                                                <option ng-if="userRole =='Staff'" ng-repeat="class in MarksCtrl.classesList | orderBy:'class.sequenceNumber'" value="{{class.class.id}}">{{class.class.className}} {{class.class.sectionName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select ng-show="MarksCtrl.studentList" data-ng-change="MarksCtrl.studentChanged();MarksCtrl.showStudentData();MarksCtrl.showStudentTable = false;"
+                                                data-ng-model="MarksCtrl.formFields.studentId" name="subjectId" class="form-control input-sm">
+                                                <option value="">Student</option>
+                                                <option ng-repeat="stud in  MarksCtrl.studentList" value="{{stud.id}}">{{stud.firstName}} {{stud.lastName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select ng-show="MarksCtrl.formFields.studentId" data-ng-model="MarksCtrl.formFields.examId" name="examId" class="form-control input-sm"
+                                                data-ng-change="MarksCtrl.showStudentData();MarksCtrl.showStudentTable = false;MarksCtrl.selectTemp();">
+                                                <option value="">Exam</option>
+                                                <option ng-repeat="exam in MarksCtrl.examList" value="{{exam.id}}">{{exam.examName}}</option>
+                                                <!-- <option ng-if="MarksCtrl.sa2Enabled" value="final">Final</option> -->
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select ng-show="MarksCtrl.formFields.studentId" data-ng-model="MarksCtrl.formFields.template" name="template" class="form-control input-sm"
+                                                data-ng-change="MarksCtrl.showStudentData();MarksCtrl.showStudentTable = false">
+                                                <option value="">Select Template</option>
+                                                <option value="lower">Template 1(lower Class)</option>
+                                                <option value="upper">Template 2(upper Class)</option>
+                                                <option value="below">Template 3(Nusery Class)</option>
+
+                                            </select>
+                                        </div>
+                                        <div class="btn-group" ng-show="MarksCtrl.formFields.examId">
+                                            <input media="print" data-ng-click="MarksCtrl.printreceiptHistory();" type="button" value="Print" class="btn green">
+                                            <button ng-click="MarksCtrl.pdf();" type="button" class="btn green" style="margin-left: 10px;">PDF </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- INNER CONTENT GOES HERE-->
+                                <!--<form name="marksform" novalidate role="form" data-ng-submit="MarksCtrl.marksAction(marksform.$invalid)">-->
+                                <div class="row" id="pdff">
+                                    <div class="col-md-12 col-sm-12">
+
+                                        <div class="row" id="s" style="display:none;">
+                                            <div class="col-md-12 col-sm-12">
+                                                <img src="{{MarksCtrl.schoolLogo}}" style="margin-left: 32%;text-align:center;height: 100px;">
+                                                <h1 style="text-align:center;"> STUDENT REPORT</h1>
+
+                                                <div class="col-md-6 col-sm-6 text-left">
+                                                    <label>Student Name : {{MarksCtrl.studDetails[0].firstName}} {{MarksCtrl.studDetails[0].lastName}}</label>
+                                                    <br>
+                                                    <label>Class - Section :{{MarksCtrl.studDetails[0].class.className}} {{MarksCtrl.studDetails[0].class.sectionName}}
+                                                        </label>
+                                                    <br> Roll Number :{{MarksCtrl.studDetails[0].rollNo}}
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12" style="margin-top:1rem" ng-if="MarksCtrl.showStudentTable" id="marks_datatable1">
+                                                <div>
+                                                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black">
+                                                        <thead>
+                                                            <tr>
+                                                                <th ng-repeat="headers in MarksCtrl.marksHeader track by $index">{{headers|capitalize}}</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-if="MarksCtrl.shownuserytable" ng-repeat="sub in MarksCtrl.viewMarksData">
+                                                                <td ng-init="MarksCtrl.individualGrades1(sub)">{{sub.subjectName}}</td>
+                                                                <td ng-repeat="subMarks in sub.assigments track by $index">
+                                                                    <!-- {{subMarks.submarks||'-'}} -->
+                                                                    <span ng-if="MarksCtrl.formFields.template == 'below'" ng-repeat="rep in subMarks.submarks" ng-hide="subMarks.submarks == 0">{{rep == 'E'?'--':rep}}
+
+                                                                    </span>
+                                                                    <span ng-if="MarksCtrl.formFields.template !== 'below'">
+                                                                        <span ng-hide="subMarks.submarks == 0"> {{subMarks.submarks||'-'}} </span>
+                                                                        <span ng-show="subMarks.submarks == 0"> 0 </span>
+                                                                        <!-- {{subMarks.submarks||'-'}} -->
+
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <!-- {{sub.total}} -->
+                                                                    <span>
+                                                                        <span ng-repeat="rep in sub.total">{{rep}}</span>
+                                                                    </span>
+                                                                    <span>
+                                                                        <span ng-hide="sub.flag"> - </span>
+                                                                        <span ng-show="sub.flag">{{sub.total | number : 2}}</span>
+                                                                    </span>
+                                                                </td>
+                                                                <td ng-if="sub.grade&&MarksCtrl.formFields.template!=='lower'&&sub.flag">
+                                                                    <span ng-repeat="subGrade in sub.grade">{{subGrade}}</span>
+                                                                </td>
+                                                                <td ng-if="!sub.flag&&MarksCtrl.formFields.template!=='lower'"> - </td>
+                                                            </tr>
+                                                            <tr ng-if="!MarksCtrl.shownuserytable" ng-repeat="sub in MarksCtrl.viewMarksData">
+                                                                <td ng-init="MarksCtrl.individualGrades1(sub)">{{sub.subjectName}}</td>
+                                                                <td ng-repeat="subMarks in sub.assigments track by $index">
+                                                                    <!-- {{subMarks.submarks||'-'}} -->
+                                                                    <span ng-if="MarksCtrl.formFields.template == 'lower'" ng-repeat="rep in subMarks.submarks">{{rep}}</span>
+                                                                    <span ng-if="MarksCtrl.formFields.template !== 'lower'">
+                                                                        <span ng-hide="subMarks.submarks == 0"> {{subMarks.submarks||'-'}} </span>
+                                                                        <span ng-show="subMarks.submarks == 0"> 0 </span>
+                                                                        <!-- {{subMarks.submarks||'-'}} -->
+
+                                                                    </span>
+                                                                </td>
+                                                                
+                                                                <td ng-if="MarksCtrl.shownuserytableupper">
+                                                                    <!-- {{sub.total}} -->
+                                                                    <span ng-if="MarksCtrl.formFields.template == 'lower'&&sub.presTotal&&MarksCtrl.shownuserytableupper">
+                                                                        <span ng-repeat="rep in sub.total" >{{rep}}</span>
+                                                                    </span>
+                                                                    <span ng-if="MarksCtrl.formFields.template !== 'lower'&&MarksCtrl.shownuserytableupper">
+                                                                        <span ng-hide="sub.flag"> - </span>
+                                                                        <span ng-show="sub.flag">{{sub.total | number : 2}}</span>
+                                                                    </span>
+                                                                </td>
+                                                                <td ng-if="sub.grade&&MarksCtrl.formFields.template!=='lower'&&sub.flag&&MarksCtrl.shownuserytableupper">
+                                                                    <span ng-repeat="subGrade in sub.grade">{{subGrade}}</span>
+                                                                </td>
+                                                                <!-- <td ng-if="!sub.flag&&MarksCtrl.formFields.template!=='lower'"> - </td> -->
+                                                            </tr>
+                                                            <tr ng-if="MarksCtrl.examName!=='SA1'&&MarksCtrl.examName!=='SA2'&&MarksCtrl.formFields.template!=='lower'">
+                                                                <td colspan="{{MarksCtrl.marksHeader.length-2}}" ng-if="!MarksCtrl.shownuserytable">Total Scored </td>
+                                                                <td ng-if="!MarksCtrl.shownuserytable">{{MarksCtrl.totalMarks|number:2}}</td>
+                                                                <td ng-if="MarksCtrl.totalGrade">
+                                                                    <span ng-repeat="grade in MarksCtrl.totalGrade">{{grade}}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-if="MarksCtrl.examName=='SA1'&&MarksCtrl.formFields.template!=='lower'||MarksCtrl.examName=='SA2'&&MarksCtrl.formFields.template!=='lower'">
+                                                                <td ng-if="!MarksCtrl.shownuserytable">Total Scored </td>
+                                                                <td ng-repeat="totals in MarksCtrl.totalsSubmarks">{{totals.subMarks|number:2}}</td>
+                                                                <td>{{MarksCtrl.totalMarks|number:2}}</td>
+                                                                <td ng-if="MarksCtrl.totalGrade&&!MarksCtrl.shownuserytable">
+                                                                    <span ng-repeat="grade in MarksCtrl.totalGrade">{{grade}}</span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <!-- <br> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="pdf2" style="display:none">
+                                        <div id="pdfs2" class="col-md-12 col-sm-12">
+                                            <img src="{{MarksCtrl.marksTmp}}" alt="Norway" style="width:100%;opacity: 1;margin-left: -15px;">
+                                            <div class="row">
+                                                <div class="row" style="margin-top:-108%">
+                                                    <div class="col-md-12 col-sm-12">
+                                                            <h1 style="text-align:center;" ng-if="MarksCtrl.formFields.template == 'below'">{{MarksCtrl.tempMarks1}}</h1>
+                                                            <h1 style="text-align:center;" ng-if="MarksCtrl.formFields.template !== 'below'">{{MarksCtrl.tempMarks}}</h1>
+                                                        
+                                                        <!-- <h1 style="text-align:center;"> STUDENT REPORT</h1> -->
+                                                        <div class="col-md-1 col-sm-1"></div>
+                                                        <div class="col-md-10 col-sm-10 text-left">
+                                                            <table style="width:100%;font-weight: bold;font-size: 13;border-spacing: 0px;">
+                                                                <tr>
+                                                                    <td style="width: 100px;"> Student Name</td>
+                                                                    <td>: {{MarksCtrl.studDetails[0].firstName}} {{MarksCtrl.studDetails[0].lastName}}</td>
+                                                                    <td style="width: 100px;"> Father's Name</td>
+                                                                    <td>: {{MarksCtrl.studDetails[0].fatherName}}</td>
+                                                                    <td style="width: 100px;"> Mother's Name</td>
+                                                                    <td>: {{MarksCtrl.studDetails[0].motherName}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td> Enrollment No. </td>
+                                                                    <td>: {{MarksCtrl.studDetails[0].registrationNo}}</td>
+                                                                    <!-- <td> Class</td> -->
+                                                                    <td>
+                                                                        {{MarksCtrl.studDetails[0].class.className}} {{MarksCtrl.studDetails[0].class.sectionName}}
+                                                                    </td>
+                                                                    <!-- <td> DOB</td>
+                                                                    <td>: {{MarksCtrl.studDetails[0].DOB}}</td> -->
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div class="col-md-1 col-sm-1"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 col-sm-12" style="margin-top:1rem;width: 78%;margin-left: 10%; display:n" ng-if="MarksCtrl.showStudentTable">
+                                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" style="width:100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th ng-repeat="headers in MarksCtrl.marksHeader track by $index" style="text-align:center;">{{headers| capitalize}}</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-if="MarksCtrl.shownuserytable" ng-repeat="sub in MarksCtrl.viewMarksData">
+                                                                    <td ng-init="MarksCtrl.individualGrades1(sub)">{{sub.subjectName}}</td>
+                                                                    <td ng-repeat="subMarks in sub.assigments track by $index">
+                                                                        <!-- {{subMarks.submarks||'-'}} -->
+                                                                        <span ng-if="MarksCtrl.formFields.template == 'below'" ng-repeat="rep in subMarks.submarks" ng-hide="subMarks.submarks == 0">{{rep == 'E'?'--':rep}}
+
+                                                                        </span>
+                                                                        <span ng-if="MarksCtrl.formFields.template !== 'below'">
+                                                                            <span ng-hide="subMarks.submarks == 0"> {{subMarks.submarks||'-'}} </span>
+                                                                            <span ng-show="subMarks.submarks == 0"> 0 </span>
+                                                                            <!-- {{subMarks.submarks||'-'}} -->
+
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <!-- {{sub.total}} -->
+                                                                        <span>
+                                                                            <span ng-repeat="rep in sub.total">{{rep}}</span>
+                                                                        </span>
+                                                                        <span>
+                                                                            <span ng-hide="sub.flag"> - </span>
+                                                                            <span ng-show="sub.flag">{{sub.total | number : 2}}</span>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td ng-if="sub.grade&&MarksCtrl.formFields.template!=='lower'&&sub.flag">
+                                                                        <span ng-repeat="subGrade in sub.grade">{{subGrade}}</span>
+                                                                    </td>
+                                                                    <td ng-if="!sub.flag&&MarksCtrl.formFields.template!=='lower'"> - </td>
+                                                                </tr>
+                                                                <tr ng-if="!MarksCtrl.shownuserytable" ng-repeat="sub in MarksCtrl.viewMarksData">
+                                                                    <td ng-init="MarksCtrl.individualGrades1(sub)" style="text-align:center;">{{sub.subjectName}}</td>
+                                                                    <td ng-repeat="subMarks in sub.assigments track by $index" style="text-align:center;">
+                                                                        <!-- {{subMarks.submarks||'-'}} -->
+                                                                        <span ng-if="MarksCtrl.formFields.template == 'lower'" ng-repeat="rep in subMarks.submarks">{{rep}}</span>
+                                                                        <span ng-if="MarksCtrl.formFields.template !== 'lower'">
+                                                                            <span ng-hide="subMarks.submarks == 0">{{subMarks.submarks||'-'}}</span>
+                                                                            <span ng-show="subMarks.submarks == 0">0</span>
+                                                                            <!-- {{subMarks.submarks||'-'}} -->
+                                                                        </span>
+                                                                    </td>
+                                                                    <td style="text-align:center;" ng-if="MarksCtrl.shownuserytableupper">
+                                                                        <!-- {{sub.total}} -->
+                                                                        <span ng-if="MarksCtrl.formFields.template == 'lower'&&sub.presTotal&&MarksCtrl.shownuserytableupper">
+                                                                            <span ng-repeat="rep in sub.total">{{rep}}</span>
+                                                                        </span>
+                                                                        <span ng-if="MarksCtrl.formFields.template !== 'lower'&&MarksCtrl.shownuserytableupper">
+                                                                            <span ng-hide="sub.flag"> - </span>
+                                                                            <span ng-show="sub.flag">{{sub.total | number : 2}}</span>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td ng-if="sub.grade&&MarksCtrl.formFields.template!=='lower'&&sub.flag&&MarksCtrl.shownuserytableupper" style="text-align:center;">
+                                                                        <span ng-repeat="subGrade in sub.grade">{{subGrade}}</span>
+                                                                    </td>
+                                                                    <td ng-if="!sub.flag&&MarksCtrl.formFields.template!=='lower'" style="text-align:center;"> - </td>
+                                                                </tr>
+                                                                <tr ng-if="MarksCtrl.examName!=='SA1'&&MarksCtrl.examName!=='SA2'&&MarksCtrl.formFields.template!=='lower'">
+                                                                    <td colspan="{{MarksCtrl.marksHeader.length-2}}" ng-if="!MarksCtrl.shownuserytable">Total Scored </td>
+                                                                    <td style="text-align:center;" ng-if="!MarksCtrl.shownuserytable">{{MarksCtrl.totalMarks|number:2}}</td>
+                                                                    <td ng-if="MarksCtrl.totalGrade" style="text-align:center;">
+                                                                        <span ng-repeat="grade in MarksCtrl.totalGrade">{{grade}}</span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-if="MarksCtrl.examName=='SA1'&&MarksCtrl.formFields.template!=='lower'||MarksCtrl.examName=='SA2'&&MarksCtrl.formFields.template!=='lower'">
+                                                                    <td style="text-align:center;">Total Scored </td>
+                                                                    <td ng-repeat="totals in MarksCtrl.totalsSubmarks" style="text-align:center;">{{totals.subMarks|number:2}}</td>
+                                                                    <td style="text-align:center;">{{MarksCtrl.totalMarks|number:2}}</td>
+                                                                    <td ng-if="MarksCtrl.totalGrade" style="text-align:center;">
+                                                                        <span ng-repeat="grade in MarksCtrl.totalGrade">{{grade}}</span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <br>
+                                                        <br> Grading System
+                                                        <br>
+                                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" style="width:100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Marks Range</th>
+                                                                    <th ng-repeat="range in MarksCtrl.grades" style="text-align:center">
+                                                                        {{range.percentageRangeFrom|number:0}}-{{range.percentageRangeTo|number:0 -1}}
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="text-align:center">Grade</td>
+                                                                    <td ng-repeat="ranges in MarksCtrl.grades" style="text-align:center">
+                                                                        <span ng-repeat="grade in ranges.gradeName">{{grade}}
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="" style="display:none">
+                                    <div class="contai" id="printTable">
+                                        <div class="col-xs-12">
+                                            <img src="{{MarksCtrl.marksTmp}}" alt="Norway" style="width:100%;opacity: 0.5;">
+                                            <div class="bottom-l" style="margin-top:-110%">
+                                                <div class="row" style="margin-left:60px; margin-right:60px">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                                        <div class="row" id="showTopDetailsContent" style="display:none;">
+                                                            <div class="col-md-12 col-sm-10 col-xs-10">
+                                                                <!-- <img src="{{MarksCtrl.schoolLogo}}"> -->
+
+                                                                <!-- Exam name -->
+                                                                <h1 style="text-align:center;" ng-if="MarksCtrl.formFields.template == 'below'">{{MarksCtrl.tempMarks1}}</h1>
+                                                                <h1 style="text-align:center;" ng-if="MarksCtrl.formFields.template !== 'below'">{{MarksCtrl.tempMarks}}</h1>
+
+                                                                <div class="col-md-6 col-sm-6  text-left">
+                                                                    <table style="width:100%;font-weight: bold;font-size: 13;border-spacing: 0px;">
+                                                                        <tr>
+                                                                            <td style="width: 90px;"> Student Name</td>
+                                                                            <td>: {{MarksCtrl.studDetails[0].firstName}} {{MarksCtrl.studDetails[0].lastName}}</td>
+                                                                            <td style="width: 90px;"> Father's Name</td>
+                                                                            <td>: {{MarksCtrl.studDetails[0].fatherName}}</td>
+                                                                            <td style="width: 90px;"> Mother's Name</td>
+                                                                            <td>: {{MarksCtrl.studDetails[0].motherName}}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td> Enrollment No. </td>
+                                                                            <td>: {{MarksCtrl.studDetails[0].registrationNo}}</td>
+                                                                            <!-- <td> Class</td> -->
+                                                                            <td>
+                                                                                {{MarksCtrl.studDetails[0].class.className}} {{MarksCtrl.studDetails[0].class.sectionName}}
+                                                                            </td>
+                                                                            <!-- <td> DOB</td>
+                                                                            <td>: {{MarksCtrl.studDetails[0].DOB}}</td> -->
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                                <!-- <div class="col-md-6 col-sm-4">
+
+                                                            </div> -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12 col-sm-12" style="margin-top:1rem" ng-if="MarksCtrl.showStudentTable">
+                                                                <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" style="width:100%;">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th ng-repeat="headers in MarksCtrl.marksHeader track by $index" style="text-align:center;">{{headers|capitalize}}</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr ng-if="MarksCtrl.shownuserytable" ng-repeat="sub in MarksCtrl.viewMarksData">
+                                                                            <td ng-init="MarksCtrl.individualGrades1(sub)">{{sub.subjectName}}</td>
+                                                                            <td ng-repeat="subMarks in sub.assigments track by $index">
+                                                                                <!-- {{subMarks.submarks||'-'}} -->
+                                                                                <span ng-if="MarksCtrl.formFields.template == 'below'" ng-repeat="rep in subMarks.submarks" ng-hide="subMarks.submarks == 0">{{rep == 'E'?'--':rep}}
+
+                                                                                </span>
+                                                                                <span ng-if="MarksCtrl.formFields.template !== 'below'">
+                                                                                    <!-- <span ng-hide="subMarks.submarks == 0"> {{subMarks.submarks||'-'}} </span>
+                                                                                    <span ng-show="subMarks.submarks == 0"> 0 </span> -->
+                                                                                    <!-- {{subMarks.submarks||'-'}} -->
+
+                                                                                </span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <!-- {{sub.total}} -->
+                                                                                <span>
+                                                                                    <span ng-repeat="rep in sub.total">{{rep}}</span>
+                                                                                </span>
+                                                                                <span>
+                                                                                    <!-- <span ng-hide="sub.flag"> - </span> -->
+                                                                                    <span ng-show="sub.flag">{{sub.total | number : 2}}</span>
+                                                                                </span>
+                                                                            </td>
+                                                                            <td ng-if="sub.grade&&MarksCtrl.formFields.template!=='lower'&&sub.flag">
+                                                                                <span ng-repeat="subGrade in sub.grade">{{subGrade}}</span>
+                                                                            </td>
+                                                                            <td ng-if="!sub.flag&&MarksCtrl.formFields.template!=='lower'"> - </td>
+                                                                        </tr>
+                                                                        <tr ng-if="!MarksCtrl.shownuserytable" ng-repeat="sub in MarksCtrl.viewMarksData">
+                                                                            <td ng-init="MarksCtrl.individualGrades1(sub)" style="text-align:center;">{{sub.subjectName}}</td>
+                                                                            <td ng-repeat="subMarks in sub.assigments track by $index" style="text-align:center;">
+                                                                                <!-- {{subMarks.submarks||'-'}} -->
+                                                                                <span ng-if="MarksCtrl.formFields.template == 'lower'" ng-repeat="rep in subMarks.submarks">{{rep}}</span>
+                                                                                <span ng-if="MarksCtrl.formFields.template !== 'lower'">
+                                                                                    <span ng-if="subMarks.submarks !== 0">{{subMarks.submarks||'-'}}</span>
+                                                                                    <span ng-if="subMarks.submarks == 0">0</span>
+                                                                                    <!-- {{subMarks.submarks||'-'}} -->
+                                                                                </span>
+                                                                            </td>
+                                                                            <td style="text-align:center;" ng-if="MarksCtrl.shownuserytableupper">
+                                                                                <!-- {{sub.total}} -->
+                                                                                <span ng-if="MarksCtrl.formFields.template == 'lower'&&sub.presTotal&&MarksCtrl.shownuserytableupper">
+                                                                                    <span ng-repeat="rep in sub.total">{{rep}}</span>
+                                                                                </span>
+                                                                                <span ng-if="MarksCtrl.formFields.template !== 'lower'&&MarksCtrl.shownuserytableupper">
+                                                                                    <span ng-if="!sub.flag"> - </span>
+                                                                                    <span ng-if="sub.flag">{{sub.total | number : 2}}</span>
+                                                                                </span>
+                                                                            </td>
+                                                                            <td ng-if="sub.grade&&MarksCtrl.formFields.template!=='lower'&&sub.flag&&MarksCtrl.shownuserytableupper" style="text-align:center;">
+                                                                                <span ng-repeat="subGrade in sub.grade">{{subGrade}}</span>
+                                                                            </td>
+                                                                            <td ng-if="!sub.flag&&MarksCtrl.formFields.template!=='lower'" style="text-align:center;"> - </td>
+                                                                        </tr>
+                                                                        <tr ng-if="MarksCtrl.examName!=='SA1'&&MarksCtrl.examName!=='SA2'&&MarksCtrl.formFields.template!=='lower'">
+                                                                            <td colspan="{{MarksCtrl.marksHeader.length-2}}" ng-if="!MarksCtrl.shownuserytable">Total Scored </td>
+                                                                            <td style="text-align:center;" ng-if="!MarksCtrl.shownuserytable">{{MarksCtrl.totalMarks|number:2}}</td>
+                                                                            <td ng-if="MarksCtrl.totalGrade&&!MarksCtrl.shownuserytable" style="text-align:center;" >
+                                                                                <span ng-repeat="grade in MarksCtrl.totalGrade" >{{grade}}</span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr ng-if="MarksCtrl.examName=='SA1'&&MarksCtrl.formFields.template!=='lower'||MarksCtrl.examName=='SA2'&&MarksCtrl.formFields.template!=='lower'">
+                                                                            <td style="text-align:center;">Total Scored </td>
+                                                                            <td ng-repeat="totals in MarksCtrl.totalsSubmarks" ng-if="!MarksCtrl.shownuserytable" style="text-align:center;">{{totals.subMarks|number:2}}</td>
+                                                                            <td style="text-align:center;" ng-if="!MarksCtrl.shownuserytable">{{MarksCtrl.totalMarks|number:2}}</td>
+                                                                            <td ng-if="MarksCtrl.totalGrade" style="text-align:center;">
+                                                                                <span ng-repeat="grade in MarksCtrl.totalGrade">{{grade}}</span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <br> Grading System
+                                                        <br>
+                                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" style="width:100%;border-collapse: collapse;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Marks Range</th>
+                                                                    <th ng-repeat="range in MarksCtrl.grades" style="zoom:0.8; text-align:center">
+                                                                        {{range.percentageRangeFrom|number:0}}-{{range.percentageRangeTo|number:0 -1}}
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="text-align:center">Grade</td>
+                                                                    <td ng-repeat="ranges in MarksCtrl.grades" style="text-align:center">
+                                                                        <span ng-repeat="grade in ranges.gradeName">{{grade}}
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <div style="margin-left:60px; margin-right:60px">
+                                                    <!-- <p>Remarks: <br>_______________________________________________________________________________<br><br>_______________________________________________________________________________</p> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+
+<style>
+    .sumComponent {
+        position: absolute;
+        right: -3px;
+        top: 44%;
+        background: white;
+        border: 1px solid orange;
+        border-radius: 69px;
+        padding: 7px;
+    }
+
+    @media print {
+        .no-print,
+        .no-print * {
+            display: none !important;
+        }
+    }
+</style>
+<style>
+    .contai {
+        position: relative;
+        text-align: center;
+        color: #000000;
+    }
+
+    /* .contai img {
+        opacity: 0.5;
+    } */
+
+    .bottom-l {
+        position: absolute;
+        margin-top: -20px;
+        /* bottom: 8px;
+        left: 16px; */
+    }
+</style>
+<!-- <script>
+        function demoFromHTML() {
+            document.getElementById('s').style.display = 'block';
+            document.getElementById('showTopDetailsContent').style.display = 'block';
+            kendo.drawing
+                .drawDOM("#pdf2",
+                {
+                    paperSize: "A4",
+                    margin: { top: "1cm", bottom: "1cm", left: "0.5cm", right: "0.5cm" },
+                    scale: 0.4,
+                    height: 500
+                })
+                .then(function (group) {
+                    kendo.drawing.pdf.saveAs(group, "Marks.pdf");
+                });
+        }
+    </script> -->

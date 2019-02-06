@@ -1,0 +1,192 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Holiday calendar
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-file-text font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">Holiday calendar</span>
+                                </div>
+                                <div class="col-md-10" ng-show="SchoolCalendarCtrl.roleEdit" style="margin-top: 5px;">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="SchoolCalendarCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="SchoolCalendarCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                            </div>
+                            <div class="portlet-body" style="margin-top: -18px;">
+
+                                <div class="table-toolbar">
+<!--                                     <div class="row">
+                                        <div class="col-md-6">
+
+                                        </div>
+                                        <div class="col-md-6" ng-show="userRole == 'Admin' || userRole=='Accountant'">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="SchoolCalendarCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="SchoolCalendarCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+
+                                    </div> -->
+                                </div>
+                                <div class="row" id="data1">
+                                    <div class="col-md-9 col-sm-12">
+                                        <div id="calendar" style="width:800px;"></div>
+
+                                    </div>
+                                    <div class="col-md-3 col-sm-12" ng-show="SchoolCalendarCtrl.roleEdit">
+                                        <form name="timetableForm" class="form" novalidate>
+                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                <input type="text" class="form-control input-sm" name="title" data-ng-model="SchoolCalendarCtrl.formFields.title" maxlength="50"
+                                                    required />
+                                                <label>Event Name</label>
+                                            </div>
+                                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                                <input type="date" class="form-control input-sm" name="date" data-ng-model="SchoolCalendarCtrl.formFields.date" maxlength="50"
+                                                    required />
+
+                                            </div>
+
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class="col-md-12 text-left">
+                                                        <button type="reset" class="btn default">Reset</button>
+                                                        <button type="submit" class="btn blue" data-ng-click="SchoolCalendarCtrl.eventAction()">Add</button>
+                                                        <button class="btn btn-info" ng-click="SchoolCalendarCtrl.showList()">Show list</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row" id="data2" style="display:none">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-green" ng-click="SchoolCalendarCtrl.hide()">back</button><br>
+                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sl.no</th>
+                                                    <th>Event Name</th>
+                                                    <th>Date</th>
+                                                    <th>Edit</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="list in SchoolCalendarCtrl.dataResponse">
+                                                    <td>{{$index+1}}</td>
+                                                    <td>{{list.eventName}}</td>
+                                                    <td>{{list.date}}</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" ng-click="SchoolCalendarCtrl.edit(list.id)">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="SchoolCalendarCtrl.delAction(list.id)"
+                                                            ng-bootbox-confirm-action-cancel="SchoolCalendarCtrl.confirmCallbackCancel($index)">
+                                                            <i class="fa fa-remove"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- END EXAMPLE TABLE PORTLET-->
+                        </div>
+                    </div>
+                </div>
+                <!-- END PAGE CONTENT INNER -->
+            </div>
+        </div>
+        <!-- END PAGE CONTENT -->
+    </div>
+    <!-- END PAGE CONTAINER -->
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Holiday Event</h4>
+            </div>
+            <div class="modal-body">
+                <form name="timetableForm" class="form" novalidate>
+                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                        <label>Event Name</label>
+                        <input type="text" class="form-control input-sm edited ng-touched" name="title" ng-model="SchoolCalendarCtrl.title" maxlength="50"
+                            required />
+                    </div>
+                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                        <input type="date" class="form-control input-sm" name="date" ng-model="SchoolCalendarCtrl.date" maxlength="50" required />
+
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12 text-left">
+                                <button type="submit" class="btn blue" data-dismiss="modal" data-ng-click="SchoolCalendarCtrl.editAction(id)">Change</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

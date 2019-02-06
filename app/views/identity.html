@@ -1,0 +1,65 @@
+<div class="container identity-home">
+	</br>
+	<div class="flex-row row">
+		<div ng-repeat="users in identityCtrl.profiles">
+			<div class="card col-xs-12 col-sm-4 col-lg-4" ng-repeat="profile in users.profiles">
+				<div>
+					<div class="thumbnail ">
+						<span class="image-outer">
+							<img src="/images/download.png" ng-show="profile.type == 'Admin'">
+      						 <img src="/images/staff-icon.png" ng-show="profile.type == 'Staff'">
+							   <img src="/images/student.png" ng-show="profile.type == 'Student'">
+							   <img src="/images/Accountantimage.png" ng-show="profile.type == 'Accountant'">
+							   <p class="flex-text text-muted">
+								<b>{{profile.type}}</b></p>
+						</span>
+						<div class="caption">
+							
+							<p><b>{{profile.firstName}} {{profile.lastName}}</b><br><b>{{profile.school.schoolName}}</b></p>
+							<!-- <h5>{{identityCtrl.schoolName}}</h5> -->
+
+								<!-- <p class="flex-text text-muted">
+									<b>Role : </b>{{profile.type}}</p> -->
+								<p class="login-btn" style="margin-top:-19%;">
+									<a class="btn btn-primary btn-lg rgbtn" href="javascript:void(0)" ng-click="identityCtrl.authenticateProfile(profile.id,users.name)">login</a>
+								</p>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.flex-row  -->
+</div>
+<div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-sm">
+
+		<!-- Modal content-->
+		<div class="modal-content" style="border-radius: 5px !important;">
+			<div class="modal-header">
+				<a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="identityCtrl.closeModal()">
+					<span class="icon-close"></span>
+				</a>
+			</div>
+			<div class="modal-body">
+				<div class="form-group form-md-line-input form-md-floating-label has-info">
+					<input type="password" class="form-control input-sm" id="newPwd" ng-model="identityCtrl.newPassword" ng-change="identityCtrl.matchingPwd1();identityCtrl.ne()"
+					 required ng-maxlength="15" placeholder="">
+					<label for="form_control_1">New Password</label>
+				</div>
+				<div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top: -29px;">
+					<input type="password" class="form-control input-sm" ng-change="identityCtrl.matchingPwd();" id="cPwd" ng-model="identityCtrl.cPassword"
+					 placeholder="">
+					<label for="form_control_1">Confirm Password</label>
+				</div>
+				<div style="text-align:center">
+					<button class="btn btn-primary" ng-click="identityCtrl.changePassword();" style="border-radius: 5px !important;text-align:center"
+					 ng-disabled="identityCtrl.disable"> Submit </button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

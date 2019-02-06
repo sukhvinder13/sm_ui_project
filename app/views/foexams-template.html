@@ -1,0 +1,591 @@
+<!-- BEGIN PAGE CONTAINER  -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    FO Exams <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Exams List
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-lightbulb-o font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">EXAMS</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group form-md-line-input form-md-floating-label has-info" ng-if="userRole=='Admin' || userRole=='Accountant'" style="margin-top: -28px;">
+                                                <select data-ng-model="FoexamsCtrl.classId" data-ng-change="FoexamsCtrl.chooseClass(FoexamsCtrl.classId)" name="classId"
+                                                    class="form-control input-sm">
+                                                <option value="">CLASS</option>
+                                                <option ng-repeat="class in FoexamsCtrl.classData" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" >
+
+                                            <div class="btn-group" ng-show="FoexamsCtrl.roleEdit" style="margin-top: -8px;">
+                                                <button data-toggle="modal" data-target="#myModal" data-ng-click="FoexamsCtrl.viewClass();FoexamsCtrl.editmode = false;" class="btn green">
+                                                    Add New Exam
+                                                    <i class="fa fa-plus"></i>
+                                                    </button>
+                                                <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add New Exam</button>-->
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4" >
+                                            <div class="btn-group pull-right" style="margin-top: -8px;margin-right:-161px;">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="FoexamsCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="FoexamsCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!--   <div class="col-md-2 col-sm-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label has-info" ng-if="userRole=='Admin' || userRole=='Accountant'">
+                                            <select data-ng-model="FoexamsCtrl.classId" data-ng-change="FoexamsCtrl.chooseClass(FoexamsCtrl.classId)" name="classId"
+                                                class="form-control input-sm">
+                                                <option value="">CLASS</option>
+                                                <option ng-repeat="class in FoexamsCtrl.classData" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+
+                                                </select>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-md-12 col-sm-12" style="margin-top: -21px;">
+                                        <div id="tableToExport">
+                                            <table class="table table-striped table-hover table-bordered sm_editable_grid table-scrollable" border="1px solid black"
+                                                id="printTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">
+                                                            Class
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Exam Name
+                                                        </th>
+                                                        
+                                                        <th>
+                                                            <table width=112%>
+                                                                <tr>
+                                                                    <th style="width:100px;">
+                                                                        SubjectName
+                                                                    </th>
+                                                                    <th style="width:115px;">
+                                                                        Assesment Type
+                                                                    </th>
+                                                                    <th style="width:100px;">
+                                                                        ExamDate
+                                                                    </th>
+                                                                    <th style="width:70px;">
+                                                                        MaxMarks
+                                                                    </th>
+                                                                    <tr>
+                                                            </table>
+                                                        </th>
+                                                        <!--<th class="text-center">
+                                                    More Details
+                                                </th>-->
+                                                        <th class="text-center" ng-show="FoexamsCtrl.roleEdit" style="width:10%;">
+                                                           Action
+                                                        </th>
+                                                        </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr data-ng-repeat="foexam in FoexamsCtrl.foexamData| filter:{classId:FoexamsCtrl.classId}">
+                                                        <td class="text-center"> <a class="" href="javascript:void(0)" data-ng-click="FoexamsCtrl.showMoreDetails(foexam.id)" title="MoreDetails">
+                                                        {{foexam.class.className}} - {{foexam.class.sectionName}}</a></td>
+                                                        <td class="text-center">{{foexam.examName}}</td>
+                                                        
+                                                        <td>
+                                                            <!--{{exam.subjectList}}-->
+                                                            <table style="width:100%" class="table-striped">
+                                                                <tbody>
+                                                                    <tr style="border-top: 2px dotted;" data-ng-repeat="subjectdetails in foexam.subjectList" ng-init="outer = $index">
+                                                                        <td style="width:234px;">
+                                                                            {{subjectdetails.subjectName}}
+                                                                        </td>
+
+                                                                         <td>
+                                                                            <table style="width:144px;">
+                                                                                <tbody >
+                                                                                    <tr  ng-repeat="items in subjectdetails.marksInt">
+                                                                                        <td style="width:90px;">{{items[0].type}}</td>
+                                                    
+<!--                                                                                         <td style="text-align: center;">{{items[0].inMarks}}</td> -->
+                                                                                    <!-- <td ng-repeat="itemss in items">
+                                                                                        <div>{{itemss.type}}a</div>
+                                                                                    </td> -->
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                        <td style="width: 272px;">
+                                                                            <table style="width:100%">
+                                                                                <tr data-ng-repeat="item in foexam.subjectList[outer]['assesments']" ng-init="FoexamsCtrl.function1(item)">
+                                                                                    <!-- <td >
+                                                                                    {{item.examtypeName}}</td> -->
+                                                                                    <td ng-if="item.examtypeName=='Externals'" style="width: 100px;">
+                                                                                        {{item.examDate | date:"dd/MM/yyyy"}}
+                                                                                    </td>
+                                                                                   <!--  <td ng-if="item.examtypeName=='External'" style="width: 70px;text-align: right;">
+                                                                                        {{item.maxMarks}}
+                                                                                    </td> -->
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                        <td>
+                                                                            <table style="width:100%">
+                                                                                <tbody >
+                                                                                    <tr  ng-repeat="items in subjectdetails.marksInt">
+                                                                                        <!-- <td style="text-align: center;">{{items[0].type}}</td> -->
+                                                                                        <td >{{items[0].inMarks}}</td>
+                                                                                    <!-- <td ng-repeat="itemss in items">
+                                                                                        <div>{{itemss.type}}a</div>
+                                                                                    </td> -->
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                       
+                                                                        <!-- <td style="width: 40px;">
+                                                                            {{subjectdetails.maximumMark}}
+                                                                        </td> -->
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td class="text-center" ng-show="FoexamsCtrl.roleEdit">
+                                                            <a class="" href="javascript:void(0);" data-ng-click="FoexamsCtrl.editExamlist(foexam.id);">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                            <a href="javascript:void(0);"  ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="FoexamsCtrl.confirmCallbackMethod(foexam.id)"
+                                                                ng-bootbox-confirm-action-cancel="FoexamsCtrl.confirmCallbackCancel(foexam.id)">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                           <!--  <a class="" href="javascript:void(0)" data-ng-click="FoexamsCtrl.showMoreDetails($index)" title="MoreDetails">
+                                                            <i class="fa fa-file-text-o"></i>
+                                                        </a> -->
+                                                        </td>
+                                                       <!--  <td class="text-center" ng-show="FoexamsCtrl.roleView">
+                                                            <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="FoexamsCtrl.confirmCallbackMethod($index)"
+                                                                ng-bootbox-confirm-action-cancel="FoexamsCtrl.confirmCallbackCancel($index)">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                        </td> -->
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- Print table  -->
+<div ng-hide="true">
+    <table class="table table-striped table-hover table-bordered sm_editable_grid table-scrollable" border="1px solid black"
+        id="foexamsprintTable">
+        <thead>
+            <tr>
+                <th>
+                    Exam Name
+                </th>
+                <th>
+                    Class
+                </th>
+                <th>
+                    <table width=100%>
+                        <tr>
+                            <th style="width:158px;">
+                                SubjectName
+                            </th>
+                            <th style="    width: 193px;">
+                                ExamDate
+                            </th>
+                            <th style="width: 40px;">
+                                MaxMarks
+                            </th>
+                            <tr>
+                    </table>
+                </th>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="foexam in FoexamsCtrl.foexamData|filter:FoexamsCtrl.classId">
+                <td>{{foexam.examName}}</td>
+                <td>{{foexam.class.className}} - {{foexam.class.sectionName}}</td>
+                <td>
+                    <!--{{exam.subjectList}}-->
+                    <table style="width:100%" class="table-striped">
+                        <tbody>
+                            <tr data-ng-repeat="subjectdetails in foexam.subjectList" ng-init="outer = $index">
+                                <td style="width:158px;">
+                                    {{subjectdetails.subjectName}}
+                                </td>
+                                <td style="width: 193px;">
+                                    <table style="width:100%">
+                                        <tr data-ng-repeat="item in foexam.subjectList[outer]['assesments']">
+                                            <td style="width: 100px;">
+                                                {{item.examDate | date:"MM/dd/yyyy"}}
+                                            </td>
+                                            <td style="width: 70px;text-align: right;">
+                                                {{item.maxMarks}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 40px;">
+                                    {{subjectdetails.maximumMark}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- ends herre -->
+<!-- EDIT MODAL -->
+
+<div class="container">
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade bs-modal-lg" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="FoexamsCtrl.closeModal();FoexamsCtrl.clearFields();FoexamsCtrl.closeModal1();">
+                        <span class="icon-close"></span>
+                    </a>
+                    <h4 class="modal-title font-green">ADD EXAMS</h4>
+                    <h4 ng-if=" " class="modal-title font-green">ADD EXAMS</h4>
+                </div>
+                <div class="modal-body ">
+                    <div class="form-container">
+                        <form name="examform" novalidate role="form" data-ng-submit="FoexamsCtrl.examAction(examform.$invalid);">
+                            <div class="row">
+                                <div class="col-md-3" style="margin-top: -50px;">
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                        <select data-ng-model="FoexamsCtrl.formFieldsexamName" name="examname" class="form-control input-sm" required>
+                                <option value="">Exam Name</option>
+                                <option value="FA1">FA1</option>
+                                <option value="FA2">FA2</option>
+                                <option value="SA1">SA1</option>
+                                <option value="FA3">FA3</option>
+                                <option value="FA4">FA4</option>
+                                <option value="SA2">SA2</option>\
+                                <option ng-if="FoexamsCtrl.schoolName === 'New Bloom High School'|| FoexamsCtrl.access" value="SA3">SA3</option>                                
+                                <option ng-if="FoexamsCtrl.schoolName === 'Dhatrak Public School'" value="Mid1">Mid1</option>
+                                <option ng-if="FoexamsCtrl.schoolName === 'Dhatrak Public School'" value="Mid2">Mid2</option>
+                                <option ng-if="FoexamsCtrl.schoolName === 'New Bloom High School'" value="SA3">SA3</option>                                
+                                </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="margin-top: -50px;">
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                        <select ng-change="FoexamsCtrl.classChange(FoexamsCtrl.formFieldsclassId)" data-ng-model="FoexamsCtrl.formFieldsclassId"
+                                            name="classname" class="form-control input-sm" required>
+                                <option value="">Class Name</option>
+                                <option ng-repeat="class in FoexamsCtrl.classData" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option>
+                                </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top:-73px;">
+                                        <img src="{{}}">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="input-group input-large">
+                                                <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                                    <i class="fa fa-user fileinput-exists"></i>&nbsp;
+                                                    <span class="fileinput-filename">{{FoexamsCtrl.myTempUpload.substring(64)}}</span>
+                                                </div>
+                                                <span class="input-group-addon btn default btn-file">
+                                                        <span class="fileinput-new"> Select Marks Template </span>
+                                                <span class="fileinput-exists"> Change </span>
+                                                <input type="hidden" value="" name="...">
+                                                <input type="file" name="file" data-ng-model="FoexamsCtrl.myTempUpload" id="templateFile">
+                                                </span>
+                                                <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                            </div>
+                                        </div>
+                                        <input class="btn green" type="button" data-ng-click="FoexamsCtrl.uploadTempImage($index)" value="Upload Template" data-ng-disabled="fileuploadform.$invalid">
+                                        <i class="fa fa-upload"></i>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <table>
+                                <tr class="exm_subject">
+                                    <td ng-repeat=" type in FoexamsCtrl.ExamTypeList">
+                                        <input type="checkbox" value="Monthly" id="isAgeSelected" data-ng-click="FoexamsCtrl.clickChkbk(type.id)">{{type.examtypeName}}</input>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <!--Inner Table FOr subjects-->
+                            <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>
+                                            <table width=100%>
+                                                <tr>
+                                                    <th style="width:158px;">
+                                                        Assements
+                                                    </th>
+                                                    <th style="width: 193px;">
+                                                        ExamDate
+                                                    </th>
+                                                    <th style="width: 40px;">
+                                                        MaxMarks
+                                                    </th>
+                                                    <tr>
+                                            </table>
+                                        </th>
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="subject in FoexamsCtrl.Fosubjectdata" ng-init="outer = $index">
+                                        <td>
+                                            {{subject.subjectName}}
+                                        </td>
+                                        <td>
+                                            <table width=100%>
+                                                <tr ng-repeat="assesment in FoexamsCtrl.Fosubjectdata[outer]['assesments']" ng-init="inner = $index">
+                                                    <th style="width:158px;">
+                                                        {{ assesment.assesments}}
+                                                    </th>
+                                                    <th style="width: 70px;">
+                                                        <input type="date" class="form-control input-sm calendarctrl" name="fromDate" data-ng-model="assesment.examDate" ng-change="FoexamsCtrl.setExamDate(assesment.examDate, outer,inner)">
+                                                    </th>
+                                                    <th style="width: 100px;">
+                                                        <input type="text" class="form-control" data-ng-model="assesment.maxMarks" value="{{assesment.maxMarks}}" ng-change="FoexamsCtrl.setMaximumMarks(assesment.maxMarks, outer,inner)">
+                                                    </th>
+                                                    <tr>
+                                            </table>
+                                        </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                            <div class="form-group">
+                                <button type="reset" class="btn default">Reset</button>
+                                <button type="submit" class="btn green"><i class="fa fa-check"></i> Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- EDIT MODAL END-->
+
+<!-- Modal -->
+    <div class="modal fade bs-modal-lg" id="moreDetails" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="FoexamsCtrl.closeModal();FoexamsCtrl.clearFields();FoexamsCtrl.closeModal1();"><span class="icon-close"></span></a>
+                    <h4 class="modal-title font-green">More Details</h4>
+                </div>
+                <div class="modal-body ">
+                    <div class="form-container">
+                        <form name="examform" novalidate role="form" data-ng-submit="FoexamsCtrl.examAction(examform.$invalid);">
+                            <div class="row">
+                                <div class="col-md-3" style="margin-top: -50px;">
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                        <select data-ng-model="FoexamsCtrl.formFieldsexamName" name="examname" class="form-control input-sm" required disabled>
+                                <option value="">Exam Name</option>
+                                <option value="FA1">FA1</option>
+                                <option value="FA2">FA2</option>
+                                <option value="SA1">SA1</option>
+                                <option value="FA3">FA3</option>
+                                <option value="FA4">FA4</option>
+                                <option value="SA2">SA2</option>
+                              
+                                <option ng-if="FoexamsCtrl.schoolName === 'New Bloom High School'" value="SA3">SA3</option>                                
+                                </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="margin-top: -50px;">
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                        <select ng-change="FoexamsCtrl.classChange(FoexamsCtrl.formFieldsclassId)" data-ng-model="FoexamsCtrl.formFieldsclassId"
+                                            name="classname" class="form-control input-sm" required disabled> 
+                                <option value="">Class Name</option>
+                                <option ng-repeat="class in FoexamsCtrl.classData" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option>
+                                </select>
+                                    </div>
+                                </div>
+
+                            
+                                <div class="col-md-6" style="margin-top: -50px;">
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                        <img src="{{}}" >
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="input-group input-large">
+                                                <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                                    <i class="fa fa-user fileinput-exists"></i>&nbsp;
+                                                    <span class="fileinput-filename">{{FoexamsCtrl.myTempUpload.substring(64)}}</span>
+                                                </div>
+                                                <span class="input-group-addon btn default btn-file">
+                                                     
+                                                <input type="hidden" value="" name="...">
+                                                <input type="file" name="file" data-ng-model="FoexamsCtrl.myTempUpload" id="templateFile" disabled>
+                                                </span>
+                                                
+                                            </div>
+                                        </div>
+                                       
+                                        <!-- <i class="fa fa-upload"></i> -->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <table>
+                                <tr class="exm_subject">
+                                    <!-- <td ng-repeat=" type in FoexamsCtrl.ExamTypeList">
+                                        <input type="checkbox" value="Monthly" id="isAgeSelected" data-ng-click="FoexamsCtrl.clickChkbk(type.id)" disabled>{{type.examtypeName}}</input>
+
+                                    </td> -->
+                                </tr>
+
+                            </table>
+                            <!--Inner Table FOr subjects-->
+                            <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>
+                                            <table width=100%>
+                                                <tr>
+                                                    <th style="width:171px;">
+                                                        Assements
+                                                    </th>
+                                                    <th style="width:54px;">
+                                                        ExamDate
+                                                    </th>
+                                                    <th style="width:118px;">
+                                                        MaxMarks
+                                                    </th>
+                                                    <tr>
+                                            </table>
+                                        </th>
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="subject in FoexamsCtrl.Fosubjectdata" ng-init="outer = $index">
+                                        <td>
+                                            {{subject.subjectName}}
+                                        </td>
+                                        <td>
+                                            <table width=100%>
+                                                <tr ng-repeat="assesment in FoexamsCtrl.Fosubjectdata[outer]['assesments']" ng-init="inner = $index">
+                                                    <th style="width:158px;">
+                                                        {{ assesment.assesments}}
+                                                    </th>
+                                                    <th style="width: 70px;">
+                                                        {{assesment.examDate | date:'dd-MM-yyyy'}}
+                                                        <!-- <input type="date" class="form-control input-sm calendarctrl" name="fromDate" data-ng-model="assesment.examDate" ng-change="FoexamsCtrl.setExamDate(assesment.examDate, outer,inner)"> -->
+                                                    </th>
+                                                    <th style="width: 100px;">
+                                                        {{assesment.maxMarks}}
+                                                        <!-- <input type="text" class="form-control" data-ng-model="assesment.maxMarks" value="{{assesment.maxMarks}}" ng-change="FoexamsCtrl.setMaximumMarks(assesment.maxMarks, outer,inner)"> -->
+                                                        
+                                                    </th>
+                                                    <tr>
+                                            </table>
+                                        </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                            <!-- <div class="form-group">
+                                <button type="reset" class="btn default">Reset</button>
+                                <button type="submit" class="btn green"><i class="fa fa-check"></i> Submit</button>
+                            </div> -->
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- EDIT MODAL END-->
+
+<script>
+    (function () {
+        setTimeout(function () {
+            $('#Exam_date1').datetimepicker({
+                format: 'DD-MM-YYYY',
+                minDate: new Date()
+            });
+            $('#Exam_date2').datetimepicker({
+                format: 'DD-MM-YYYY',
+                minDate: new Date()
+            });
+        }, 500);
+    })();
+
+</script>

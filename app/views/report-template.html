@@ -1,0 +1,1429 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container" ng-cloak="">
+  <!-- BEGIN PAGE CONTENT -->
+  <div class="page-content">
+    <div class="container">
+      <!-- BEGIN PAGE BREADCRUMB -->
+      <ul class="page-breadcrumb breadcrumb">
+        <li>
+          <a ui-sref="home.console">Home</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          REPORTS
+        </li>
+      </ul>
+      <!-- END PAGE BREADCRUMB -->
+      <!-- BEGIN PAGE CONTENT INNER -->
+      <div class="page-content-inner">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit ">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="fa fa-list-alt font-green"></i>
+                  <span class="caption-subject font-green bold uppercase">REPORTS</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="table-toolbar">
+                  <div class="row">
+                    <div class="btn-group" style="margin-top:-60px;float:right;">
+                      <button class="btn green" ng-show="ReportsCtrl.formFields.reportId=='att'" id="btnExport"
+                        data-ng-click="ReportsCtrl.excelExport();">
+                        <i class="fa fa-check"></i> Export To Excel
+                      </button>
+                      <!--<button class="btn green">
+                                                      <i class="fa fa-check" ></i> Export To Excel
+                                                  </button>-->
+                      <div>
+                      <button class="btn green btn-outline dropdown-toggle" ng-show="ReportsCtrl.formFields.reportId=='feer'"
+                        data-toggle="dropdown" aria-expanded="false">
+                        Tools
+                        <i class="fa fa-angle-down"></i>
+                      </button>
+                      <ul class="dropdown-menu pull-right">
+                        <li>
+                          <a href="javascript:void(0)" data-ng-click="ReportsCtrl.classReportprint()" data-toggle="modal">Print</a>
+                        </li>
+                        <li>
+                          <a href="javascript:;"> Save as PDF </a>
+                        </li>
+                        <li>
+                          <a href="javascript:void(0)" id="btnExport1" data-ng-click="ReportsCtrl.excelExport1();">
+                            Export to Excel </a>
+                        </li>
+                      </ul>
+                      </div>
+                    <!--</span>-->
+                      <!-- Tools for Custom report -->
+                      <div>
+                      <button class="btn green btn-outline dropdown-toggle" ng-show="ReportsCtrl.formFields.reportId=='customReport'" data-toggle="dropdown"
+                        aria-expanded="false">
+                        Tools
+                        <i class="fa fa-angle-down"></i>
+                      </button>
+                      <ul class="dropdown-menu pull-right">
+
+                        <li>
+                          <a href="javascript:void(0);" data-ng-click="ReportsCtrl.Reportprint($index)" data-toggle="modal">
+                            Print
+                          </a>
+                          <!-- <a href="javascript:void(0)" data-ng-click="ReportsCtrl.Reportprint1()" data-target="#myModal">Print</a> -->
+                        </li>
+                        <li>
+                          <a href="javascript:;"> Save as PDF </a>
+                        </li>
+                        <li>
+                          <a href="javascript:void(0)" id="btnExport1" data-ng-click="ReportsCtrl.excelExport1();">
+                            Export to Excel </a>
+                        </li>
+                      </ul>
+                      </div>
+                      <!-- Ends -->
+                      <button class="btn green" id="btnExport2" ng-show="ReportsCtrl.formFields.reportId=='feediscr'"
+                        data-ng-click="ReportsCtrl.excelExport1();">
+                        <i class="fa fa-check"></i> Export To Excel
+                      </button>
+                      <button class="btn green" id="btnExport3" ng-show="ReportsCtrl.formFields.reportId=='feeexpr'"
+                        data-ng-click="ReportsCtrl.excelExport2();">
+                        <i class="fa fa-check"></i> Export To Excel
+                      </button>
+                      <button class="btn green" id="btnExport5" ng-show="ReportsCtrl.formFields.reportId=='expr'"
+                        data-ng-click="ReportsCtrl.excelExport5();">
+                        <i class="fa fa-check"></i> Export To Excel
+                      </button>
+                      <button class="btn green" id="btnExport16" ng-show="ReportsCtrl.formFields.reportId=='feedueReport'"
+                        data-ng-click="ReportsCtrl.excelExport16();">
+                        <i class="fa fa-check"></i> Export To Excel
+                      </button>
+                      <button class="btn green" id="btnExportAbsent" ng-show="ReportsCtrl.formFields.reportId === 'absentReport'"
+                        data-ng-click="ReportsCtrl.excelExport16();">
+                        <i class="fa fa-check"></i> Export To Excel
+                      </button>
+                      <button class="btn green" id="btnExportAttArea" ng-show="ReportsCtrl.formFields.reportId=='attAreaWiseReport'"
+                        data-ng-click="ReportsCtrl.excelExport16();">
+                        <i class="fa fa-check"></i> Export To Excel
+                      </button>
+                    </div>
+                    <div class="col-md-2">
+                      <label for="form_control_1">Report Type</label>
+                      <select data-ng-model="ReportsCtrl.formFields.reportId" name="examId" class="form-control input-sm"
+                        ng-change="ReportsCtrl.selectchange(ReportsCtrl.formFields.reportId)" required>
+                        <option value="" disabled> Select Report Type</option>
+                        <option value="att" ng-if="ReportsCtrl.Attendance==true">Attendance Report</option>
+                        <option value="feer" ng-show="userRole == 'Admin'|| userRole == 'Accountant' " ng-if="ReportsCtrl.Classwise==true">Class Wise Fee Report</option>
+                        <option value="feediscr" ng-show="userRole == 'Admin'|| userRole == 'Accountant' ">Total Discount Report</option>
+                        <option value="feeexpr" ng-show="userRole == 'Admin'|| userRole == 'Accountant' " ng-if="ReportsCtrl.Dailyfee==true">Daily Fee Reports</option>
+                        <option value="expr" ng-show="userRole == 'Admin'|| userRole == 'Accountant' " ng-if="ReportsCtrl.Dailyexpense==true">Daily Expense Reports</option>
+                        <option value="studentData" ng-show="userRole=='Admin'|| userRole == 'Accountant' " ng-if="ReportsCtrl.Studtl==true">Student Details</option>
+                        <option value="staffData" ng-show="userRole=='Admin'|| userRole == 'Accountant' " ng-if="ReportsCtrl.Stffdtl==true">Staff Details</option>
+                        <option value="smsr" ng-show="userRole=='Admin'|| userRole == 'Accountant' " ng-if="ReportsCtrl.Smsrep==true">SMS Report</option>
+                        <option value="customReport" ng-show="userRole=='Admin'|| userRole == 'Accountant' " ng-if="ReportsCtrl.Cusrep==true">Custom Report</option>
+                        <option value="feedueReport" ng-show="userRole=='Admin'|| userRole == 'Accountant' " ng-if="ReportsCtrl.feeDuerep==true">Fee Due Report</option>
+                        <option value="absentReport" ng-show="userRole=='Admin'|| userRole == 'Accountant' ">Absent Report</option>
+                        <option value="attAreaWiseReport" ng-show="userRole=='Admin'|| userRole == 'Accountant' "  ng-if="ReportsCtrl.attArearep==true">Attendance(area-wise) Report</option>
+                      </select>
+                    </div>
+                    <div class="col-md-2" id="userId" style="display:none;">
+                      <label for="form_control_1">User Type</label>
+                      <select data-ng-model="ReportsCtrl.formFields.userId" class="form-control input-sm" ng-change="ReportsCtrl.userChange(ReportsCtrl.formFields.userId)"
+                        required>
+                        <option value="">Select</option>
+                        <option value="userstudent">Student</option>
+                        <option value="userstaff">Staff</option>
+
+                      </select>
+                    </div>
+                    <div class="col-md-2" id="classId" style="display:none;">
+                      <label for="form_control_1">Class</label>
+                      <select data-ng-model="ReportsCtrl.formFields.classId" name="classId" class="form-control input-sm"
+                        data-ng-change="ReportsCtrl.selectClass(ReportsCtrl.formFields.reportId);" required>
+                        <option value="">Class-Section</option>
+                        <option ng-if="userRole !=='Staff'" ng-repeat="class in ReportsCtrl.classList" value="{{class.id}}">{{class.className}}-{{class.sectionName}}</option>
+                        <option ng-if="userRole =='Staff'" ng-repeat="class in ReportsCtrl.classesList" value="{{class.classId}}">{{class.class.className}}-{{class.class.sectionName}}</option>
+                      </select>
+                    </div>
+                    <div class="col-md-2" id="fromDate" style="display:none;">
+                      <label for="form_control_1">FROM DATE</label>
+                      <input type="date" class="form-control input-sm calendarctrl" id="fromDate" name="fromDate"
+                        data-ng-model="ReportsCtrl.formFields.fromDate" required />
+                    </div>
+                    <div class="col-md-2" id="toDate" style="display:none;">
+                      <label for="form_control_1">TO DATE</label>
+                      <input type="date" class="form-control input-sm calendarctrl" id="toDate" name="toDate"
+                        data-ng-model="ReportsCtrl.formFields.toDate" required />
+                    </div>
+                    <div class="col-md-2 text-right">
+                      <!-- Purpose? -->
+
+                      <div class="btn-group" style="margin-bottom:-52px;">
+                        <button class="btn green" ng-click="ReportsCtrl.reportView(ReportsCtrl.formFields.reportId);ReportsCtrl.getDue(data.classId);"
+                          ng-hide="ReportsCtrl.formFields.reportId=='studentData' || ReportsCtrl.formFields.reportId=='staffData'">
+                          <i class="fa fa-check"></i> View
+                        </button>
+                        <div id="selectall" style="display:none;margin:16px;" ng-show="ReportsCtrl.formFields.reportId=='studentData'&&ReportsCtrl.selectedValue">
+                          <button class="btn green" ng-click="ReportsCtrl.selectAll()">Select All</button>
+                        </div>
+                        <div id="unSelectall" style="display:none;margin:16px;" ng-show="ReportsCtrl.formFields.reportId=='studentData'&&ReportsCtrl.selectedValue">
+                          <button class="btn green" ng-click="ReportsCtrl.unSelectAll()">UnSelect All</button>
+                        </div>
+                        <div id="select_all" style="display:none;margin:16px;" ng-show="ReportsCtrl.formFields.reportId=='staffData'">
+                          <button class="btn green" ng-click="ReportsCtrl.select_All()">Select_All</button>
+                        </div>
+                        <div id="unSelect_all" style="display:none;margin:16px;" ng-show="ReportsCtrl.formFields.reportId=='staffData'">
+                          <button class="btn green" ng-click="ReportsCtrl.unSelect_All()">UnSelect_All</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2" style="margin-top:20px;">
+                      <button class="btn green" id="btnExport4" ng-show="ReportsCtrl.formFields.reportId=='studentData'&&ReportsCtrl.selectedValue"
+                        data-ng-click="ReportsCtrl.excelExport4();">
+                        <i class="glyphicon glyphicon-download-alt"></i> Download
+                      </button>
+                      <button class="btn green" id="btnExport7" ng-show="ReportsCtrl.formFields.reportId=='staffData'&&ReportsCtrl.selectedValue1"
+                        data-ng-click="ReportsCtrl.excelExport4();">
+                        <i class="glyphicon glyphicon-download-alt"></i> Download
+                      </button>
+                      <button id="expandAll" style="display: none;" class="btn green" ng-click="ReportsCtrl.openAllToggle($index)">
+                        <i class="fa fa-check"></i> ExpandAll
+                      </button>
+                      <button id="mailNotify" style="display: none; margin-left: 160px; margin-top: -34px;" class="btn green"
+                        ng-click="ReportsCtrl.mailNotify()">
+                        <i class="fa fa-check"></i> SMS Notification
+                      </button>
+                      <button id="collapseAll" style="display: none;" class="btn green" ng-click="ReportsCtrl.closeAllToggle($index)">
+                        <i class="fa fa-check"></i> Collapse All
+                      </button>
+                    </div>
+                    <div class="col-md-2 text-right">
+                      <!-- Purpose? -->
+
+
+                    </div>
+                  </div>
+                </div>
+                <!-- INNER CONTENT GOES HERE-->
+                <div class="row">
+                  <div class="col-md-12 col-sm-12" ng-show="ReportsCtrl.formFields.reportId === 'absentReport'">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="absentRecord">
+                      <!-- | filter:ReportsCtrl.formFields.classId -->
+                      <tbody ng-repeat="class in ReportsCtrl.attenarray" ng-if="(ReportsCtrl.formFields.classId===null)||(ReportsCtrl.formFields.classId===undefined)||(ReportsCtrl.formFields.classId==class.id)">
+                        <tr ng-init="toggle[$index] = false;count = $index" ng-show="class.absentCount">
+                          <td>
+                            <a class="btn btn-link" ng-init="toggle[$index] = false" ng-click="toggle[$index] = !toggle[$index]"
+                              style="padding:0px!important;color:#26a69a">
+                              {{class.className?class.className:''}} <span ng-if="class.sectionName">-</span>
+                              {{class.sectionName?class.sectionName:''}}
+                              <span class="glyphicon glyphicon-plus-sign" ng-if="!toggle[$index]"></span>
+                              <span class="glyphicon glyphicon-minus-sign" ng-if="toggle[$index]"></span>
+                            </a>
+                          </td>
+                          <td>Total : <span class="badge badge-info">{{class.absentCount}}</span></td>
+                        </tr>
+                        <tr ng-if="toggle[$index]">
+                          <!-- <td></td> -->
+                          <td colspan="2">
+                            <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black">
+                              <thead>
+                                <tr>
+                                  <th>Registration No.</th>
+                                  <th>Name</th>
+                                  <th>roll No.</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="stu in class.studentList|orderBy:'rollNo'" ng-init="ReportsCtrl.changess(stu)"
+                                  ng-if="!stu.present">
+                                  <td>{{stu.registrationNo}}</td>
+                                  <td>{{stu.lastName?stu.lastName:''}} {{stu.firstName?stu.firstName:''}}</td>
+                                  <td>{{stu.rollNo}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="col-md-12 col-sm-12" ng-show="ReportsCtrl.formFields.reportId=='attAreaWiseReport'">
+                    <div>
+                      <table id="attAreaReports_datatable" class="table table-striped table-hover table-bordered sm_editable_grid">
+                        <tbody ng-repeat="location in ReportsCtrl.attenarray">
+                          <tr ng-init="toggle[$index] = false" ng-click="toggle[$index] = !toggle[$index]">
+                            <td>
+                              <a class="btn btn-link" style="padding:0px!important;color:#26a69a">{{location.location}}
+                                <span class="glyphicon glyphicon-plus-sign" ng-if="!toggle[$index]"></span>
+                                <span class="glyphicon glyphicon-minus-sign" ng-if="toggle[$index]"></span>
+                              </a>
+                            </td>
+                            <td style="padding:0px!important;color:#26a69a">Total Absent :
+                              {{location.studentList.length}}</td>
+                          </tr>
+                          <tr ng-if="toggle[$index]">
+                            <!-- <td></td>  -->
+                            <td colspan="2">
+                              <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                <tr>
+                                  <th>Registration No</th>
+                                  <th>Class Name</th>
+                                  <th>Student Name</th>
+                                  <th>Roll No.</th>
+                                </tr>
+                                <tr ng-repeat="student in location.studentList|orderBy:['classId','rollNo']" ng-init="ReportsCtrl.changess(student)"
+                                  ng-if="ReportsCtrl.formFields.classId === null||ReportsCtrl.formFields.classId=== undefined || ReportsCtrl.formFields.classId === student.classId">
+                                  <td>{{student.registrationNo}}</td>
+                                  <td>{{student.class.className?student.class.className:''}} <span ng-if="student.class.sectionName">-</span>
+                                    {{student.class.sectionName?student.class.sectionName:''}}</td>
+                                  <td> {{student.firstName?student.firstName:''}}
+                                    {{student.lastName?student.lastName:''}}</td>
+                                  <td>{{student.rollNo}}</td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-sm-12" style="display:none;" id="attreports_datatable">
+                    <table ng-if="ReportsCtrl.isStudentsReportReady" class="table table-striped table-hover table-bordered sm_editable_grid">
+                      <thead>
+                        <tr>
+                          <th ng-show=ReportsCtrl.formFields.userId=="userstudent">Roll No</th>
+                          <th>Name</th>
+
+                          <th ng-show=ReportsCtrl.formFields.userId=="Student">Class</th>
+                          <th>Present Days</th>
+                          <th>Total Working Days</th>
+                          <th>% Presence</th>
+                        </tr>
+                      </thead>
+                      <tbody ng-repeat="students in ReportsCtrl.studentList |orderBy:'rolll'">
+                        <tr>
+                          <td ng-show=ReportsCtrl.formFields.userId=="userstudent">{{students.rollNo}}</td>
+                          <td ng-init="ReportsCtrl.test(students)">
+                            <a class="btn btn-link" ng-init="toggle[$index] = false" ng-click="toggle[$index] = !toggle[$index]"
+                              style="padding:0px!important;color:#26a69a">
+                              {{students.firstName}}--{{students.lastName}}
+                              <span class="glyphicon glyphicon-plus-sign" ng-if="!toggle[$index]"></span>
+                              <span class="glyphicon glyphicon-minus-sign" ng-if="toggle[$index]"></span>
+                            </a>
+                          </td>
+
+                          <td ng-show=ReportsCtrl.formFields.userId=="Student">{{students.class.className}}
+                            {{students.class.sectionName}}</td>
+                          <td>
+                            {{students.presentDays}}
+                          </td>
+                          <td>{{ReportsCtrl.diffDays}}</td>
+                          <td>{{ (ReportsCtrl.diffDays !== 0 && students.presentDays !== 0) ?
+                            (((students.presentDays/ReportsCtrl.diffDays)*100)|number:2)+
+                            '%' : '0' }}
+                            <span ng-init="ReportsCtrl.showStar(((students.presentDays/ReportsCtrl.diffDays)*100|number:2),students)">{{students.showStarMark}}</span>
+                          </td>
+                        </tr>
+                        <tr ng-if="toggle[$index]">
+                          <td></td>
+                          <td colspan="6">
+                            <table class="table table-striped table-hover table-bordered sm_editable_grid" id="LOL">
+                              <thead>
+                                <tr>
+                                  <th>Date</th>
+                                  <th>Attendence Status</th>
+                                  <th>In Time</th>
+                                  <th>Out Time</th>
+                                  <!--<th>Hightlight</th>-->
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="report in students.attendenceStats">
+                                  <td ng-init="ReportsCtrl.highlightColor(report.Pdate,report,this);" ng-if="report.color=='yellow'"
+                                    style="background-color:yellow">{{report.Pdate | date}}</td>
+                                  <td ng-init="ReportsCtrl.highlightColor(report.Pdate,report,this);" ng-if="report.color!=='yellow'">
+                                    <span>{{report.Pdate | date}}</span>
+                                  </td>
+                                  <td>{{report.attendencestatus}}</td>
+                                  <td>{{report.inTime.substring(8,10)}}:{{report.inTime.substring(10,12)}}</td>
+                                  <td>{{report.outTime.substring(8,10)}}:{{report.outTime.substring(10,12)}}</td>
+                                  <!--<td>{{report.color}}</td>-->
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Export to excel data -->
+                  <div class="col-md-12 col-sm-12" style="display:none;" id="attreports_datatable1">
+                    <table ng-if="ReportsCtrl.isStudentsReportReady" class="table table-striped table-hover table-bordered sm_editable_grid">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th ng-hide="ReportsCtrl.formFields.userId === 'userstudent'" ng-repeat="reports in ReportsCtrl.showdate"
+                            style="min-width: 150px;" style="text-align:center;">{{reports | date:'dd-MM-yyyy'}}</th>
+                          <th rowspan="2">Present Days</th>
+                          <th rowspan="2">Total Working Days</th>
+                          <th rowspan="2">% Presence</th>
+                        </tr>
+                        <tr>
+                          <th>Name</th>
+                          <th ng-hide="ReportsCtrl.formFields.userId === 'userstudent'" ng-repeat="report in ReportsCtrl.showdate"
+                            style="text-align:center;">
+                            In-Time &nbsp; &nbsp; Out-Time
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody ng-repeat="students in ReportsCtrl.studentList |orderBy : 'rollNo'">
+                        <tr>
+                          <th>
+                            <a class="btn btn-link" ng-init="toggle[$index] = false" style="padding:0px!important;color:#26a69a">
+                              {{students.firstName}}--{{students.lastName}}
+                              <span class="glyphicon glyphicon-plus-sign" ng-if="!toggle[$index]"></span>
+                              <span class="glyphicon glyphicon-minus-sign" ng-if="toggle[$index]"></span>
+                            </a>
+                          </th>
+                          <td ng-repeat="report in students.statusofAttendence">
+                            <div ng-if="report.attendencestatus === 'absent'" style="text-align:center;">00:00 &nbsp;
+                              &nbsp; 00:00</div>
+                            <div ng-if="report.attendencestatus !== 'absent'" style="text-align:center;">{{report.inTime.substring(8,10)}}:{{report.inTime.substring(10,12)}}
+                              &nbsp; &nbsp; &nbsp; &nbsp;
+                              {{report.outTime.substring(8,10)}}:{{report.outTime.substring(10,12)}}
+                            </div>
+                          </td>
+                          <td>
+                            {{students.presentDays}}
+                          </td>
+                          <td>{{ReportsCtrl.diffDays}}</td>
+                          <td>{{ (ReportsCtrl.diffDays !== 0 && students.presentDays !== 0) ?
+                            (((students.presentDays/ReportsCtrl.diffDays)*100)|number:2)+
+                            '%' : '0' }}
+                            <span ng-init="ReportsCtrl.showStar(((students.presentDays/ReportsCtrl.diffDays)*100|number:2),students)">{{students.showStarMark}}</span>
+                          </td>
+                        </tr>
+                        <tr ng-if="toggle[$index]">
+                          <td></td>
+                          <td colspan="6">
+                            <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                              <thead>
+                                <tr>
+                                  <th>Date</th>
+                                  <td ng-repeat="report in students.attendenceStats">{{report.Pdate | date}} In Time
+                                    &nbsp;&nbsp;&nbsp;&nbsp;Out Time
+                                  </td>
+                                  <th>Total Working Days</th>
+                                  <th>Total Present days</th>
+                                  <th>Total %</th>
+                                <tr>
+                                  <th>Name</th>
+                                  <th></th>
+                                <tr>
+                                  <td>{{students.firstName}}--{{students.lastName}} </td>
+                                  <td ng-repeat="report in students.attendenceStats">
+                                    {{report.inTime.substring(8,10)}}:{{report.inTime.substring(10,12)}}&nbsp;&nbsp;&nbsp;&nbsp;{{report.outTime.substring(8,10)}}:{{report.outTime.substring(10,12)}}
+                                  <td>{{students.presentDays}}</td>
+                                  <td>{{ReportsCtrl.diffDays}}</td>
+                                  <td>{{ (ReportsCtrl.diffDays !== 0 && students.presentDays !== 0) ?
+                                    (((students.presentDays/ReportsCtrl.diffDays)*100)|number:2)+'%'
+                                    : '0' }}
+                                    <span ng-init="ReportsCtrl.showStar(((students.presentDays/ReportsCtrl.diffDays)*100|number:2),students)">{{students.showStarMark}}</span>
+                                  </td>
+                                </tr>
+                          </td>
+                        </tr>
+                        </thead>
+                    </table>
+                    </td>
+                    </tr>
+                    </tbody>
+                    </table>
+                  </div>
+                  <!-- Export to excel ends here -->
+
+                  <div class="col-md-12 col-sm-12" style="display:none;" id="feereports_datatable">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" style="width:100%">
+                      <thead>
+                        <tr>
+
+                          <th>
+                            Roll No
+                          </th>
+
+                          <th>
+                            Name
+                          </th>
+
+                          <th>Total</th>
+                          <th>Discount</th>
+                          <th>Total payable</th>
+                          <th>
+                            Paid
+                          </th>
+
+                          <th>
+                            Due
+                          </th>
+                      </thead>
+                      <tbody>
+                        <tr data-ng-repeat="student in ReportsCtrl.studFeeData |orderBy :'roll2'">
+                          <td ng-init="ReportsCtrl.test1(student)">{{student.rollNo}}</td>
+                          <td>{{student.firstName}} {{student.lastName}}</td>
+                          <td>{{student.total}}</td>
+                          <td>{{student.discount}}</td>
+                          <td>{{student.payable}}</td>
+                          <td>{{student.paid}}</td>
+                          <td>{{student.due}}</td>
+                        </tr>
+                        <tr ng-show="userRole=='Admin'||userRole=='Accountant'">
+                          <td colspan="2" ng-show="userRole !== 'Student'">
+                            <b>Total
+                              <b>
+                          </td>
+                          <td>{{ReportsCtrl.totalAmount}}</td>
+                          <td>{{ReportsCtrl.discAmount}}</td>
+                          <td>{{ReportsCtrl.paybleAmount}}</td>
+                          <td>{{ReportsCtrl.paidAmount}}</td>
+                          <td>{{ReportsCtrl.dueAmount}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-12 col-sm-12" style="display:none;" id="feediscreports_datatable">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                      <thead>
+                        <tr>
+
+                          <th>
+                            Roll No
+                          </th>
+
+                          <th>
+                            Name
+                          </th>
+                          <th>Class-Section</th>
+                          <th>Fee Type</th>
+                          <th>Discount</th>
+
+                      </thead>
+                      <tbody>
+                        <tr data-ng-repeat="students in ReportsCtrl.newArray | orderBy :'roll3'" ng-if="students.discount>0&&students.feetype!=''">
+                          <td ng-init="ReportsCtrl.test2(students)">{{students.rollNo}}</td>
+                          <td>{{students.studentName}}</td>
+                          <td>{{students.className.replace('undefined','')}}</td>
+                          <td>{{students.feetype}}</td>
+                          <td>{{students.discount}}</td>
+                        </tr>
+                        <tr>
+                          <th>Total Discount</th>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>{{ReportsCtrl.totalDisc }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-12 col-sm-12" style="display:none;" id="feeexpreports_datatable">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                      <thead>
+                        <tr>
+                          <th>
+                            Date
+                          </th>
+                          <th style="width:50%;">
+                            Collected Amount
+                          </th>
+
+                        </tr>
+                      </thead>
+                      <tbody data-ng-repeat="data in ReportsCtrl.feeexpreData | unique:'payDate' | orderBy:orderByCustom">
+                        <tr>
+                          <td style="width:30%;">
+                            <a class="btn btn-link" ng-init="toggle[$index] = false" ng-click="toggle[$index] = !toggle[$index];"
+                              style="padding:0px!important;color:#26a69a">
+                              {{data.payDate|date:'dd-MM-yyyy'}}
+                              <span class="glyphicon glyphicon-plus-sign" ng-if="!toggle[$index]"></span>
+                              <span class="glyphicon glyphicon-minus-sign" ng-if="toggle[$index]"></span>
+                            </a>
+                          </td>
+                          <td>{{data.TotalPaidAmount}}</td>
+                        </tr>
+                        <tr ng-if="toggle[$index]">
+                          <td></td>
+                          <td colspan="6">
+                            <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                              <thead>
+                                <tr>
+                                  <th>Date</th>
+                                  <th>R.no</th>
+                                  <th>Student Name</th>
+                                  <th>Paid Amount</th>
+                                  <th>Mode Of Payment</th>
+                                  <th>Remarks</th>
+                                </tr>
+                              </thead>
+                              <tbody ng-repeat="outside in data.date">
+                                <tr ng-repeat="inside in outside">
+                                  <td>{{inside.payDate|date:'dd-MM-yyyy'}}</td>
+                                  <td>{{inside.receiptNumber}}</td>
+                                  <td>{{inside.student.firstName}}{{inside.student.lastName}}</td>
+                                  <td>{{inside.paidAmount}}</td>
+                                  <td>{{inside.paymode}}</td>
+                                  <td>{{inside.description}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-12 col-sm-12" style="display:none;" id="expreports_datatable">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                      <thead>
+                        <tr>
+                          <th>
+                            Date
+                          </th>
+                          <th style="width:50%;">
+                            Amount
+                          </th>
+
+                        </tr>
+                      </thead>
+                      <tbody data-ng-repeat="data in ReportsCtrl.expreData |unique:'date'">
+                        <tr>
+                          <td>
+                            <a class="btn btn-link" ng-init="toggle[$index] = false" ng-click="toggle[$index] = !toggle[$index];ReportsCtrl.insideTables(data.date);"
+                              style="padding:0px!important;color:#26a69a">
+                              {{data.date|date:"dd-MM-yyyy"}}
+                              <span class="glyphicon glyphicon-plus-sign" ng-if="!toggle[$index]"></span>
+                              <span class="glyphicon glyphicon-minus-sign" ng-if="toggle[$index]"></span>
+                            </a>
+                          </td>
+                          <td>{{data.TotalPaidAmount}}</td>
+                        </tr>
+                        <tr ng-if="toggle[$index]">
+                          <td></td>
+                          <td colspan="6">
+                            <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                              <thead>
+                                <tr>
+                                  <th>Date</th>
+                                  <th>expenseType</th>
+                                  <th>claimedBy</th>
+                                  <th> Amount</th>
+                                  <th> Description</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="inside in data.data">
+                                  <td>{{inside.date|date:"dd-MM-yyyy"}}</td>
+                                  <td>{{inside.expenseType}}</td>
+                                  <td>{{inside.claimedBy}}</td>
+                                  <td>{{inside.amount}}</td>
+                                  <td>{{inside.description}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-12 col-sm-12" style="display:none" id="detailsExports" ng-show="ReportsCtrl.formFields.reportId=='studentData'&&ReportsCtrl.selectedValue">
+                    <div class="col-md-4 col-sm-4">
+                      <input type="checkbox" ng-model="ReportsCtrl.firstName"> First Name
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.lastName" ng-change="ReportsCtrl.do(ReportsCtrl.lastName)">Last
+                      Name
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.rollNo"> RollNo
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.regId"> RegId
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.email"> EmailId
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.gender"> Gender
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.dateofBirth"> DateofBirth
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.dateofJoin"> DateofJoin
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.classofAdmission"> ClassofAdmission
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.RFID"> RFID
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.previousSchool"> PreviousSchool
+                      <br>
+
+
+                    </div>
+
+                    <div class="col-md-4 col-sm-4">
+                      <!-- <input type="checkbox" ng-model="previousSchoolTC">previousSchoolTC<br> -->
+                      <input type="checkbox" ng-model="ReportsCtrl.contact"> Contact
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.alternateContact"> AlternateContact
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.fatherName"> FatherName
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.motherName"> MotherName
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.currentAddress"> CurrentAddress
+                      <br>
+
+                      <input type="checkbox" ng-model="ReportsCtrl.currentCity"> CurrentCity
+                      <br>
+
+                      <input type="checkbox" ng-model="ReportsCtrl.currentState"> CurrentState
+                      <br>
+
+                      <input type="checkbox" ng-model="ReportsCtrl.currentPincode"> CurrentPincode
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.isDisable"> IsDisable
+                      <br>
+
+                      <input type="checkbox" ng-model="ReportsCtrl.nationalIdType"> NationalIdType
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.nationalId"> NationalId
+                      <br>
+
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <input type="checkbox" ng-model="ReportsCtrl.caste"> Caste
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.subCaste"> SubCaste
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.religion"> Religion
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.bloodGroup"> BloodGroup
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.motherTounge"> MotherTongue
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.identificationMarks"> IdentificationMarks
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.status"> Status
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.type"> Type
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.created"> Created
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.fatherContact"> FatherContact
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.motherContact"> MotherContact
+                      <br>
+                    </div>
+
+                  </div>
+                  <div class="col-md-12 col-sm-12" id="student_details" style="display:none">
+                    <table border="1px solid black">
+                      <thead>
+                        <tr>
+                          <td ng-if="ReportsCtrl.lastName">SurName</td>
+                          <td ng-if="ReportsCtrl.firstName">StudentName</td>
+                          <td ng-if="ReportsCtrl.rollNo">RollNo</td>
+                          <td ng-if="ReportsCtrl.regId">RegId</td>
+                          <td ng-if="ReportsCtrl.email">EmailId</td>
+                          <td ng-if="ReportsCtrl.gender">Gender</td>
+                          <td ng-if="ReportsCtrl.dateofBirth">DateofBirth </td>
+                          <td ng-if="ReportsCtrl.dateofJoin">DateofJoin</td>
+                          <td ng-if="ReportsCtrl.classofAdmission">ClassofAdmission</td>
+                          <td ng-if="ReportsCtrl.RFID">RFID</td>
+                          <td ng-if="ReportsCtrl.previousSchool">PreviousSchool</td>
+                          <td ng-if="ReportsCtrl.contact">Contact </td>
+                          <td ng-if="ReportsCtrl.alternateContact">AlternateContact</td>
+                          <td ng-if="ReportsCtrl.fatherName">FatherName </td>
+                          <td ng-if="ReportsCtrl.motherName">MotherName</td>
+                          <td ng-if="ReportsCtrl.currentAddress">CurrentAddress</td>
+                          <td ng-if="ReportsCtrl.currentCity">CurrentCity</td>
+                          <td ng-if="ReportsCtrl.currentState">CurrentState</td>
+                          <td ng-if="ReportsCtrl.currentPincode">currentPincode</td>
+                          <td ng-if="ReportsCtrl.isDisable">IsDisable</td>
+                          <td ng-if="ReportsCtrl.nationalIdType">NationalIdType</td>
+                          <td ng-if="ReportsCtrl.nationalId">NationalId</td>
+                          <td ng-if="ReportsCtrl.caste">Caste</td>
+                          <td ng-if="ReportsCtrl.subCaste">SubCaste </td>
+                          <td ng-if="ReportsCtrl.religion">Religion</td>
+                          <td ng-if="ReportsCtrl.bloodGroup">BloodGroup</td>
+                          <td ng-if="ReportsCtrl.motherTounge">MotherTongue</td>
+                          <td ng-if="ReportsCtrl.identificationMarks">IdentificationMarks</td>
+                          <td ng-if="ReportsCtrl.status">Status</td>
+                          <td ng-if="ReportsCtrl.type">Type</td>
+                          <td ng-if="ReportsCtrl.created">created</td>
+                          <td ng-if="ReportsCtrl.fatherContact">FatherContact</td>
+                          <td ng-if="ReportsCtrl.motherContact">MotherContact</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="sdetails in ReportsCtrl.studentDetails | orderBy : rollNo">
+                          <td ng-if="ReportsCtrl.firstName">{{sdetails.lastName}}</td>
+                          <td ng-if="ReportsCtrl.lastName">{{sdetails.firstName}}</td>
+                          <td ng-if="ReportsCtrl.rollNo">{{sdetails.rollNo}}</td>
+                          <td ng-if="ReportsCtrl.regId">{{sdetails.regId}}</td>
+                          <td ng-if="ReportsCtrl.email">{{sdetails.email}}</td>
+                          <td ng-if="ReportsCtrl.gender">{{sdetails.gender}}</td>
+                          <td ng-if="ReportsCtrl.dateofBirth">{{sdetails.DOB}}</td>
+                          <td ng-if="ReportsCtrl.dateofJoin">{{sdetails.DOJ}}</td>
+                          <td ng-if="ReportsCtrl.classofAdmission">{{sdetails.classofAdmission}}</td>
+                          <td ng-if="ReportsCtrl.RFID">{{sdetails.RFID}}</td>
+                          <td ng-if="ReportsCtrl.previousSchool">{{sdetails.previousSchool}}</td>
+                          <td ng-if="ReportsCtrl.contact">{{sdetails.contact}}</td>
+                          <td ng-if="ReportsCtrl.alternateContact">{{sdetails.alternateContact}}</td>
+                          <td ng-if="ReportsCtrl.fatherName">{{sdetails.fatherName}}</td>
+                          <td ng-if="ReportsCtrl.motherName">{{sdetails.motherName}}</td>
+                          <td ng-if="ReportsCtrl.currentAddress">{{sdetails.currentAddress}}</td>
+                          <td ng-if="ReportsCtrl.currentCity">{{sdetails.currentCity}}</td>
+                          <td ng-if="ReportsCtrl.currentState">{{sdetails.currentState}}</td>
+                          <td ng-if="ReportsCtrl.currentPincode">{{sdetails.currentPincode}}</td>
+                          <td ng-if="ReportsCtrl.isDisable">{{sdetails.isDisable}}</td>
+                          <td ng-if="ReportsCtrl.nationalIdType">{{sdetails.nationalIdType}}</td>
+                          <td ng-if="ReportsCtrl.nationalId">{{sdetails.nationalId}}</td>
+                          <td ng-if="ReportsCtrl.caste">{{sdetails.caste}}</td>
+                          <td ng-if="ReportsCtrl.subCaste">{{sdetails.subCaste}}</td>
+                          <td ng-if="ReportsCtrl.religion">{{sdetails.religion}}</td>
+                          <td ng-if="ReportsCtrl.bloodGroup">{{sdetails.bloodGroup}}</td>
+                          <td ng-if="ReportsCtrl.motherTounge">{{sdetails.motherTounge}}</td>
+                          <td ng-if="ReportsCtrl.identificationMarks">{{sdetails.identificationMarks}}</td>
+                          <td ng-if="ReportsCtrl.status">{{sdetails.status}}</td>
+                          <td ng-if="ReportsCtrl.type">{{sdetails.type}}</td>
+                          <td ng-if="ReportsCtrl.created">{{sdetails.created}}</td>
+                          <td ng-if="ReportsCtrl.fatherContact">{{sdetails.fatherContact}}</td>
+                          <td ng-if="ReportsCtrl.motherContact">{{sdetails.motherContact}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- staffdetails starts here -->
+                  <div class="col-md-12 col-sm-12" style="display:none" id="staffdetailsExports" ng-show="ReportsCtrl.formFields.reportId=='staffData'&&ReportsCtrl.selectedValue1">
+                    <div class="col-md-4 col-sm-4">
+                      <input type="checkbox" ng-model="ReportsCtrl.firstName"> First Name
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.lastName" ng-change="ReportsCtrl.do(ReportsCtrl.lastName)">Last
+                      Name
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.email"> EmailId
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.gender"> Gender
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.dateofBirth"> DateofBirth
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.dateofJoin"> DateofJoin
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.regId"> RegId
+                      <br>
+
+
+                    </div>
+
+                    <div class="col-md-4 col-sm-4">
+                      <!-- <input type="checkbox" ng-model="previousSchoolTC">previousSchoolTC<br> -->
+                      <input type="checkbox" ng-model="ReportsCtrl.RFID"> RFID
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.contact"> Contact No
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.alternateContact"> Alternate Contact No
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.squalification"> Qualification
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.qualifiedUniversity"> University
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.percentage"> Percentage
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.currentAddress"> CurrentAddress
+                      <br>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <input type="checkbox" ng-model="ReportsCtrl.currentCity"> CurrentCity
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.currentState"> CurrentState
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.currentPincode"> CurrentPincode
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.nationalIdType"> NationalIdType
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.nationalId"> NationalId
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.bloodGroup"> BloodGroup
+                      <br>
+                      <input type="checkbox" ng-model="ReportsCtrl.motherTounge"> MotherTongue
+                      <br>
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-12 col-sm-12" id="staff_details" style="display:none">
+                    <table border="1px solid black">
+                      <thead>
+                        <tr>
+                          <td ng-if="ReportsCtrl.firstName">FirstName</td>
+                          <td ng-if="ReportsCtrl.lastName">LastName</td>
+                          <td ng-if="ReportsCtrl.email">EmailId</td>
+                          <td ng-if="ReportsCtrl.gender">Gender</td>
+                          <td ng-if="ReportsCtrl.dateofBirth">DateofBirth </td>
+                          <td ng-if="ReportsCtrl.dateofJoin">DateofJoin</td>
+                          <td ng-if="ReportsCtrl.RFID">RFID</td>
+                          <td ng-if="ReportsCtrl.regId">RegId</td>
+                          <td ng-if="ReportsCtrl.contact">Contact </td>
+                          <td ng-if="ReportsCtrl.alternateContact">AlternateContact</td>
+                          <td ng-if="ReportsCtrl.squalification">Qualification </td>
+                          <td ng-if="ReportsCtrl.qualifiedUniversity">Qualified University</td>
+                          <td ng-if="ReportsCtrl.percentage">Percentage</td>
+                          <td ng-if="ReportsCtrl.currentAddress">CurrentAddress</td>
+                          <td ng-if="ReportsCtrl.currentCity">CurrentCity</td>
+                          <td ng-if="ReportsCtrl.currentState">CurrentState</td>
+                          <td ng-if="ReportsCtrl.currentPincode">currentPincode</td>
+                          <td ng-if="ReportsCtrl.nationalIdType">NationalIdType</td>
+                          <td ng-if="ReportsCtrl.nationalId">NationalId</td>
+                          <td ng-if="ReportsCtrl.bloodGroup">BloodGroup</td>
+                          <td ng-if="ReportsCtrl.motherTounge">MotherTongue</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="sdetails in ReportsCtrl.staffDetails | orderBy : rollNo">
+                          <td ng-if="ReportsCtrl.firstName">{{sdetails.lastName}}</td>
+                          <td ng-if="ReportsCtrl.lastName">{{sdetails.firstName}}</td>
+                          <td ng-if="ReportsCtrl.email">{{sdetails.email}}</td>
+                          <td ng-if="ReportsCtrl.gender">{{sdetails.gender}}</td>
+                          <td ng-if="ReportsCtrl.dateofBirth">{{sdetails.dateofBirth}}</td>
+                          <td ng-if="ReportsCtrl.dateofJoin">{{sdetails.dateofJoin}}</td>
+                          <td ng-if="ReportsCtrl.RFID">{{sdetails.RFID}}</td>
+                          <td ng-if="ReportsCtrl.regId">{{sdetails.regId}}</td>
+                          <td ng-if="ReportsCtrl.contact">{{sdetails.contact}}</td>
+                          <td ng-if="ReportsCtrl.alternateContact">{{sdetails.alternateContact}}</td>
+                          <td ng-if="ReportsCtrl.squalification">{{sdetails.qualification}}</td>
+                          <td ng-if="ReportsCtrl.qualifiedUniversity">{{sdetails.qualifiedUniversity}}</td>
+                          <td ng-if="ReportsCtrl.percentage">{{sdetails.percentage}}</td>
+                          <td ng-if="ReportsCtrl.currentAddress">{{sdetails.currentAddress}}</td>
+                          <td ng-if="ReportsCtrl.currentCity">{{sdetails.currentCity}}</td>
+                          <td ng-if="ReportsCtrl.currentState">{{sdetails.currentState}}</td>
+                          <td ng-if="ReportsCtrl.currentPincode">{{sdetails.currentPincode}}</td>
+                          <td ng-if="ReportsCtrl.nationalIdType">{{sdetails.nationalIdType}}</td>
+                          <td ng-if="ReportsCtrl.nationalId">{{sdetails.nationalId}}</td>
+                          <td ng-if="ReportsCtrl.bloodGroup">{{sdetails.bloodGroup}}</td>
+                          <td ng-if="ReportsCtrl.motherTounge">{{sdetails.motherTounge}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- ends hers -->
+                  <div class="col-md-12 col-sm-12" id="smsreport_details" style="display:none">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                      <thead>
+                        <th>SMS Type</th>
+                        <th>Count</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>GENERAL SMS</td>
+                          <td>{{ReportsCtrl.generalsmsreportData}}</td>
+                        </tr>
+                        <tr>
+                          <td>ATTENDANCE SMS</td>
+                          <td>{{ReportsCtrl.AttensmsreportData}}</td>
+                        </tr>
+                        <tr>
+                          <td>FEE RECEIPT SMS</td>
+                          <td>{{ReportsCtrl.feesmsreportData}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Custom Report starts -->
+                  <div id="custom_Report" style="display:none;">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                      <thead>
+                        <tr>
+                          <th>
+                            Sr No
+                          </th>
+                          <th>
+                            Student Name
+                          </th>
+                          <th>
+                            Class/Section
+                          </th>
+                          <th>
+                            Fee Type
+                          </th>
+                          <th>
+                            Receipt No
+                          </th>
+                          <th>
+                            Payment Mode
+                          </th>
+                          <th>
+                            Amount
+                          </th>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th class="text-center">Opening Amount</th>
+                          <th></th>
+                          <th></th>
+                          <th class="text-right"> {{ReportsCtrl.customFeeReport.data.report.openingAmount}} </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr data-ng-repeat="receipt in ReportsCtrl.customFeeReport.data.report.feePayments">
+                          <td>{{$index+1}}</td>
+                          <td>
+                            <span ng-if="receipt.student.firstName">{{receipt.student.firstName}}</span>
+                            <span ng-if="receipt.student.lastName">{{receipt.student.lastName}}</span>
+                          </td>
+                          <td>
+                            <span ng-if="receipt.student.class.className">{{receipt.student.class.className}}</span>
+                            <span ng-if="receipt.student.class.sectionName">{{receipt.student.class.sectionName}}</span>
+                          </td>
+                          <td>
+                            <span>{{receipt.feeSetup.feetype}}</span>
+                          </td>
+                          {{receipt.feeCatName}}
+                          <td>{{receipt.receiptNumber}}</td>
+                          <td>{{receipt.paymode}}</td>
+                          <td class="text-right">{{receipt.paidAmount}}</td>
+
+                        </tr>
+                        <tr>
+                          <td style="text-align:right" colspan="6">Total Paid Amount</td>
+                          <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycash
+                            + ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycheque
+                            + ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycard}}</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:right" colspan="6">Total Paid Amount in Cash</td>
+                          <td style="text-align:right"> {{
+                            ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycash}}</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:right" colspan="6">Total Paid Amount in Cheque</td>
+                          <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycheque}}</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:right" colspan="6">Total Paid Amount in Card </td>
+                          <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycard}}</td>
+                        </tr>
+                        <tr></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Ends here -->
+                  <!-- Expense report starts here -->
+                  <div id="custom_Expence_Report" style="display:none;">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                      <thead>
+                        <tr>
+                          <th>
+                            Sr No
+                          </th>
+                          <th>
+                            User Name
+                          </th>
+                          <th>
+                            Paid To
+                          </th>
+                          <th>
+                            Description
+                          </th>
+
+                          <th>
+                            Voucher No
+                          </th>
+                          <th>Payment Mode</th>
+                          <th>
+                            Amount
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr data-ng-repeat="receipt in ReportsCtrl.customFeeReport.data.report.expenses">
+                          <td>{{$index+1}}</td>
+                          <td ng-if="receipt.admin">{{receipt.admin.firstName}}{{receipt.admin.lastName}}</td>
+                          <td ng-if="receipt.staffs">{{receipt.staffs.firstName}}{{receipt.staffs.lastName}}</td>
+                          <td ng-if="receipt.accountant">{{receipt.accountant.firstName}}{{receipt.accountant.lastName}}</td>
+                          <td>{{receipt.claimedBy}}</td>
+                          <td>{{receipt.description}}</td>
+                          <td>{{receipt.voucherNo}}</td>
+                          <td>{{receipt.paymentMode}}</td>
+                          <td class="text-right">{{receipt.amount}}</td>
+
+                        </tr>
+                        <tr>
+                          <td style="text-align:right" colspan="6">Total Petty Cash</td>
+                          <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.expensesTotal}}</td>
+                        </tr>
+                        <tr>
+                          <td class="text-right" colspan="6">Total Spent Amount In Cash</td>
+                          <td class="text-right">{{ReportsCtrl.customFeeReport.data.report.expensesTotal}}</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:right" colspan="6">Total Deposit</td>
+                          <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.depositTotal}}</td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Ends here -->
+                  <div id="custom_Expence_Report1" style="display:none;">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                      <thead>
+                        <tr>
+                          <td style="text-align:right" colspan="6">Opening Balance</td>
+                          <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.openingAmount}}</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:right" colspan="6">Total Cash and Cheque collection and Total Money
+                            received from bank</td>
+                          <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycash}}</td>
+                        </tr>
+
+                        <tr>
+                          <td style="text-align:right" colspan="6">Total spent amount in cash</td>
+                          <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.expensesTotal}}</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:right" colspan="6">Total Deposit</td>
+                          <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.depositTotal}}</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:right" colspan="6">Closing Amount</td>
+                          <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.closingAmount}}</td>
+                        </tr>
+
+                      </thead>
+                      <tbody>
+                        <tr data-ng-repeat="receipt in ReportsCtrl.expenseData">
+
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Total of all amounts -->
+                  <!-- Fee DUe Report -->
+                  <div id="fee_due_report" style="display:none;">
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black">
+                      <thead>
+                        <tr>
+                          <th>Fee Due Till Date</th>
+                          <th>Total Amount</th>
+                          <th>Overall Fee Due</th>
+                          <th>Fee Paid Till Date</th>
+                          <th>Discount Till Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{ReportsCtrl.sumofdueTMinusPaid}}</td>
+                          <td>{{ReportsCtrl.sumoftot}}</td>
+                          <td>{{ReportsCtrl.sumofdue}}</td>
+                          <td>{{ReportsCtrl.sumofpaid}}</td>
+                          <td>{{ReportsCtrl.sumofdisc}}</td>
+
+                        </tr>
+
+                      </tbody>
+                    </table>
+
+                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black">
+                      <thead>
+                        <tr>
+                          <th>
+                            Class
+                          </th>
+                          <th style="width:50%;">
+                            Due Till Date
+                          </th>
+
+                        </tr>
+                      </thead>
+                      <tbody ng-repeat="data in ReportsCtrl.newArray" ng-if="data.dueTillNow - data.payTillNow > 0">
+                        <tr>
+                          <td style="width:15%;">
+                            <a class="btn btn-link" ng-init="ReportsCtrl.toggle[$index] = false" ng-click="ReportsCtrl.toggle[$index] = !ReportsCtrl.toggle[$index];"
+                              style="padding:0px!important;color:#26a69a">
+                              {{data.class}} {{data.section}}
+                              <span class="glyphicon glyphicon-plus-sign" ng-if="!toggle[$index]"></span>
+                              <span class="glyphicon glyphicon-minus-sign" ng-if="toggle[$index]"></span>
+                            </a>
+                          </td>
+                          <td>{{data.dueTillNow - data.payTillNow}}</td>
+                        </tr>
+                        <tr ng-if="ReportsCtrl.toggle[$index]">
+                          <td></td>
+                          <td colspan="6">
+                            <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black">
+                              <thead>
+                                <tr>
+                                  <th>Name</th>
+                                  <th>Enrollment No</th>
+                                  <th>Phone</th>
+                                  <!--<th>Total Fee</th>
+                                  <th>Discount</th>-->
+                                  <th>Payable</th>
+                                  <th>Paid(Fee Collected till Date)</th>
+                                  <th>Due Till Date</th>
+                                  <th>Overall Due</th>
+                                </tr>
+                              </thead>
+                              <tbody ng-repeat="lolz in ReportsCtrl.classStuDue">
+                                <tr ng-repeat="lol in lolz.classStuDue" ng-if="data.classId==lol.classId && lol.dueTillNow - lol.payTillNow > 0">
+                                  <td>{{lol.firstName}} {{lol.lastName}}</td>
+                                  <td>{{lol.rollNo}}</td>
+                                  <td>{{lol.contact}}</td>
+                                  <!--<td>{{lol.total}}</td>
+                                  <td>{{lol.discount}}</td>-->
+                                  <td>{{lol.payable}}</td>
+                                  <td>{{lol.paid}}</td>
+                                  <td>{{lol.dueTillNow - lol.payTillNow}}</td>
+                                  <td>{{lol.due}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                  <!-- Fee Due Report END -->
+                  <!-- print View -->
+                  <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog modal-md">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title" style="text-align: center;">Expense Report</h4>
+                        </div>
+                        <div class="modal-content" id="Reportsprint" style="display:none">
+                          <!-- <div>
+                            <figure style="text-align:center;">
+                              <img style="display:block;text-align:center;margin-top:5px;height:50px" src="{{ReportsCtrl.studSchoolList[0].logo}}" alt="School logo">
+                          </figure>
+
+                        </div> -->
+                          <table border="3px solid black" style="width:100%;height:420px;">
+                            <tr>
+                              <img style="display:block;text-align:center;margin-top:5px;height:50px;margin-left:45%;
+                                "
+                                src="{{ReportsCtrl.studSchoolList[0].logo}}" alt="School logo">
+                            </tr>
+                            <tr>
+                              <th colspan="7">{{ReportsCtrl.studSchoolList[0].schoolName}}</th>
+                            </tr>
+                            <tr>
+                              <th colspan="7">{{ReportsCtrl.studSchoolList[0].address}} </th>
+                            </tr>
+                            <tr>
+                              <th colspan="7">Title: Receipt and Payment Account Report for the period
+                                {{ReportsCtrl.formFields.fromDate|date:'dd-MM-yyyy'}}
+                                to {{ReportsCtrl.formFields.toDate|date:'dd-MM-yyyy'}}</th>
+                            </tr>
+                            <tr>
+                              <th>
+                                Sr No
+                              </th>
+                              <th>
+                                Student Name
+                              </th>
+                              <th>
+                                Class/Section
+                              </th>
+                              <th>
+                                Fee Type
+                              </th>
+                              <th>
+                                Receipt No
+                              </th>
+                              <th style="width:12%;">
+                                Payment Mode
+                              </th>
+                              <th>
+                                Amount
+                              </th>
+                            </tr>
+                            <tr>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              <th class="text-center">Opening Amount</th>
+                              <th></th>
+                              <th></th>
+                              <th class="text-right">{{ReportsCtrl.customFeeReport.data.report.openingAmount}}</th>
+                            </tr>
+                            <tr data-ng-repeat="receipt in ReportsCtrl.customFeeReport.data.report.feePayments">
+                              <td>{{$index+1}}</td>
+                              <td>
+                                <span ng-if="receipt.student.firstName">{{receipt.student.firstName}}</span>
+                                <span ng-if="receipt.student.lastName">{{receipt.student.lastName}}</span>
+                              </td>
+                              <td>
+                                <span ng-if="receipt.student.class.className">{{receipt.student.class.className}}</span>
+                                <span ng-if="receipt.student.class.sectionName">{{receipt.student.class.sectionName}}</span>
+                              </td>
+                              <td>
+                                <span>{{receipt.feeSetup.feetype}}</span>
+                              </td>
+                              {{receipt.feeCatName}}
+                              <td>{{receipt.receiptNumber}}</td>
+                              <td>{{receipt.paymode}}</td>
+                              <td style="text-align:right">{{receipt.paidAmount}}</td>
+
+                            </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6">Total Paid Amount</td>
+                              <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycash
+                                + ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycheque
+                                + ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycard}}</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6">Total Paid Amount in Cash</td>
+                              <td style="text-align:right"> {{
+                                ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycash}}</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6">Total Paid Amount in Cheque</td>
+                              <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycheque}}</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6">Total Paid Amount in Card </td>
+                              <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycard}}</td>
+                            </tr>
+
+                            <tr></tr>
+                            <tr>
+                              <th>
+                                Sr No
+                              </th>
+                              <th>
+                                User Name
+                              </th>
+                              <th>
+                                Paid To
+                              </th>
+                              <th>
+                                Description
+                              </th>
+
+                              <th>
+                                Voucher No
+                              </th>
+                              <th>Payment Mode</th>
+                              <th>
+                                Amount
+                              </th>
+                            </tr>
+                            <tr data-ng-repeat="receipt in ReportsCtrl.customFeeReport.data.report.expenses">
+                              <td>{{$index+1}}</td>
+                              <td ng-if="receipt.admin">{{receipt.admin.firstName}}{{receipt.admin.lastName}}</td>
+                              <td ng-if="receipt.staffs">{{receipt.staffs.firstName}}{{receipt.staffs.lastName}}</td>
+                              <td ng-if="receipt.accountant">{{receipt.accountant.firstName}}{{receipt.accountant.lastName}}</td>
+                              <td>{{receipt.claimedBy}}</td>
+                              <td>{{receipt.description}}</td>
+                              <td>{{receipt.voucherNo}}</td>
+                              <td>{{receipt.paymentMode}}</td>
+                              <td style="text-align:right">{{receipt.amount}}</td>
+
+                            </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6">Total Petty Cash</td>
+                              <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.expensesTotal}}</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6">Total Spent Amount In Cash</td>
+                              <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.expensesTotal}}</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6">Total Deposit</td>
+                              <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.depositTotal}}</td>
+                            </tr>
+
+
+                            <tr class="heigh-30"> </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6"> Opening Balance</td>
+                              <td style="text-align:right"> {{ReportsCtrl.customFeeReport.data.report.openingAmount}}</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6">Total Cash and Cheque collection and Total Money
+                                received from bank</td>
+                              <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.feePaymentTotal.feePaymentBycash}}</td>
+                            </tr>
+
+                            <tr>
+                              <td style="text-align:right" colspan="6">Total spent amount in cash</td>
+                              <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.expensesTotal}}</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6">Total Deposit</td>
+                              <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.depositTotal}}</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:right" colspan="6">Closing Amount</td>
+                              <td style="text-align:right">{{ReportsCtrl.customFeeReport.data.report.closingAmount}}</td>
+                            </tr>
+                            <tr>
+                              <td colspan="3" style="height:60px">Director</td>
+                              <td colspan="4">Principal</td>
+                              <!-- <td colspan="1"> </td> -->
+                            </tr>
+
+                            </thead>
+                            <tbody>
+                          </table>
+                        </div>
+                        <div class="modal-footer">
+                          <input type="button" class="btn btn-default" ng-click="ReportsCtrl.Reportprint()" value="Print">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Print view ends here -->
+                  <!-- ends -->
+                </div>
+              </div>
+              <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+          </div>
+        </div>
+        <!-- END PAGE CONTENT INNER -->
+      </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+  </div>
+  <script>
+    var dateControler = {
+      currentDate: null
+    }
+    $(document).on("change", "#fromDate", function (event, ui) {
+      var now = new Date();
+      var selectedDate = new Date($(this).val());
+
+      if (selectedDate > now) {
+        $(this).val(dateControler.currentDate)
+      } else {
+        dateControler.currentDate = $(this).val();
+      }
+    });
+    $(document).on("change", "#toDate", function (event, ui) {
+      var now = new Date();
+      var selectedDate = new Date($(this).val());
+
+      if (selectedDate > now) {
+        $(this).val(dateControler.currentDate)
+      } else {
+        dateControler.currentDate = $(this).val();
+      }
+    });
+  </script>
+  <style>
+    .badge {
+      display: inline;
+    }
+  </style>

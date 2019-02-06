@@ -1,0 +1,313 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Assignments
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-file-text font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">ATTENDANCE</span>
+                                </div>
+                                <div class="col-md-10" ng-show="AttendanceCtrl.roleView" style="margin-top: 5px;">
+                                    <div class="btn-group pull-right">
+                                        <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a data-ng-click="AttendanceCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;" data-ng-click="AttendanceCtrl.pdf();AttendanceCtrl.showForPdf=false;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="AttendanceCtrl.exportToExcel('#showPdf')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div ng-show="userRole == 'Student'" ui-calendar="AttendanceCtrl.calendarConfig.calendar" style="width:800px;" class="calendar1"
+                                    calendar="schoolCalendar" ng-model="AttendanceCtrl.eventSources"></div>
+                                <!--<div ng-show="userRole == 'Student'" ui-calendar="uiConfig.calendar" style="width:800px;" class="span8 calendar" ng-model="eventSources"></div>-->
+                                <div class="table-toolbar">
+                                    <!-- <div class="row">
+                                        <div class="col-md-6">
+
+                                        </div>
+                                        <div class="col-md-6" ng-show="userRole == 'Admin'">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a data-ng-click="AttendanceCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="AttendanceCtrl.exportToExcel('#tableToExport')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div class="tabbable-line" ng-show="userRole !== 'Student'" style="margin-top: -31px;">
+                                    <ul class="nav nav-tabs ">
+                                        <li class="active">
+                                            <a href="#day" show-tab data-toggle="tab">Daily</a>
+                                        </li>
+                                        <li ng-show="userRole == 'Parent'">
+                                            <a href="#month" show-tab data-toggle="tab">Monthly</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="day">
+                                            <div class="row">
+                                                <form name="attendanceform" novalidate>
+                                                    <div class="md-radio col-md-2" style="margin-left:15px;">
+                                                        <input type="radio" data-ng-click="type='student';AttendanceCtrl.viewB2();" id="radio2" name="attendata" class="md-radiobtn" value="Student" data-ng-model="AttendanceCtrl.student"
+                                                        />
+                                                        <label for="radio2"><span class="inc"></span><span class="check"></span><span class="box"></span> Student </label>
+                                                    </div>
+                                                    <div class="md-radio col-md-2" style="margin-left: -50px;">
+                                                        <input type="radio" id="radio1" data-ng-click="type='staff';AttendanceCtrl.viewB1();" name="attendata" class="md-radiobtn" value="Staff" data-ng-model="AttendanceCtrl.staff"
+                                                        required/>
+                                                        <label for="radio1"><span class="inc"></span><span class="check"></span><span class="box"></span> Staff </label>
+                                                    </div>
+                                                    <div class="form-group col-md-2" ng-show="type=='student'" style="margin-left: -67px;">
+                                                        <select class="form-control" ng-change="AttendanceCtrl.viewB1();" data-ng-model="AttendanceCtrl.selectedClassId" required><option value="" ng-disabled="true">Class</option>
+                                                            <option ng-if="userRole === 'Admin' || userRole === 'Accountant'" ng-repeat="class in AttendanceCtrl.classList" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option>
+                                                            <option ng-if="userRole === 'Staff' || userRole === 'Student'" ng-repeat="class in AttendanceCtrl.classList | orderBy:'class.sequenceNumber'" value="{{class.class.id}}">{{class.class.className}} {{class.class.sectionName}}</option>
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+
+                                                        <input type="date" class="form-control" id="datefield" ng-click="AttendanceCtrl.ValidateEndDate()" data-ng-model="AttendanceCtrl.selectedDate"
+                                                        />
+
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-left: 49px;">
+                                                        <span style="margin-top: 3%;position:absolute;width:33%">SelectAll</span>
+                                                        <input type="checkbox" ng-checked="AttendanceCtrl.slectAllId" id="newsId" ng-model="AttendanceCtrl.studentAllFlag" data-ng-disabled="userRole=='Student'"
+                                                            ng-click="AttendanceCtrl.addAttendances(AttendanceCtrl.studentAllFlag,type)"
+                                                            style="zoom:1.5;margin-left:39%;">
+                                                    </div>
+
+                                                    <div class="btn-group col-md-2" style="margin-left: -30px;">
+
+
+                                                        <!-- SelectAll<input type="checkbox" ng-model="AttendanceCtrl.studentAllFlag" data-ng-disabled="userRole=='Student'"
+                                                            ng-click="AttendanceCtrl.addAttendances(AttendanceCtrl.studentAllFlag)"> -->
+                                                        <button class="btn green" type="submit"   data-ng-click="AttendanceCtrl.viewAttendance(AttendanceCtrl.selectedClassId,AttendanceCtrl.selectedDate,type);AttendanceCtrl.viewStaff(AttendanceCtrl.selectedClassId);" ng-disabled="AttendanceCtrl.b1">View</button>
+                                                        <!-- <button class="btn green" data-ng-disabled="userRole=='Student'" ng-click="AttendanceCtrl.addAttendances(AttendanceCtrl.studentAllFlag)" ng-model="AttendanceCtrl.studentAllFlag" >Select All</button> -->
+
+                                                        <!-- <input type="checkbox"   ng-checked="AttendanceCtrl.checkedDatass(student.RFID)" ng-model="student.studentAttendenceFlag" data-ng-disabled="userRole=='Student'"
+                                                                                ng-click="AttendanceCtrl.addAttendancess(student.studentAttendenceFlag,student)"> -->
+                                                    </div>
+                                                </form>
+                                                <div class="col-md-12">
+
+                                                    <div id="tableToExport">
+                                                        <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="printTable">
+                                                            <thead flip-content>
+                                                                <tr>
+                                                                    <th ng-show="type=='student'">Roll No</th>
+                                                                    <th>Name</th>
+                                                                    <!--<th>RFID</th>-->
+                                                                    <th>Present/Absent</th>
+                                                                    <th>First Time In</th>
+                                                                    <th>Last Time Out</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                <tr data-ng-repeat="student in  AttendanceCtrl.dataArray |orderBy : 'roll2'" ng-hide="type=='staff' && userRole=='Staff'">
+
+                                                                    <td ng-show="type=='student'" ng-init="AttendanceCtrl.test1(student)"> {{student.rollNo}}</td>
+                                                                    <td> {{student.firstName}} {{student.lastName}}</td>
+                                                                    <!--<td> {{x.student.RFID}} </td>-->
+                                                                    <td>
+                                                                        <!--<input type="checkbox" ng-checked="AttendanceCtrl.checkedData(student.RFID)" ng-model="student.studentAttendenceFlag" data-ng-disabled="userRole=='Student'"
+                                                                            ng-click="AttendanceCtrl.addAttendance(student.studentAttendenceFlag,student)">-->
+
+                                                                        <div ng-show="type == 'student'" id="selectall" style="text-align:center;">
+                                                                            <input type="checkbox" ng-checked="AttendanceCtrl.checkedData(student.RFID)" style="zoom:1.5;" ng-model="student.studentAttendenceFlag"
+                                                                                data-ng-disabled="userRole=='Student'||userRole=='Staff'&&AttendanceCtrl.hidecheckBox=='false'" ng-click="AttendanceCtrl.addAttendance(student.studentAttendenceFlag,student,type)">
+                                                                        </div>
+
+                                                                        <div ng-show="type == 'staff'" style="text-align:center;">
+                                                                            <input type="checkbox" ng-checked="AttendanceCtrl.checkedData(student.RFID)" style="zoom:1.5;" ng-model="student.studentAttendenceFlag"
+                                                                                data-ng-disabled="userRole=='Staff'" ng-click="AttendanceCtrl.addAttendance(student.studentAttendenceFlag,student,type);">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span ng-show="student.timeIn && AttendanceCtrl.checked">
+                                                                                    {{student.timeIn.substring(8,10)}}:{{student.timeIn.substring(10,12)}}
+                                                                            </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span ng-show="AttendanceCtrl.checked && student.timeOut  && AttendanceCtrl.checkTime(AttendanceCtrl.schoolData[0].showTime)">
+                                                                                {{student.timeOut.substring(8,10)}}:{{student.timeOut.substring(10,12)}}
+                                                                            </span>
+                                                                    </td>
+
+                                                                </tr>
+                                                                <!-- single staff data -->
+                                                                <tr ng-show="type=='staff' && userRole=='Staff'">
+                                                                    <td ng-show="type=='student'"> {{AttendanceCtrl.dataArray .rollNo}}</td>
+                                                                    <td> {{AttendanceCtrl.dataArray.firstName}} {{AttendanceCtrl.dataArray.lastName}}</td>
+                                                                    <!--<td> {{x.student.RFID}} </td>-->
+                                                                    <td>
+                                                                        <!--<input type="checkbox" ng-checked="AttendanceCtrl.checkedData(student.RFID)" ng-model="student.studentAttendenceFlag" data-ng-disabled="userRole=='Student'"
+                                                                            ng-click="AttendanceCtrl.addAttendance(student.studentAttendenceFlag,student)">-->
+
+                                                                        <div ng-show="type == 'student'">
+                                                                            <input type="checkbox" ng-checked="AttendanceCtrl.checkedData(AttendanceCtrl.dataArray.RFID)" ng-model="AttendanceCtrl.dataArray.studentAttendenceFlag"
+                                                                                data-ng-disabled="userRole=='Student'&&AttendanceCtrl.hidecheckBox=='false'" ng-click="AttendanceCtrl.addAttendance(AttendanceCtrl.dataArray.studentAttendenceFlag,AttendanceCtrl.dataArray)">
+                                                                        </div>
+
+                                                                        <div ng-show="type == 'staff'">
+                                                                            <input type="checkbox" ng-checked="AttendanceCtrl.checkedData(AttendanceCtrl.dataArray.RFID)" ng-model="AttendanceCtrl.dataArray.studentAttendenceFlag"
+                                                                                data-ng-disabled="userRole=='Staff'" ng-click="AttendanceCtrl.addAttendance(AttendanceCtrl.dataArray.studentAttendenceFlag,AttendanceCtrl.dataArray)">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span ng-show="AttendanceCtrl.dataArray.timeIn && AttendanceCtrl.checked">
+                                                                                    {{AttendanceCtrl.dataArray.timeIn.substring(8,10)}}:{{AttendanceCtrl.dataArray.timeIn.substring(10,12)}}
+                                                                            </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span ng-show="AttendanceCtrl.checked && AttendanceCtrl.dataArray.timeOut  && AttendanceCtrl.checkTime(AttendanceCtrl.schoolData[0].showTime)">
+                                                                                {{AttendanceCtrl.dataArray.timeOut.substring(8,10)}}:{{AttendanceCtrl.dataArray.timeOut.substring(10,12)}}
+                                                                            </span>
+                                                                    </td>
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div id="showPdf" ng-hide="AttendanceCtrl.showForPdf">
+                                                    <table class="table table-striped table-hover table-bordered sm_editable_grid" border="1px solid black" id="showPdf1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th ng-if="type=='student'">Roll No.</th>
+                                                                <th>Name</th>
+                                                                <th>In Time</th>
+                                                                <th>Out Time</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr data-ng-repeat="student in  AttendanceCtrl.dataArray |orderBy : 'roll2'">
+                                                                    <td ng-if="type=='student'"> {{student.rollNo}}</td>
+                                                                    <td> {{student.firstName}} {{student.lastName}}</td>
+                                                                    <td>{{student.timeIn.substring(8,10)}}:{{student.timeIn.substring(10,12)}}</td>
+                                                                    <td>{{student.timeIn.substring(8,10)}}:{{student.timeIn.substring(10,12)}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="month">
+                                            <div class="row">
+                                                <form name="attendancemonthlyform" novalidate data-ng-submit="AttendanceCtrl.showMonthView(attendancemonthlyform.$invalid)">
+                                                    <div class="form-group col-md-3">
+                                                        <select class="form-control" data-ng-model="AttendanceCtrl.selectedMonthlyClassId" required>
+                                                                <option value="">Class</option>
+                                                                <option ng-repeat="class in AttendanceCtrl.classList | orderBy:'class.sequenceNumber'" value="{{class.class.id}}">{{class.class.className}}-{{class.class.sectionName}}</option>
+                                                            </select>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <select class="form-control" ng-model="AttendanceCtrl.monthSelected" required>
+                                                                <option value="">Month </option><option value="0">January </option><option value="1">February </option><option value="2">March </option><option value="3">April </option><option value="4">May </option><option value="5">June </option><option value="6">July </option><option value="7">August </option><option value="8">September </option><option value="9">October </option><option value="10">November </option><option value="11">December </option>
+                                                            </select>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <input type="number" class="form-control" placeholder="Year" min=0001 minlength="4" maxlength="4" max="9999" ng-model="AttendanceCtrl.yearSelected"
+                                                            required><br>
+                                                    </div>
+                                                    <div class="btn-group col-md-3">
+                                                        <button class="btn green" data-ng-disabled="attendancemonthlyform.$invalid">View</button>
+                                                    </div>
+                                                </form>
+                                                <div class="col-md-12">
+                                                    <table class="table table-bordered table-striped table-condensed flip-content">
+                                                        <tr>
+                                                            <th>Roll No </th>
+                                                            <th>Students </th>
+                                                            <th ng-repeat="y in AttendanceCtrl.monthDays() track by $index">{{$index+1}} </th>
+                                                        </tr>
+                                                        <tr ng-repeat="x in AttendanceCtrl.monthList track by $index">
+                                                            <td> {{x.student.rollNo}}</td>
+                                                            <td> {{x.student.firstName}}{{x.student.lastName}}</td>
+                                                            <td ng-repeat="y in x.status track by $index">
+                                                                <input type="checkbox" ng-disabled="true" ng-model="y" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" ng-show="userRole == 'Student'" style="float:right;margin-top:-420px;">
+                                    <table class="table table-bordered table-striped table-condensed flip-content">
+                                        <tr>
+                                            <th>Total days </th>
+                                            <th>Present </th>
+                                            <th>Absent </th>
+                                            <!--<th ng-repeat="y in AttendanceCtrl.monthDays() track by $index">{{$index+1}} </th>-->
+                                        </tr>
+                                        <tr>
+                                            <td> {{AttendanceCtrl.workingDays - AttendanceCtrl.HoliDays}}</td>
+                                            <td> {{AttendanceCtrl.StudentPresentDays}}</td>
+                                            <td> {{AttendanceCtrl.workingDays - AttendanceCtrl.HoliDays - AttendanceCtrl.StudentPresentDays}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<script>
+    (function () {
+        $('.calendarctrl').datetimepicker({
+            format: 'DD-MM-YYYY',
+            minDate: new Date()
+        });
+    })();
+
+</script>

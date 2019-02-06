@@ -1,0 +1,495 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+  <!-- BEGIN PAGE CONTENT -->
+  <div class="page-content">
+    <div class="container">
+      <!-- BEGIN PAGE BREADCRUMB -->
+      <ul class="page-breadcrumb breadcrumb">
+        <li>
+          <a ui-sref="home.console">Home</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          Visitor
+        </li>
+      </ul>
+      <!-- END PAGE BREADCRUMB -->
+      <!-- BEGIN PAGE CONTENT INNER -->
+      <div class="page-content-inner">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit ">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="fa fa-building-o font-green"></i>
+                  <span class="caption-subject font-green bold uppercase">Visitor</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="table-toolbar visitorMobile">
+                  <!-- style="position:absolute;" -->
+                  <div class="row">
+                    <div class="col-md-6 col-xs-9 col-sm-12 col-lg-12">
+                      <div class="addmobile" ng-show="visitorCtrl.VisitorroleEdit" style="/*position: absolute;margin-left: 154px;margin-top: -15px;z-index: 999;*/">
+                        <button data-toggle="modal" data-target="#Add-visitor" style="z-index: 999;" class="btn green" ng-click="visitorCtrl.todayDate();visitorCtrl.function1=false;visitorCtrl.clearfields();">
+                          Add New Visitor
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-xs-4 col-sm-12 col-lg-12 toolsmobile">
+                      <div class="btn-group pull-right" style="/*position: absolute;margin-left: 765px;margin-right: -112%;margin-top: -33px;z-index: 999;*/">
+                        <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="z-index: 999;">
+                          Tools
+                          <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                          <li>
+                            <a href="javascript:void(0)" data-ng-click="visitorCtrl.printData()">Print</a>
+                          </li>
+                          <li>
+                            <a href="javascript:;" data-ng-click="visitorCtrl.pdf()"> Save as PDF </a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" data-ng-click="visitorCtrl.exportToExcel('#exportTable')"> Export to Excel </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tablemobile" style="/*margin-top:-29px;*/">
+                  <div class="table-responsive" id="pdfVISITOR">
+                    <table class="table table-striped table-hover table-bordered sm_expense_editable_grid consoleAssign" style="overflow: auto"
+                      datatable="ng" border="1px solid black" id="printTable">
+                      <thead>
+                        <tr>
+                          <th ng-hide="true">SrNo</th>
+                          <th>Name</th>
+                          <th class="text-center">Mobile</th>
+                          <!-- <th class="text-center">No of child</th> -->
+                          <th class="text-center">Purpose</th>
+                          <!--                         <th class="text-center">Description</th>
+   -->
+                          <th class="text-center">People</th>
+                          <th class="text-center">In Time</th>
+                          <!--                         <th>More details</th>
+   -->
+                          <th class="text-center" ng-show="visitorCtrl.VisitorroleEdit">
+                            <i class="fa fa-edit"></i>
+                          </th>
+                          <th class="text-center" ng-show="visitorCtrl.Visitorroledelete">
+                            <i class="fa fa-times-circle-o"></i>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="list in visitorCtrl.visitorList|orderBy:'Indate':true">
+                          <td ng-hide="true">{{$index}}</td>
+                          <td>
+                            <a class="" href="javascript:void(0);" data-ng-click="visitorCtrl.moredetails(list.id);">
+                              {{list.Name}}
+                            </a>
+                          </td>
+                          <td class="text-center">{{list.Mobile}}</td>
+                          <td class="text-center">{{list.purpose}}</td>
+                          <!-- <td class="text-center">{{list.Description}}</td> -->
+                          <td class="text-center">{{list.Nopeo}}</td>
+                          <td class="text-center">
+                            {{list.Indate | date:'dd-MM-yyyy'}}
+                          </td>
+                          <!--  <td class="text-center">
+                           <a class="" href="javascript:void(0);"  data-ng-click="visitorCtrl.moredetails(list.id);">
+                              <i class="fa fa-file-text-o"></i>
+                            </a>
+                         </td> -->
+                          <td class="text-center" ng-show="visitorCtrl.VisitorroleEdit">
+                            <a class="" href="javascript:void(0);" data-ng-click="visitorCtrl.editvisitorlist(list.id);visitorCtrl.function1=false;">
+                              <i class="fa fa-edit"></i>
+                            </a>
+                          </td>
+                          <td class="text-center" ng-show="visitorCtrl.Visitorroledelete">
+                            <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="visitorCtrl.ConfirmCallbackMethod(list.id)"
+                              ng-bootbox-confirm-action-cancel="visitorCtrl.ConfirmCallbackCancel($index)">
+                              <i class="fa fa-remove"></i>
+                            </a>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div ng-hide="true">
+                      <table class="table table-striped table-hover table-bordered sm_expense_editable_grid consoleAssign" style="overflow: auto"
+                      border="1px solid black" id="exportTable">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th class="text-center">Mobile</th>
+                          <!-- <th class="text-center">No of child</th> -->
+                          <th class="text-center">Purpose</th>
+                          <!--                         <th class="text-center">Description</th>
+   -->
+                          <th class="text-center">People</th>
+                          <th class="text-center">In Time</th>
+                          <!--                         <th>More details</th>
+   -->
+                          <th class="text-center" ng-show="visitorCtrl.VisitorroleEdit">
+                            <i class="fa fa-edit"></i>
+                          </th>
+                          <th class="text-center" ng-show="visitorCtrl.Visitorroledelete">
+                            <i class="fa fa-times-circle-o"></i>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="list in visitorCtrl.visitorList|orderBy:'Indate':true">
+                          <td>
+                            <a class="" href="javascript:void(0);" data-ng-click="visitorCtrl.moredetails(list.id);">
+                              {{list.Name}}
+                            </a>
+                          </td>
+                          <td class="text-center">{{list.Mobile}}</td>
+                          <td class="text-center">{{list.purpose}}</td>
+                          <!-- <td class="text-center">{{list.Description}}</td> -->
+                          <td class="text-center">{{list.Nopeo}}</td>
+                          <td class="text-center">
+                            {{list.Indate | date:'dd-MM-yyyy'}}
+                          </td>
+                          <!--  <td class="text-center">
+                           <a class="" href="javascript:void(0);"  data-ng-click="visitorCtrl.moredetails(list.id);">
+                              <i class="fa fa-file-text-o"></i>
+                            </a>
+                         </td> -->
+                          <td class="text-center" ng-show="visitorCtrl.VisitorroleEdit">
+                            <a class="" href="javascript:void(0);" data-ng-click="visitorCtrl.editvisitorlist(list.id);visitorCtrl.function1=false;">
+                              <i class="fa fa-edit"></i>
+                            </a>
+                          </td>
+                          <td class="text-center" ng-show="visitorCtrl.Visitorroledelete">
+                            <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="visitorCtrl.ConfirmCallbackMethod(list.id)"
+                              ng-bootbox-confirm-action-cancel="visitorCtrl.ConfirmCallbackCancel($index)">
+                              <i class="fa fa-remove"></i>
+                            </a>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- </form> -->
+</div>
+
+<!-- Edit modal starts here -->
+<div id="edit-visitor" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="visitorCtrl.closeModal()">
+          <span class="icon-close"></span>
+        </a>
+        <h4 class="modal-title font-green">Edit Visitor</h4>
+      </div>
+      <div class="modal-body form">
+        <div class="form-container" data-ng-if="!visitorCtrl.function1">
+          <form name="noticeboardform" novalidate role="form" data-ng-submit="visitorCtrl.visitorlist($invalid)">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">NAME
+                    <span style="color:red">*</span>
+                  </label>
+                  <input type="text" class="form-control input-sm" name="description" data-ng-model="visitorCtrl.Name" onkeypress="return onlyAlphabets(event,this);"
+                    required />
+
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">MOBILE
+                    <span style="color:red">*</span>
+                  </label>
+                  <input type="text" class="form-control input-sm calendarctrl" data-ng-model="visitorCtrl.Mobile" ng-keyup="visitorCtrl.checkContact(visitorCtrl.Mobile)"
+                    maxlength="10" required />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">PURPOSE
+                    <span style="color:red">*</span>
+                  </label>
+                  <select class="form-control" ng-model="visitorCtrl.purpose" required>
+                    <option value=""> Select</option>
+                    <option value="Seminar"> Seminar</option>
+                    <option value="Event">Event</option>
+                    <option value="Presentation">Presentation</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Official">Official</option>
+                    <option value="Government">Government</option>
+                    <option value="Admission Enquiry">Admission Enquiry</option>
+                  </select>
+
+                </div>
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-4">
+                  <div class="form-group form-md-line-input form-md-floating-label has-info">
+                    <label for="form_control_1">DATE</label>
+                    <input type="date" class="form-control input-sm" name="description" data-ng-model="visitorCtrl.Indate" />
+
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group form-md-line-input form-md-floating-label has-info">
+                    <label for="form_control_1">NO OF PEOPLE</label>
+                    <input type="number" class="form-control input-sm calendarctrl" data-ng-model="visitorCtrl.Nopeo" maxlength="50" min="0"
+                    />
+
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+
+                  <div class="form-group form-md-line-input form-md-floating-label has-info">
+                    <label for="form_control_1">DESCRIPTION</label>
+                    <!-- <input type="text" class="form-control input-sm" name="description" data-ng-model="visitorCtrl.Description" /> -->
+                    <textarea class="form-control input-sm" name="description" data-ng-model="visitorCtrl.Description" style="resize: none">
+   
+        </textarea>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="pull-right" style="/*margin-left: 400px*/margin-top: -4%;">
+              <!-- <button type="reset" class="btn default">Reset</button> -->
+              <button type="submit" class="btn green" data-ng-disabled="visitorAction.$invalid">
+                <i class="fa fa-check"></i> Submit</button>
+            </div>
+
+            <div class="heigh-30"></div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Edit modal ends here -->
+
+<!-- Edit modal starts here -->
+<div id="Add-visitor" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="visitorCtrl.closeModal1();">
+          <span class="icon-close"></span>
+        </a>
+        <h4 ng-show="!visitorCtrl.function1" class="modal-title font-green">Add visitor</h4>
+        <h4 ng-show="visitorCtrl.function1" class="modal-title font-green">More Details</h4>
+      </div>
+      <div class="modal-body form">
+        <div class="form-container" data-ng-if="!visitorCtrl.function1">
+          <form name="noticeboardform" novalidate role="form" data-ng-submit="visitorCtrl.visitorAction(noticeboardform.$invalid);visitorCtrl.clearfields();">
+
+            <div class="row">
+
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">NAME
+                    <span style="color:red">*</span>
+                  </label>
+                  <input type="text" class="form-control input-sm" name="description" data-ng-model="visitorCtrl.Name" onkeypress="return onlyAlphabets(event,this);"
+                    required />
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">MOBILE
+                    <span style="color:red">*</span>
+                  </label>
+                  <input type="text" allow-date class="form-control input-sm calendarctrl" ng-keyup="visitorCtrl.checkContact(visitorCtrl.Mobile)"
+                    data-ng-model="visitorCtrl.Mobile" maxlength="10" required />
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">PURPOSE
+                    <span style="color:red">*</span>
+                  </label>
+                  <select class="form-control" ng-model="visitorCtrl.purpose" required>
+                    <option value="">Select purpose</option>
+                    <option value="Seminar"> Seminar</option>
+                    <option value="Event">Event</option>
+                    <option value="Presentation">Presentation</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Official">Official</option>
+                    <option value="Government">Government</option>
+                    <option value="Admission Enquiry">Admission Enquiry</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">DATE</label>
+                  <input type="date" class="form-control input-sm" name="date" data-ng-model="visitorCtrl.Indate" />
+
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">NO OF PEOPLE</label>
+                  <input type="number" class="form-control input-sm calendarctrl" data-ng-model="visitorCtrl.Nopeo" maxlength="10" min="0"
+                  />
+
+                </div>
+              </div>
+              <div class="col-md-4"></div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                  <label for="form_control_1">DESCRIPTION</label>
+                  <!-- <input  class="form-control input-sm" name="description" data-ng-model="visitorCtrl.Description"/> -->
+                  <textarea class="form-control input-sm" col="4" rows="" style="resize: none;" name="description" data-ng-model="visitorCtrl.Description"></textarea>
+
+                </div>
+              </div>
+            </div>
+            <div class="pull-right" style="/*margin-left: 400px;*/margin-top: -4%;">
+              <!-- <button type="reset" class="btn default">Reset</button> -->
+              <button type="submit" class="btn green" data-ng-disabled="noticeboardform.$invalid">
+                <i class="fa fa-check"></i> Submit</button>
+            </div>
+            <div class="heigh-30">
+            </div>
+          </form>
+        </div>
+        <div class="form-container" data-ng-if="visitorCtrl.function1">
+          <div class="row static-info">
+            <div class="col-md-4">
+              Name: {{visitorCtrl.visitorListShow[0].Name}}
+            </div>
+            <div class="col-md-4">
+              Mobile: {{visitorCtrl.visitorListShow[0].Mobile}}
+            </div>
+            <div class="col-md-4">
+              Purpose: {{visitorCtrl.visitorListShow[0].purpose}}
+            </div>
+          </div>
+         <div class="row static-info">
+            <div class="col-md-4">
+              Date: {{visitorCtrl.visitorListShow[0].Indate | date:'dd-MM-yyyy'}}
+            </div>
+            <div class="col-md-4">
+              No Of People: {{visitorCtrl.visitorListShow[0].Nopeo}}
+            </div>
+          </div>
+          <div class="row static-info">
+            <div class="col-md-12">
+              Description: {{visitorCtrl.visitorListShow[0].Description}}
+            </div>
+          </div>
+          <div class="heigh-30"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Edit modal ends here -->
+<script>
+  function onlyAlphabets(e, t) {
+    try {
+      if (window.event) {
+        var charCode = window.event.keyCode;
+      } else if (e) {
+        var charCode = e.which;
+      } else {
+        return true;
+      }
+      if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123 || charCode == 32))
+        return true;
+      else
+        return false;
+    } catch (err) {
+      alert(err.Description);
+    }
+  };
+</script>
+<style>
+  @media screen and (max-width:400px) {
+    .visitorMobile {
+      position: absolute;
+      margin-left: 2px;
+    }
+    .toolsmobile {
+      margin-top: -35px !important;
+      z-index: 999;
+      margin-left: 215px !important;
+    }
+    .tablemobile {
+      margin-top: 18px !important;
+    }
+  }
+
+  @media screen and (min-width:1000px) {
+    .visitorMobile {
+      position: absolute;
+    }
+    .addmobile {
+      position: relative;
+      margin-left: 154px;
+      margin-top: -15px;
+      z-index: 999;
+    }
+    .toolsmobile {
+      margin-right: -112%;
+      margin-top: -14px;
+      z-index: 999;
+    }
+    .tablemobile {
+      margin-top: -29px;
+    }
+  }
+
+  @media screen and (max-width:700px) {
+    .addmobile {
+      position: relative;
+      margin-top: -15px !important;
+      z-index: 999;
+      margin-left: 0px;
+    }
+    .toolsmobile {
+      margin-top: -35px;
+      z-index: 999;
+      margin-left: 389px;
+    }
+    .tablemobile {
+      margin-top: -7px;
+    }
+  }
+</style>

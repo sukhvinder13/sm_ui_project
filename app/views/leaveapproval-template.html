@@ -1,0 +1,170 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Leave Application
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-bullhorn font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">Leave Approval</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar" style="position: absolute;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="btn-group leaveapp1" ng-show="userRole=='Staff'">
+                                                <a ui-sref="home.leave"><button data-toggle="modal"
+                                                        class="btn green">
+                                                    View All Leaves
+                                                    <i class="fa fa-plus"></i>
+                                                </button></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="btn-group pull-right leaveapp2">
+                                                <button class="btn green btn-outline dropdown-toggle " data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="LeaveCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;" data-ng-click="LeaveCtrl.pdf();"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="LeaveCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tableToExport" style="margin-top: -29px;">
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid table-scrollable" border="1px solid black"
+                                        datatable="ng">
+                                        <thead>
+                                            <tr>
+                                                <th ng-hide='true'>Sr.No</th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    From Date
+                                                </th>
+                                                <th>
+                                                    To Date
+                                                </th>
+                                                <th>
+                                                    Name
+                                                </th>
+                                                <th ng-show="userRole !== 'Admin'">Class-Section</th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <th class="text-center">
+                                                    Change View
+                                                </th>
+                                                <!--<th class="text-center">
+                                                    Delete
+                                                </th>-->
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="Approval in LeaveCtrl.LeaveRequestList | orderBy: sortComment: true">
+                                                <td ng-hide='true'>{{$index+1}}</td>
+                                                <td>{{Approval.description}}</td>
+                                                <td>{{Approval.date1 | date:'dd-MM-yyyy'}}</td>
+                                                <td>{{Approval.date2| date:'dd-MM-yyyy'}}</td>
+                                                <td>{{Approval.sMUser.firstName}} {{Approval.sMUser.lastName}} </td>
+                                                <td ng-show="userRole !== 'Admin'">{{Approval.class.className}}-{{Approval.class.sectionName}}</td>
+                                                <td>{{Approval.status}}</td>
+                                                <td class="text-center">
+                                                    <button data-ng-click="LeaveCtrl.myFunc(Approval)" ng-disabled="Approval.status==='Approved'||Approval.clickCount == '2'"
+                                                        class="btn green">Accept</button>
+                                                    <button data-ng-click="LeaveCtrl.myFunc1(Approval)"  ng-disabled="Approval.status==='Rejected'||Approval.clickCount == '2'"
+                                                        class="btn green">Reject</button>
+                                                </td>
+                                                <!--<td class="text-center">
+                                                    <a href="javascript:void(0);" ng-show="Approval.status !== 'Approved'" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="LeaveCtrl.confirmCallbackMethod1($index)"
+                                                        ng-bootbox-confirm-action-cancel="LeaveCtrl.confirmCallbackCancel1($index)">
+                                                        <i class="fa fa-remove"></i>
+                                                        </a>
+                                                </td>-->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="printTablesw" style="display:none">
+                            <div id="printTable">
+                                <table class="table table-striped table-hover table-bordered sm_editable_grid table-scrollable" border="1px solid black"
+                               >
+                                <thead>
+                                    <tr>
+                                        <th ng-hide='true'>Sr.No</th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            From Date
+                                        </th>
+                                        <th>
+                                            To Date
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th ng-show="userRole !== 'Admin'">Class-Section</th>
+                                        <th>
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="Approval in LeaveCtrl.LeaveRequestList | orderBy:date1:true">
+                                        <td ng-hide='true'>{{$index+1}}</td>
+                                        <td>{{Approval.description}}</td>
+                                        <td>{{Approval.date1 | date:'dd-MM-yyyy'}}</td>
+                                        <td>{{Approval.date2| date:'dd-MM-yyyy'}}</td>
+                                        <td>{{Approval.sMUser.firstName}} {{Approval.sMUser.lastName}} </td>
+                                        <td ng-show="userRole !== 'Admin'">{{Approval.class.className}}-{{Approval.class.sectionName}}</td>
+                                        <td>{{Approval.status}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+
+<!-- EDIT MODAL END-->

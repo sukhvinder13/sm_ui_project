@@ -1,0 +1,159 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+      <!-- BEGIN PAGE CONTENT -->
+      <div class="page-content">
+            <div class="container">
+                  <!-- BEGIN PAGE BREADCRUMB -->
+                  <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                              <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                              Main Menu
+                        </li>
+                  </ul>
+                  <!-- END PAGE BREADCRUMB -->
+                  <!-- BEGIN PAGE CONTENT INNER -->
+                  <div class="page-content-inner">
+                        <div class="row">
+                              <div class="col-md-12">
+                                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                                    <div class="portlet light portlet-fit ">
+                                          <div class="portlet-title">
+                                                <div class="caption">
+                                                      <i class="fa fa-comments font-green"></i>
+                                                      <span class="caption-subject font-green bold uppercase">MENU</span>
+                                                </div>
+                                          </div>
+                                          <div class="portlet-body" style="margin:20px 0px 0px 140px">
+                                                <!-- TABULAR CONTENT GOES HERE-->
+                                                <div class="row">
+                                                      <div class="col-md-12">
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Class.png" ui-sref="home.class" title="Class"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 14px">Class</label>
+                                                            </div>
+
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Subjects.png" ui-sref="home.subjects" title="Subjects"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 10px">Subjects</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/TimeTable.png" ui-sref="home.timetable" title="Timetable"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 8px">Time Table</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Expense.png" ui-sref="home.expenses" title="Expenses"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 8px">Expense</label>
+                                                            </div>
+                                                            <div class="col-md-2" ng-show="userRole !== 'Staff'">
+                                                                  <img src="images/Fee.png" ui-sref="home.fees" title="Fees"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 18px">Fee</label>
+
+                                                            </div>
+                                                            
+                                                      </div>
+                                                </div>
+                                                </br><br>
+                                                <div class="row">
+                                                      <div class="col-md-12">
+                                                            <div class="col-md-2" ng-show="userRole !== 'Staff'">
+                                                                  <img src="images/FeePayment.png" ui-sref="home.feepayment" title="Fee Payment"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 0px">Fee Payment</label>
+                                                            </div>
+                                                            <div class="col-md-2" ng-show="userRole !== 'Staff'">
+                                                                  <img src="images/Transport.png" ui-sref="home.transport" title="Bus"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 10px">Transport</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/BusService.png" ui-sref="home.busservice" title="Bus Service"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 10px">Bus Service</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/BusSubscription.png" ui-sref="home.bussubscription" title="Bus Subscription"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 0px">Bus Subscription</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Directory.png" ui-sref="home.schooldirectory" title="School Directory"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 0px">School Directory</label>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                </br><br>
+                                                <div class="row">
+                                                      <div class="col-md-12">
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Notice.png" ui-sref="home.noticeboard" title="Noticeboard"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 0px">Notice Board</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Message.png" ui-sref="home.messages" title="Messages"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 0px">Messages</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Assignment.png" ui-sref="home.assignments" title="Assignments"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 0px">Assignments</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Attendance.png" width="64px" height="64px" ui-sref="home.attendance" title="Attendance"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 0px">Attendance</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Exam.png" ui-sref="home.exams" title="Exams"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 10px">Exams</label>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                </br><br>
+                                                <div class="row">
+                                                      <div class="col-md-12">
+                                                            <div class="col-md-2" ng-show="userRole !== 'Staff'">
+                                                                  <img src="images/Grade.png" ui-sref="home.grade" title="Grade Book"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 0px">Grade Book</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Marks.png" ui-sref="home.marks" title="Marks"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 10px">Marks</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Library.png" ui-sref="home.library" title="Library"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 10px">Library</label>
+                                                            </div>
+                                                            <div class="col-md-2" ng-show="userRole !== 'Staff'">
+                                                                  <img src="images/Settings.png" ui-sref="home.settings" title="Settings"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 10px">Settings</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                  <img src="images/Media.png" ui-sref="home.mediauploads" title="Media"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 10px">Media</label>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                </br><b>
+                                                <div class="row">
+                                                      <div class="col-md-12">
+                                                            <div class="col-md-2" ng-show="userRole !== 'Staff'">
+                                                                  <img src="images/Enrollment.png" width="64px" height="64px" ui-sref="home.addstudent" title="Enroll Student"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 0px">Enroll Student</label>
+                                                            </div>
+                                                            <div class="col-md-2" ng-show="userRole !== 'Staff'">
+                                                                  <img src="images/TeacherEnrollment.png" width="64px" height="64px" ui-sref="home.addstaff" title="Enroll Staff"><br>
+                                                                  <label for="form_control_1" style="margin:0px 0px 0px 0px">Enroll Staff</label>
+                                                            </div>
+                                                            
+                                                      </div>
+                                                </div>
+                                                </br><b>
+                                          </div>
+                                    </div>
+                              </div>
+                              <!-- END EXAMPLE TABLE PORTLET-->
+                        </div>
+                  </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+      </div>
+</div>
+<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->

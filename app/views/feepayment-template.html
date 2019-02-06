@@ -1,0 +1,125 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Fee Reports
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-file-text font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">Fee Payment</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <select data-ng-model="classFilter" name="classId" class="form-control input-sm">
+                                                        <option value="">Class Name</option>
+                                                        <option ng-repeat="class in FeesPaymentController.classList" value="{{class.id}}">{{class.className}} {{class.sectionName}}
+                                                        </option>
+                                                        </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="btn-group pull-right">
+                                                <div class="clearfix">
+                                                    <input type='text' class="form-control" ng-model='searchText' placeholder="Search Student name " />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tableToExport">
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Registration Number
+                                                </th>
+                                                <th>
+                                                    Student Name
+                                                </th>
+                                                <th>
+                                                    Roll No
+                                                </th>
+                                                <th>
+                                                    Father's Name
+                                                </th>
+                                                <th>
+                                                    Class
+                                                </th>
+                                                <th>
+                                                    Total
+                                                </th>
+                                                <th>
+                                                    Discount
+                                                </th>
+                                                <th>Total Payable</th>
+
+                                                <th>
+                                                    Paid
+                                                </th>
+                                                <th>
+                                                    Due
+                                                </th>
+                                                <th colspan="2">Actions</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="student in FeesPaymentController.studentList | filter:{name:searchText,classId:classFilter} |orderBy : ['rollNo1','classId']">
+                                                <td ng-init="FeesPaymentController.setRollNo(student)">{{student.registrationNo}}</td>
+                                                <td><span ng-if="student.firstName">{{student.firstName}}</span> <span ng-if="student.lastName">{{student.lastName}}</span></td>
+                                                <td>{{student.rollNo}}</td>
+                                                <td>{{student.parentName}}</td>
+                                                <td>{{student.class}} {{student.section}}</td>
+                                                <td>{{student.total}}</td>
+                                                <td>{{student.discount}}</td>
+                                                <td>{{student.payable}}</td>
+
+                                                <td>{{student.paid}}</td>
+                                                <td>{{student.due}}
+
+                                                </td>
+                                                <!-- <td><button class="btn green" data-ng-click="FeesPaymentController.individualFeeDetails(student.id)">ApplyFee</button></td> -->
+                                                <td><button class="btn green" data-ng-click="FeesPaymentController.editDetails(student.studentId)">PayFee</button></td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+
+</div>

@@ -1,0 +1,391 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+  <!-- BEGIN PAGE CONTENT -->
+  <div class="page-content">
+    <div class="container">
+      <!-- BEGIN PAGE BREADCRUMB -->
+      <ul class="page-breadcrumb breadcrumb">
+        <li>
+          <a ui-sref="home.console">Home</a>
+          <i class="fa fa-circle"></i>
+        </li>
+        <li>
+          School Directory
+          <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+          More Details
+        </li>
+      </ul>
+      <!-- END PAGE BREADCRUMB -->
+      <!-- BEGIN PAGE CONTENT INNER -->
+      <div class="page-content-inner">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit ">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="fa fa-building-o font-green"></i>
+                  <span class="caption-subject font-green bold uppercase"> USER PROFILE</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="table-toolbar">
+                  <div class="row">
+                    <div class="col-md-6 col-sm-12">
+
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+
+                    </div>
+                  </div>
+                </div>
+                <div id="tableToExport">
+                  <div class="row profile">
+                    <div class="col-md-3">
+                      <ul class="list-unstyled profile-nav">
+                        <li>
+                          <img data-ng-src="{{MoreDetailsCtrl.studentData[0].file}}" class="img-responsive pic-bordered" alt="{{MoreDetailsCtrl.studentData[0].firstName}}">
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="row">
+                        <div class="col-md-12 profile-info">
+                          <h1 class="font-green sbold uppercase">{{MoreDetailsCtrl.studentData[0].firstName}} {{MoreDetailsCtrl.studentData[0].lastName}}</h1>
+                          <p ng-hide="MoreDetailsCtrl.studentData[0].searchSelection == 'Staff'">
+                            Roll No: {{MoreDetailsCtrl.studentData[0].rollNo}}
+                          </p>
+                          <p ng-hide="SchooldirectoryCtrl.searchSelection == 'Staff'">
+                            Class: {{MoreDetailsCtrl.studentData[0].class.className}} - {{MoreDetailsCtrl.studentData[0].class.sectionName}}
+                          </p>
+                          <p>
+                            Email:
+                            <a href="emailTo:javascript:void(0);"> {{MoreDetailsCtrl.studentData[0].email}} </a>
+                          </p>
+                          <p>
+                            Registration No:
+                            <a href="emailTo:javascript:void(0);">
+                              <span ng-if="MoreDetailsCtrl.studentData[0].registrationNo">{{MoreDetailsCtrl.studentData[0].registrationNo}}</span>
+                              <span ng-if="MoreDetailsCtrl.studentData[0].regId">{{MoreDetailsCtrl.studentData[0].regId}}</span>
+                            </a>
+                          </p>
+                          <p>
+                            Phone Number: {{MoreDetailsCtrl.studentData[0].contact}}
+                          </p>
+                          <ul class="list-inline block">
+                            <li>
+                              <i class="fa fa-map-marker"></i> {{MoreDetailsCtrl.studentData[0].currentAddress}}, {{MoreDetailsCtrl.studentData[0].currentCity}},
+                              {{MoreDetailsCtrl.studentData[0].currentState}}, {{MoreDetailsCtrl.studentData[0].currentPincode}}
+                            </li>
+                            <li>
+                              <i class="fa fa-calendar"></i> {{MoreDetailsCtrl.studentData[0].DOB | date:'dd MMM yyyy'}}
+                            </li>
+                            <li>
+                              <i class="fa fa-briefcase"></i> {{MoreDetailsCtrl.studentData[0].type}}
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-md-12">
+                          <button class="btn green btn-outline dropdown-toggle" ng-click="MoreDetailsCtrl.toggle()">Chat
+                            <i class="icons icon-bubble"></i>
+                          </button>
+                        </div>
+                        <div class="col-md-3 hide">
+                          <ul class="list-inline icon-large">
+                            <li>
+                              <i class="icons icon-social-facebook"></i>
+                            </li>
+                            <li>
+                              <i class="icons icon-bubble"></i>
+                            </li>
+                            <li>
+                              <i class="icons icon-envelope"></i>
+                            </li>
+                          </ul>
+                        </div>
+                        <!--end col-md-8-->
+                      </div>
+                      <div class="col-md-7" ng-show="MoreDetailsCtrl.myVar">
+                        <div class="inbox-body">
+                          <div class="inbox-header">
+                            <h1 class="pull-left">New Message</h1>
+                          </div>
+                          <div class="inbox-content">
+                            <div class="inbox-form-group">
+                              <div class="controls">
+                                <input type="text" class="form-control" data-ng-model="MoreDetailsCtrl.formFields.messagesubject" placeholder="Subject Here">
+                              </div>
+                            </div>
+                            <div class="inbox-form-group">
+                              <textarea class="inbox-editor inbox-wysihtml5 form-control" name="message" rows="12" placeholder="Message Here" data-ng-model="MoreDetailsCtrl.formFields.message"
+                                required></textarea>
+                            </div>
+                            <div class="inbox-compose-btn">
+                              <button type="submit" ng-show="userRole == 'Admin'" data-ng-click="MoreDetailsCtrl.sms()" ng-bootbox-confirm="Message Has Been Sent Successfully !"
+                                class="btn green">
+                                <i class="fa fa-check"></i> SMS</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--end row-->
+                      <div class="tabbable-line tabbable-custom-profile" ng-show="!MoreDetailsCtrl.myVar">
+                        <ul class="nav nav-tabs">
+                          <li class="active">
+                            <a href="javascript:void(0);" id="personaltab" data-target="#personalinfo" data-toggle="tab" aria-expanded="true"> Personal Info </a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0);" id="attendancetab" data-target="#attendance" data-toggle="tab" aria-expanded="true" ng-hide="SchooldirectoryCtrl.searchSelection == 'Staff'"> Attendance </a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0);" id="markstab" data-ng-click="SchooldirectoryCtrl.openTab('marks')" data-toggle="tab" aria-expanded="true" ng-hide="SchooldirectoryCtrl.searchSelection == 'Staff'">
+                              Marks </a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0);" id="activitytab" data-ng-click="SchooldirectoryCtrl.openTab('activity')" aria-expanded="true"
+                              ng-hide="SchooldirectoryCtrl.searchSelection == 'Staff'"> Activity Log </a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0);" id="Feetab" data-target="#Fee" data-toggle="tab" data-ng-click="SchooldirectoryCtrl.openTab('marks')"
+                              aria-expanded="true" ng-hide="SchooldirectoryCtrl.searchSelection == 'Staff'"> Fee </a>
+                          </li>
+                          <li>
+                           <a href="javascript:void(0);" id="Documenttab" data-target="#Documents" data-toggle="tab" aria-expanded="true"
+                            ng-hide="SchooldirectoryCtrl.searchSelection == 'Staff'"> Document </a>
+                          </li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="personalinfo">
+                            <div class="portlet-body">
+                              <table class="table table-striped table-bordered table-advance table-hover">
+                                <tr>
+                                  <th> DateofBirth :</th>
+                                  <td>{{ MoreDetailsCtrl.studentData[0].DOB | date:'MMM dd yyyy' }}</td>
+                                </tr>
+                                <tr>
+                                  <th> DateofJoin :</th>
+                                  <td>{{ MoreDetailsCtrl.studentData[0].DOJ | date:'MMM dd yyyy' }}</td>
+                                </tr>
+                                <tr>
+                                  <th> BloodGroup :</th>
+                                  <td>{{ MoreDetailsCtrl.studentData[0].bloodGroup }}</td>
+                                </tr>
+                                <tr>
+                                  <th> MotherTounge :</th>
+                                  <td>{{ MoreDetailsCtrl.studentData[0].motherTounge }}</td>
+                                </tr>
+                                <tr>
+                                  <th> Father Name :</th>
+                                  <td>{{ MoreDetailsCtrl.studentData[0].fatherName }}</td>
+                                </tr>
+                                <tr>
+                                  <th> Mother Name :</th>
+                                  <td>{{ MoreDetailsCtrl.studentData[0].motherName }}</td>
+                                </tr>
+                                <tr>
+                                  <th> Father Mobile:</th>
+                                  <td>{{ MoreDetailsCtrl.studentData[0].fatherContact }}</td>
+                                </tr>
+                                <tr>
+                                  <th> Mother Mobile:</th>
+                                  <td>{{ MoreDetailsCtrl.studentData[0].motherContact }}</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </div>
+                          <!--tab-pane-->
+                          <div class="tab-pane" id="attendance" style="height:510px;">
+                            <div class="portlet-body col-sm-12 col-md-12 col-lg-12">
+                              <table class="table table-striped table-bordered table-advance table-hover">
+                                <tr>
+                                  <th>{{MoreDetailsCtrl.academicBatchYear}}</th><th></th><th></th><th></th>
+                                </tr>
+                                <tr>
+                                  <th> Month Name</th>
+                                  <th> Total Working Days</th>
+                                  <th> Present Days</th>
+                                  <!-- <th> % Presence </th> -->
+                                  <th>Absent</th>
+                                </tr>
+                                <tr data-ng-repeat="attendence in MoreDetailsCtrl.attendenceData">
+                                  <td>{{attendence.monthName}} </td>
+                                  <td><span ng-if="attendence.StudentPresentDays!==0">{{(attendence.workingDays) - (attendence.holidayDays)}}</span><span ng-if="attendence.StudentPresentDays==0"></span> </td>
+                                  <td><span ng-if="attendence.StudentPresentDays!==0">{{attendence.StudentPresentDays}}</span>
+                                    <span ng-if="attendence.StudentPresentDays==0"></span>
+                                  </td>
+                                  <!-- <td>{{(((attendence.StudentPresentDays/attendence.workingDays)*100)|number:2)}} </td> -->
+                                  <!-- <th>{{attendence.holidayDays}}</th> -->
+                                  <td><span ng-if="attendence.StudentPresentDays!==0"> {{(attendence.workingDays) - (attendence.holidayDays) -(attendence.StudentPresentDays)}}</span>
+                                    <span ng-if="attendence.StudentPresentDays==0"></span></td>
+                                </tr>
+                                <!-- <tr>
+                                  <td>Totals</td>
+                                  <td>{{MoreDetailsCtrl.totalPresentDays}}</td>
+                                  <td>{{(MoreDetailsCtrl.totalWorkingDays) - (MoreDetailsCtrl.totalHoliDays) }}</td>
+                                  <td>{{(((MoreDetailsCtrl.totalPresentDays/MoreDetailsCtrl.totalWorkingDays)*100)|number:'2')}}</td>
+                                </tr> -->
+                              </table>
+                          </div>
+
+                            <div class="portlet-body col-sm-12 col-md-12 col-lg-12">
+                                <div id="container" style="width: 610px; height: 400px; margin: 0 auto"></div>   
+                            </div>
+                        </div>
+                          <!--tab-pane-->
+                          <!--tab-pane-->
+                          <div class="tab-pane" id="marks">
+                                                   </div>
+                          <!--tab-pane-->
+                          <!--tab-pane-->
+                          <div class="tab-pane" id="activity">
+                            coming Soon..
+                          </div>
+                          <!--tab-pane-->
+                          <!--tab-pane-->
+                          <div class="tab-pane" id="Fee">
+                            <div class="portlet-body col-sm-7 col-md-7 col-lg-7">
+                              <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                <thead class="thead-inverse">
+                                  <tr>
+                                    <th colspan="5" class="text-center">{{MoreDetailsCtrl.studentData[0].paymentMode}}</th>
+                                  </tr>
+                                  <tr>
+                                    <th>Fee Name</th>
+                                    <th>Fee Type</th>
+                                    <th>Details</th>
+
+                                    <th>Total</th>
+                                    <th style="width:100px;">Due Date</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr data-ng-repeat="feedata in MoreDetailsCtrl.studentDetails.feeSetup ">
+                                    <td>{{feedata.feetype}}</td>
+                                    <td>{{feedata.mandatory}}</td>
+                                    <td>
+                                      <div ng-repeat="fee in feedata.feeitems">
+                                        {{fee.description}}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div ng-repeat="fee in feedata.feeitems">
+                                        {{fee.payable}}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div ng-repeat="fee in feedata.feeitems">
+                                        {{fee.date |date:'dd-MM-yyyy'}}
+                                      </div>
+                                    </td>
+
+                                  </tr>
+                                  <tr>
+                                    <td colspan="3">Total Amount</td>
+                                    <td colspan="2">{{MoreDetailsCtrl.paybleAmount}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="portlet-body col-sm-5 col-md-5 col-lg-5">
+                              <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                                <thead>
+                                  <tr>
+                                    <th colspan="4" style="text-align:center;"> Receipts</th>
+                                  </tr>
+                                  <tr>
+                                    <th>
+                                      NO.
+                                    </th>
+                                    <th>
+                                      Type
+                                    </th>
+
+                                    <th style="width:100px;">
+                                      Date
+                                    </th>
+                                    <th>
+                                      Amount
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr data-ng-repeat="receipt in MoreDetailsCtrl.studentDetails.payments">
+                                    <td>{{receipt.receiptNumber}}</td>
+                                    <td>{{receipt.feetype}}</td>
+                                    <td>{{receipt.payDate| date:'dd-MM-yyyy'}}</td>
+                                    <td class="text-right">{{receipt.paidAmount}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <!--tab-pane-->
+                          <!--tab-pane-->
+                          <div class="tab-pane" id="Documents">
+                            <table class="table table-striped table-hover table-bordered sm_editable_grid">
+                              <thead>
+                                <tr>
+                                  <th>
+                                    Name
+                                  </th>
+                                  <th>
+                                    Attachment
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>Profile Pic</td>
+                                  <td><a href="{{MoreDetailsCtrl.studentData[0].file}}" >{{MoreDetailsCtrl.studentData[0].file.substring(64) }}</a></td>
+                                </tr>
+                                <tr>  
+                                  <td>TC</td>
+                                  <td><a href="{{MoreDetailsCtrl.studentData[0].tcFile}}">{{MoreDetailsCtrl.studentData[0].tcFile.substring(64) }}</a></td>
+                                </tr>
+                                <tr>  
+                                <td>Aadhar/Passport </td>
+                                    <td><a href="{{MoreDetailsCtrl.studentData[0].adhaarFile}}">{{MoreDetailsCtrl.studentData[0].adhaarFile.substring(64) }}</a></td>
+                                </tr>
+                                <tr>  
+                                  <td>Caste Certificate </td>
+                                    <td><a href="{{MoreDetailsCtrl.studentData[0].castecertiFile}}">{{MoreDetailsCtrl.studentData[0].castecertiFile.substring(64) }}</a></td>
+                                </tr>
+                                <tr>  
+                                    <td>DOB Certificate</td>
+                                    <td><a href="{{MoreDetailsCtrl.studentData[0].dobFile}}">{{MoreDetailsCtrl.studentData[0].dobFile.substring(64) }}</a></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <!--tab-pane-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+          </div>
+        </div>
+      </div>
+      <!-- END PAGE CONTENT INNER -->
+    </div>
+  </div>
+  <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<!-- Do not remove this style becaause it has dependencies on thi page -->
+<style>
+  .highcharts-exporting-group{
+    display: none;
+  }
+  .highcharts-credits{
+    display: none;
+  }
+</style>
+<!-- EDIT MODAL END-->

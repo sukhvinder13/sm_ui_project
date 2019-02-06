@@ -1,0 +1,236 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a><i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Library
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-book font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">LIBRARY</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar" style="position: absolute;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="btn-group libbtn">
+                                                <button data-toggle="modal" data-target="#edit-library" data-ng-click="LibraryCtrl.editmode = false;LibraryCtrl.setFloatLabel();LibraryCtrl.detailsMode = false;LibraryCtrl.circulationMode = false;" ng-show="LibraryCtrl.roleEdit"
+                                                    class="btn green">
+                                                    Add New Book
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" ng-show="LibraryCtrl.roleEdit">
+                                            <div class="btn-group pull-right libbtn2">
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                           <a href="javascript:void(0)" data-ng-click="LibraryCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="LibraryCtrl.exportToExcel('#printTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tableToExport" style="margin-top: -30px;">
+                                     <table class="table table-striped table-hover table-bordered sm_editable_grid table-scrollable" border="1px solid black" datatable="ng" id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Book Name
+                                                </th>
+                                                <th>
+                                                    Author Name
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    Price (Rs.)
+                                                </th>
+                                                <th>
+                                                    Available Copies
+                                                </th>
+                                                <th>
+                                                    In Circulation
+                                                </th>
+                                                <th>
+                                                    Remaining
+                                                </th>
+                                                <th class="text-center">
+                                                    More Details
+                                                </th>
+                                                <th class="text-center" ng-show="LibraryCtrl.roleEdit">
+                                                    Edit
+                                                </th>
+                                                <th class="text-center" ng-show="LibraryCtrl.roledelete">
+                                                    Delete
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="lib in LibraryCtrl.libraryList">
+                                                <td href="javascript:void(0)" data-ng-click="LibraryCtrl.circulation($index);">{{lib.name}}</td>
+                                                <td>{{lib.author}}</td>
+                                                <td>{{lib.description}}</td>
+                                                <td>{{lib.price}}/-</td>
+                                                <td>{{lib.available}}</td>
+                                                <td>{{lib.issuedbooks}}</td>
+                                                <td>{{lib.available - lib.issuedbooks}}</td>
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0)" data-ng-click="LibraryCtrl.moreDetails($index);">
+                                                        <i class="fa fa-file-text-o"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center" ng-show="LibraryCtrl.roleEdit">
+                                                    <a href="javascript:void(0);" data-ng-click="LibraryCtrl.editLibrary($index)">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center" ng-show="LibraryCtrl.roledelete">
+                                                    <a href="javascript:void(0);" ng-bootbox-confirm="Are you sure you want to delete this record ?" ng-bootbox-confirm-action="LibraryCtrl.confirmCallbackMethod($index)"
+                                                        ng-bootbox-confirm-action-cancel="LibraryCtrl.confirmCallbackCancel($index)">
+                                                        <i class="fa fa-remove"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- EDIT MODAL -->
+<div id="edit-library" class="modal  fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click=" LibraryCtrl.closeModal()"><span class="icon-close"></span></a>
+                <h4 class="modal-title font-green">LIBRARY</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="form-container" data-ng-if="!LibraryCtrl.detailsMode && !LibraryCtrl.circulationMode">
+                    <form name="libraryform" novalidate role="form" data-ng-submit=" LibraryCtrl.libraryAction(libraryform.$invalid)">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="name" data-ng-model=" LibraryCtrl.formFields.name" maxlength="50"
+                                required />
+                            <label for="form_control_1">Book Name</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="texts" class="form-control input-sm" name="author" data-ng-model=" LibraryCtrl.formFields.author" maxlength="50"
+                                required />
+                            <label for="form_control_1">Author Name</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="description" data-ng-model=" LibraryCtrl.formFields.description" 
+                                required />
+                            <label for="form_control_1">Description</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="price" data-ng-model=" LibraryCtrl.formFields.price" maxlength="50"
+                                required />
+                            <label for="form_control_1">PRICE</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="available" data-ng-model=" LibraryCtrl.formFields.available" maxlength="50"
+                                required />
+                            <label for="form_control_1">AVAILABLE NUMBER OF BOOKS</label>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn default">Reset</button>
+                            <button type="submit" class="btn green" ng-disabled="!first"><i class="fa fa-check"></i> Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-container" data-ng-if="LibraryCtrl.detailsMode">
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Book Name:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{LibraryCtrl.viewValue.name}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Author:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{LibraryCtrl.viewValue.author}}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Description:
+                        </div>
+                        <div class="col-md-7 value">
+                            {{LibraryCtrl.viewValue.description}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-container" data-ng-if="LibraryCtrl.circulationMode">
+                    <form name="libraryform" novalidate role="form" data-ng-submit=" LibraryCtrl.libraryAction(libraryform.$invalid)">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <select data-ng-model="LibraryCtrl.formFields.classId" name="classId" data-ng-change="LibraryCtrl.selectedClass()" class="form-control input-sm"
+                                required>
+                                <option value="">CLASS</option>
+                                <option ng-repeat="class in LibraryCtrl.classList" value="{{class.id}}">{{class.className}} {{class.sectionName}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <select data-ng-model="LibraryCtrl.formFields.studentId" name="studentId" class="form-control input-sm" required>
+                                <option value="">Student</option>
+                                <option ng-repeat="student in LibraryCtrl.studentList" value="{{student.id}}">{{student.firstName}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-sm" name="available" data-ng-model=" LibraryCtrl.formFields.issuedbooks" maxlength="50"
+                                required />
+                            <label for="form_control_1">Issued Books</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="reset" class="btn default">Reset</button>
+                            <button type="submit" class="btn green" data-ng-click="libraryform.$invalid"><i class="fa fa-check"></i> Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EDIT MODAL END-->

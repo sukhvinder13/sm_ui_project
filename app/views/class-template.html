@@ -1,0 +1,296 @@
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a ui-sref="home.console">Home</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li class="active">
+                    Class
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light portlet-fit ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-building-o font-green"></i>
+                                    <span class="caption-subject font-green bold uppercase">CLASS</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body" style="margin-top: -23px;">
+                                <div class="table-toolbar">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="" id="cls1" ng-show="ClassCtrl.roleEdit">
+                                                <button data-toggle="modal" data-target="#edit-class" data-ng-click="ClassCtrl.editmode = false;ClassCtrl.setFloatLabel();ClassCtrl.detailsMode = false;"
+                                                    class="btn green">
+                                                    Add New Class
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                                <!-- </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12" ng-show="userRole == 'Admin'">
+                                            <div class="btn-group pull-right"> -->
+                                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Tools
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="ClassCtrl.printData()">Print</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;" data-ng-click="ClassCtrl.pdf();ClassCtrl.showForPdf=false;"> Save as PDF </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-ng-click="ClassCtrl.exportToExcel('#classprintTable')"> Export to Excel </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tableToExport" class="cls2">
+                                    <table class="table table-striped table-hover table-bordered sm_editable_grid table-scrollable " border="1px solid black"
+                                        datatable="ng" id="printTable">
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>
+                                                    Class
+                                                </th>
+                                                <th>
+                                                    Section
+                                                </th>
+                                                <th>
+                                                    Class Teacher
+                                                </th>
+                                                <th>
+                                                    Message Status
+                                                </th>
+                                                <th class="text-center">
+                                                    More Details
+                                                </th>
+                                                <th class="text-center" ng-show="ClassCtrl.roleEdit">
+                                                    Edit
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="class in ClassCtrl.classList|orderBy : sequenceNumber">
+                                                <!--ng-init="ClassCtrl.saveSeq($index+1,class.id)"-->
+                                                <td>{{class.sequenceNumber}}</td>
+                                                <td>
+                                                    {{class.className}}
+                                                </td>
+                                                <td>
+                                                    {{class.sectionName}}
+                                                </td>
+                                                <td>
+                                                    {{class.staff.firstName}} {{class.staff.lastName}}
+                                                </td>
+                                                <td>
+                                                    {{class.msgStatus}}
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0)" data-ng-click="ClassCtrl.moreDetails($index);">
+                                                        <i class="fa fa-file-text-o"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center" ng-show="ClassCtrl.roleEdit">
+                                                    <a href="javascript:void(0);" data-ng-click="ClassCtrl.editClass($index);ClassCtrl.detailsMode = false;"> <i class="fa fa-edit">
+                                                        </i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- print table -->
+<div ng-hide="ClassCtrl.showForPdf">
+    <table class="table table-striped table-hover table-bordered sm_editable_grid table-scrollable" border="1px solid black"
+        id="classprintTable">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>
+                    Class
+                </th>
+                <th>
+                    Section
+                </th>
+                <th>
+                    Class Teacher
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="class in ClassCtrl.classList|orderBy : sequenceNumber">
+                <td>{{class.sequenceNumber}}</td>
+                <td>
+                    {{class.className}}
+                </td>
+                <td>
+                    {{class.sectionName}}
+                </td>
+                <td>
+                    {{class.staff.firstName}} {{class.staff.lastName}}
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- ends here -->
+<!-- EDIT MODAL -->
+<div id="edit-class" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" title="Close" class="modal-close pull-right" aria-hidden="true" data-ng-click="ClassCtrl.closeModal()">
+                    <span class="icon-close"></span>
+                </a>
+                <h4 class="modal-title font-green">Class</h4>
+            </div>
+            <div class="modal-body form">
+                <!-- {{ClassCtrl.detailsMode}} -->
+                <div class="form-container" data-ng-show="!ClassCtrl.detailsMode">
+                    <form name="classform" novalidate role="form" data-ng-submit="ClassCtrl.classAction(classform.$invalid)">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                    <label for="form_control_1">Class Name
+                                        <span style="color:red">*</span>
+                                    </label>
+                                    <!-- <span data-ng-show="ClassCtrl.editmode"> : {{ClassCtrl.formFields.className}}</span> -->
+                                    <input type="text" class="form-control input-sm" name="classname" data-ng-model="ClassCtrl.formFields.className" maxlength="50"
+                                        required />
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                    <label for="form_control_1">Section Name</label>
+                                    <!-- <span data-ng-show="ClassCtrl.editmode">: {{ClassCtrl.formFields.sectionName}}</span> -->
+                                    <input type="text" class="form-control input-sm" name="sectionname" data-ng-model="ClassCtrl.formFields.sectionName" maxlength="50"
+                                    />
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                    <label for="form_control_1">Select Class Teacher
+                                        <span style="color:red">*</span>
+                                    </label>
+                                    <select data-ng-model="ClassCtrl.formFields.staffName" name="teachername" class="form-control input-sm" required>
+                                        <option value="">Select Class Teacher</option>
+                                        <option ng-repeat="staff in ClassCtrl.staffList" value="{{staff.id}}">{{staff.firstName}} {{staff.lastName}}</option>
+                                    </select>
+                                </div>
+                                <!--<div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <select data-ng-model="ClassCtrl.formFields.setSeq" name="setSeq" class="form-control input-sm">
+                             <option value="">Select</option>
+                                <option value="before">Before</option>
+                                <option value="after">After</option>
+                            </select>
+
+                        </div>-->
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-md-radios">
+                                    <!--<label for="form_control_1">Set Sequence</label>-->
+                                    <label>Set Sequence :</label>
+                                    <br> Before:
+                                    <input type="checkbox" value="before" ng-checked="ClassCtrl.before" data-ng-click="ClassCtrl.CheckBoxCLick();"
+                                        id="beforeId" ng-model="ClassCtrl.formFields.B1"> After:
+                                    <input type="checkbox" id="afterId" ng-model="ClassCtrl.formFields.A1" value="after"
+                                        ng-checked="ClassCtrl.after" data-ng-click="ClassCtrl.CheckBoxCLick1();">
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="display:none;" id="HideSequ">
+                                <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top: -8px;">
+                                    <label for="form_control_1">Set Class Sequence</label>
+                                    <select class="form-control" data-ng-model="ClassCtrl.formFields.setclassId">
+                                        <option value="">Select Class</option>
+                                        <option ng-repeat="x in  ClassCtrl.classData" value="{{x.id}}">{{x.className}} {{x.sectionName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group form-md-line-input form-md-floating-label has-info" style="margin-top: 14px;">
+                                    <label for="form_control_1">Absent Message</label>
+                                    <input type="checkbox" value="1" data-ng-model="ClassCtrl.formFields.sendMessage" name="checkMeOut" id="checkMeOut" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="" style="margin-left: 400px;">
+                            <button type="reset" class="btn default">Reset</button>
+                            <!-- data-ng-disabled="classform.$invalid" -->
+                            <button type="submit" class="btn green" ng-disabled="!first">
+                                <i class="fa fa-check"></i> Submit</button>
+                        </div>
+                        <div class="heigh-30"></div>
+                    </form>
+                </div>
+                <div class="form-container" data-ng-show="ClassCtrl.detailsMode">
+                    <div class="row static-info">
+                        <div class="col-md-4 name">
+                            Class Name: {{ClassCtrl.viewValue.className}}
+                        </div>
+
+
+                        <div class="col-md-4 name">
+                            Section Name: {{ClassCtrl.viewValue.sectionName}}
+                        </div>
+
+
+                        <div class="col-md-4 name">
+                            Class Teacher: {{ClassCtrl.viewValue.staff.firstName}} {{ClassCtrl.viewValue.staff.lastName}}
+                        </div>
+
+                    </div>
+
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Subjects:
+                        </div>
+                        <div class="col-md-7 value" style="margin-top: -3%;margin-left: 12%;">
+                            <div data-ng-repeat="item in ClassCtrl.viewValue.subjects  | unique :'subjectName'">
+                                {{item.subjectName}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="heigh-30">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
